@@ -1,0 +1,111 @@
+<?php
+namespace awesomeircbot\server;
+
+use config\Config;
+
+/**
+ * Server class
+ * Includes all the necessary functions to use an IRC server
+ * e.g. ->message(), ->join(), ->quit()
+ */
+
+class Server {
+	
+	protected static $instance;
+	
+	public static $serverHandle;
+	
+	public static $serverName;
+	public static $serverAddress;
+	public static $serverPort;
+	
+	protected function __construct() {
+	}
+	
+	/**
+	 * Returns an instance of this Server singleton
+	 *
+	 * @return An instance of this Server
+	 */
+	public static function getInstance() {
+		if (!isset(static::$instance))
+			static::$instance = new Server();
+		return static::$instance;
+	}
+	
+	/**
+	 * Connect to the server
+	 *
+	 * @return boolean true on success
+	 * @return error code on failure
+	 */
+	public function connect() {
+	
+		// Establish a connection
+		static::$serverHandle = fsockopen(static::$serverAddress, static::$serverPort);
+		
+		// Check if it worked
+		if (!static::$serverHandle)
+			return 1;
+		else
+			return true;
+	}
+	
+	/**
+	 * Check if the connection is still established to
+	 * the server
+	 *
+	 * @return boolean depending on connection status
+	 */
+	public function connected() {
+		if (!feof(static::$serverHandle))
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Identify to the server, should be
+	 * run immediately after connecting
+	 */
+	public function identify() {
+	
+		// Send the identification messages to the server
+		fwrite(static::$serverHandle, "NICK " . Config::$nickname . "\0\n");
+		fwrite(static::$serverHandle, "USER " . Config::$username . " 0 * :" . Config::$realName . "\0\n");
+	}
+	
+	/**
+	 * Join a specified channel and register it
+	 * with the channel manager
+	 *
+	 * @param string channel name
+	 */
+	public function join($channel) {
+		
+		// Check for beginning # and add it if not present
+		if (strpos($channel, "#") != 1)
+			$channel = "#" . $channel;
+		
+		// Send to the server
+		fwrite(static::$serverHandle, "JOIN :" . $channel . "\0\n");
+	}
+	
+	/**
+	 * Gets the next line from the server and
+	 * returns it
+	 *
+	 * @return string IRC line
+	 */
+	public function getNextLine() {
+		
+		// Check we're connected
+		if ($this->connected())
+			// Get and return the next line
+			return fgets(static::$serverHandle, 256);
+		else
+			// Not connected? Return false
+			return false;
+	}
+}
+	 
