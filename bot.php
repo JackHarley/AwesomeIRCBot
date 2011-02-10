@@ -14,44 +14,40 @@ require_once(__DIR__ . "/modules/modules.inc.php");
 use config\Config;
 use awesomeircbot\server\Server;
 use awesomeircbot\module\ModuleManager;
+use awesomeircbot\line\ReceivedLine;
 
-// Clear the CLI
 passthru('clear');
-
-// Print welcome message
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
 
-// Check config
 if (Config::$die)
-	die("READ THE CONFIG!\n\n");
+	die("READ THE CONFIG!");
 
-// Get Server instance
-$server = Server::getInstance();
-
-// Connect
-if ($server->connect() === false) 
-	die("Failed to connect to the server, check your connection details in the config!");
-
-// Identify
-$server->identify();
-
-// Map the system commands
 ModuleManager::mapCommand("quit", "modules\QuitFromServer");
 
-// Loop-edy-loop
-while($server->connected()) {
-	$line = $server->getNextLine();
+$server = Server::getInstance();
+
+while (true) {
 	
-	$line = new ReceivedLine($line);
-	$line->parse();
+	// Connect
+	if ($server->connect() === false) 
+		die("Failed to connect to the server, check your connection details in the config!");
 	
-	if ($line->isCommand) {
-		$command = new Command($line);
-		$command->run();
+	// Identify
+	$server->identify();
+	
+	// Loop-edy-loop
+	while($server->connected()) {
+		$line = $server->getNextLine();
+		
+		$line = new ReceivedLine($line);
+		$line->parse();
+		
+		print_r($line);
+		/*if ($line->isCommand) {
+			$command = new Command($line);
+			$command->run();
+		}*/
 	}
 }
-
-// FUCK
-die("Connection died!");
 ?>
