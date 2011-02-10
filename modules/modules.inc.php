@@ -1,4 +1,10 @@
 <?php
+/**
+ * Autoloader, Thank you Tom Frost
+ *
+ * Copyright (c) 2009 - 2011, Frosted Design
+ * All rights reserved.
+ */
 namespace modules;
 
 function load($namespace) {

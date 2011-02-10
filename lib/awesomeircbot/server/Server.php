@@ -3,6 +3,9 @@
  * Server class
  * Includes all the necessary functions to use an IRC server
  * e.g. ->message(), ->join(), ->quit()
+ *
+ * Copyright (c) 2011, Jack Harley
+ * All Rights Reserved
  */
 
 namespace awesomeircbot\server;

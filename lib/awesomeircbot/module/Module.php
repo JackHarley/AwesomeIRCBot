@@ -2,20 +2,21 @@
 /**
  * Module class
  * Should be extended by any module for the bot
+ *
+ * Copyright (c) 2011, Jack Harley
+ * All Rights Reserved
  */
 
 namespace awesomeircbot\module;
 
 class Module {
 	
-	public $returnLine = false;
-	
 	public $runLine;
 	public $runNick;
 	public $runUser;
 	
-	public function __construct($runParams, $runNick, $runUser) {
-		$this->runParams = $runParams;
+	public function __construct($runLine, $runNick, $runUser) {
+		$this->runLine = $runLine;
 		$this->runNick = $runNick;
 		$this->runUser = $runUser;
 	}
