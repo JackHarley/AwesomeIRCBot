@@ -12,6 +12,18 @@
 namespace awesomeircbot\line;
 
 class ReceivedLine {
+
+	public $line;
+	
+	public $type;
+	public $message;
+	
+	public function __construct($line) {
+		$this->line = $line;
+	}
+	
+	public function parse() {
+	}		
 }
 
 ?>
