@@ -5,9 +5,11 @@
  */
 require_once(__DIR__ . "/config/config.php");
 require_once(__DIR__ . "/lib/awesomeircbot/awesomeircbot.inc.php");
+require_once(__DIR__ . "/modules/modules.inc.php");
 
 use config\Config;
 use awesomeircbot\server\Server;
+use awesomeircbot\module\ModuleManager;
 
 // Clear the CLI
 passthru('clear');
@@ -34,9 +36,12 @@ if ($server->connect() === false)
 // Identify
 $server->identify();
 
+ModuleManager::map("quit", "modules\QuitFromServer");
+
 // Loop-edy-loop
-while($server->connected())
-	$server->getNextLine();
+while($server->connected()) {
+	$line = $server->getNextLine();
+}
 
 // FUCK
 die("Connection died!");
