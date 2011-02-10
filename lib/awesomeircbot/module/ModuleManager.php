@@ -15,14 +15,14 @@ namespace awesomeircbot\module;
 class ModuleManager {
 	
 	/**
-	 * Associative array of triggers to modules
+	 * Associative array of commands to modules
 	 * e.g. quit => modules\QuitFromServer
 	 */
-	public static $mappedModules = array();
+	public static $mappedCommands = array();
 	
 	public static function run($trigger, $line, $nick, $user) {
 		
-		$module = static::$mappedModules[$trigger];
+		$module = static::$mappedComands[$trigger];
 		if (!$module)
 			return 1;
 			
@@ -34,6 +34,6 @@ class ModuleManager {
 	}
 	
 	public static function mapCommand($trigger, $module){
-		static::$mappedModules[$trigger] = $module;
+		static::$mappedCommands[$trigger] = $module;
 	}
 }
