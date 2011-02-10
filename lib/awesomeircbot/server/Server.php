@@ -17,10 +17,6 @@ class Server {
 	
 	public static $serverHandle;
 	
-	public static $serverName;
-	public static $serverAddress;
-	public static $serverPort;
-	
 	protected function __construct() {
 	}
 	
@@ -44,7 +40,7 @@ class Server {
 	public function connect() {
 	
 		// Establish a connection
-		static::$serverHandle = fsockopen(static::$serverAddress, static::$serverPort);
+		static::$serverHandle = fsockopen(Config::$serverAddress, Config::$serverPort);
 		
 		// Check if it worked
 		if (!static::$serverHandle)

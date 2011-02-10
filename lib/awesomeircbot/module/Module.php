@@ -9,7 +9,7 @@
 
 namespace awesomeircbot\module;
 
-class Module {
+abstract class Module {
 	
 	public $runLine;
 	public $runNick;
