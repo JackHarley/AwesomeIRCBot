@@ -5,6 +5,9 @@
  * by a trigger line
  * The Module Manager will handle calling the module and
  * outputting the return
+ *
+ * Copyright (c) 2011, Jack Harley
+ * All Rights Reserved
  */
 
 namespace awesomeircbot\module;
@@ -17,13 +20,13 @@ class ModuleManager {
 	 */
 	public static $mappedModules = array();
 	
-	public static function run($trigger, $params, $nick, $user) {
+	public static function run($trigger, $line, $nick, $user) {
 		
 		$module = static::$mappedModules[$trigger];
 		if (!$module)
 			return 1;
 			
-		$moduleInstance = new $module($params, $nick, $user);
+		$moduleInstance = new $module($line, $nick, $user);
 		if ($moduleInstance->run())
 			return true;
 		else
