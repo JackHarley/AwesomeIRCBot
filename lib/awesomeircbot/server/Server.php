@@ -1,13 +1,12 @@
 <?php
-namespace awesomeircbot\server;
-
-use config\Config;
-
 /**
  * Server class
  * Includes all the necessary functions to use an IRC server
  * e.g. ->message(), ->join(), ->quit()
  */
+
+namespace awesomeircbot\server;
+use config\Config;
 
 class Server {
 	
@@ -107,5 +106,29 @@ class Server {
 			// Not connected? Return false
 			return false;
 	}
+	
+	/**
+	 * Quits from the server and ends
+	 * program execution
+	 */
+	public function quit() {
+		
+		// Quit and disconnect
+		fwrite(static::$serverHandle, "QUIT :Bye Bye!\0\n");
+		fclose(static::$serverHandle);
+		
+		// Die
+		die();
+	}
+	
+	/** 
+	 * Messages the target user or channel with
+	 * the passed text
+	 */
+	 public function message($target, $message) {
+	 	
+	 	// Send it
+	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
+	 }
 }
 	 
