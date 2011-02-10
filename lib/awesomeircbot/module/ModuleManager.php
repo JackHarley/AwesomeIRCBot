@@ -20,13 +20,13 @@ class ModuleManager {
 	 */
 	public static $mappedCommands = array();
 	
-	public static function run($trigger, $line, $nick, $user) {
+	public static function runCommand($command, $message, $nick) {
 		
-		$module = static::$mappedComands[$trigger];
+		$module = static::$mappedCommands[$command];
 		if (!$module)
 			return 1;
 			
-		$moduleInstance = new $module($line, $nick, $user);
+		$moduleInstance = new $module($message, $nick);
 		if ($moduleInstance->run())
 			return true;
 		else

@@ -15,6 +15,7 @@ use config\Config;
 use awesomeircbot\server\Server;
 use awesomeircbot\module\ModuleManager;
 use awesomeircbot\line\ReceivedLine;
+use awesomeircbot\command\Command;
 
 passthru('clear');
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
@@ -44,10 +45,10 @@ while (true) {
 		$line->parse();
 		
 		print_r($line);
-		/*if ($line->isCommand) {
+		if ($line->isCommand()) {
 			$command = new Command($line);
-			$command->run();
-		}*/
+			$command->execute();
+		}
 	}
 }
 ?>

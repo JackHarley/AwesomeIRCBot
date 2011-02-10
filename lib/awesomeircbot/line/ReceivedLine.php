@@ -12,6 +12,7 @@
 namespace awesomeircbot\line;
 
 use awesomeircbot\line\ReceivedLineTypes;
+use config\Config;
 
 class ReceivedLine {
 
@@ -93,7 +94,31 @@ class ReceivedLine {
 			$workingLine = explode(" :", $this->line, 2);
 			$this->message = trim($workingLine[1]);
 		}
-	}		
+	}
+	
+	public function isCommand() {
+		
+		if (!$this->message)
+			$this->parse();
+			
+		if (($this->type != ReceivedLineTypes::PRIVMSG) && ($this->type != ReceivedLineTypes::CHANMSG))
+			return false;
+		
+		$splitMessage = str_split($this->message);
+		
+		if ($splitMessage[0] != Config::$commandCharacter)
+			return false;
+		
+		return true;
+	}
+	
+	public function getCommand() {
+		
+		$splitMessage = explode(" ", $this->message);
+		$command = str_replace(Config::$commandCharacter, "", $splitMessage[0]);
+		return $command;
+	}
+				
 }
 
 ?>

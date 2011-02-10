@@ -11,14 +11,12 @@ namespace awesomeircbot\module;
 
 abstract class Module {
 	
-	public $runLine;
+	public $runMessage;
 	public $runNick;
-	public $runUser;
 	
-	public function __construct($runLine, $runNick, $runUser) {
-		$this->runLine = $runLine;
+	public function __construct($runMessage, $runNick) {
+		$this->runMessage = $runMessage;
 		$this->runNick = $runNick;
-		$this->runUser = $runUser;
 	}
 }
 ?>
