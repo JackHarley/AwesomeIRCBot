@@ -33,7 +33,7 @@ class ModuleManager {
 			return 2;
 	}
 	
-	public static function map($trigger, $module){
+	public static function mapCommand($trigger, $module){
 		static::$mappedModules[$trigger] = $module;
 	}
 }

@@ -37,7 +37,7 @@ if ($server->connect() === false)
 $server->identify();
 
 // Map the system commands
-ModuleManager::map("quit", "modules\QuitFromServer");
+ModuleManager::mapCommand("quit", "modules\QuitFromServer");
 
 // Loop-edy-loop
 while($server->connected()) {
