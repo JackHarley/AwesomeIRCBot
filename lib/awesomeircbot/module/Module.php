@@ -12,13 +12,13 @@ namespace awesomeircbot\module;
 abstract class Module {
 	
 	public $runMessage;
-	public $runNick;
+	public $senderNick;
 	public $eventType;
 	public $targetNick;
 	
-	public function __construct($runMessage, $runNick, $eventType=false, $targetMick=false) {
+	public function __construct($runMessage, $senderNick, $eventType=false, $targetMick=false) {
 		$this->runMessage = $runMessage;
-		$this->runNick = $runNick;
+		$this->senderNick = $senderNick;
 		$this->eventType = $eventType;
 		$this->targetNick = $targetNick;
 	}
