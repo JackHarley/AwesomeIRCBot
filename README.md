@@ -21,8 +21,25 @@ Installation
 -------------
 1. Copy all the files to a directory of your choice
 2. Rename "config/config.example.php" to "config/config.php" and edit it
-3. Navigate to the directory in a shell
-4. Run "php bot.php"
+
+Startup
+-------------
+1. Navigate to the directory where the script is stored in a shell
+2. Type "php start.php" into the shell and hit Enter
+
+Debugging
+-------------
+1. Navigate to the directory where the script is stored in a shell
+2. Type "php bot.php" into the shell and hit Enter
+3. Watch the verbose output for signs of trouble
+
+Using Modules
+-------------
+1. Copy the module into /modules/, and its config into /modules/configs/
+2. Open bot.php and find the line ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
+3. Below it, put a new line saying ModuleManager::loadModuleConfig('modules\configs\REPLACE-WITH-THE-NAMEOF-THE-MODULE-CONFIG');
+4. Replace REPLACE-WITH-THE-NAMEOF-THE-MODULE-CONFIG with the name of the file you copied into /modules/configs/ (without the .php)
+5. Restart the bot
 
 Legal
 -------------
