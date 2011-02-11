@@ -8,6 +8,7 @@
  
 namespace modules\configs;
 use awesomeircbot\module\ModuleConfig;
+use awesomeircbot\line\ReceivedLineTypes;
 
 class SystemCommands implements ModuleConfig {
 	
@@ -16,6 +17,7 @@ class SystemCommands implements ModuleConfig {
 	);
 	
 	public static $mappedEvents = array(
+		ReceivedLineTypes::PING => "modules\PongServer",
 	);
 	
 	public static $mappedTriggers = array(
