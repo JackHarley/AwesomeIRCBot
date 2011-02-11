@@ -19,7 +19,6 @@ class PongServer extends Module {
 	public function run() {
 		$server = Server::getInstance();
 		$server->pong($this->senderNick);
-		echo "Sent pong\n";
 	}
 }
 ?>
