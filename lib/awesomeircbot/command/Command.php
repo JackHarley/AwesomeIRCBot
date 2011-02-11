@@ -16,16 +16,29 @@ use awesomeircbot\module\ModuleManager;
 
 class Command {
 	
+	// The full command message sent by the user
 	public $fullMessage;
+	
+	// The nickname of the sender/commander
 	public $senderNick;
+	
+	// The command
 	public $command;
 	
+	/**
+	 * Construction
+	 *
+	 * @param object the ReceivedLine object for the command
+	 */
 	public function __construct($lineObject) {
 		$this->fullMessage = $lineObject->message;
 		$this->senderNick = $lineObject->senderNick;
 		echo $this->command = $lineObject->getCommand();
 	}
-		
+	
+	/**
+	 * Execute the command through ModuleManager
+	 */
 	public function execute() {
 		ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick);
 	}

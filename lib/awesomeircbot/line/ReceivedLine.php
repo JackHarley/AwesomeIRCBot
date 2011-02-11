@@ -29,10 +29,19 @@ class ReceivedLine {
 	public $channel;
 	public $targetNick;
 	
+	/**
+	 * Construction
+	 *
+	 * @param string line received from the server
+	 */
 	public function __construct($line) {
 		$this->line = $line;
 	}
 	
+	/**
+	 * Parses the raw line that has been given into
+	 * the properties at the top of this class
+	 */
 	public function parse() {
 		
 		if (strpos($this->line, "PRIVMSG #") !== false) {
@@ -108,6 +117,13 @@ class ReceivedLine {
 		}
 	}
 	
+	/**
+	 * Check if the current line object is a command
+	 * by checking if the command character starts the
+	 * message
+	 *
+	 * @return boolean depending on whether or not it is a command
+	 */
 	public function isCommand() {
 		
 		if (!$this->message)
@@ -124,6 +140,12 @@ class ReceivedLine {
 		return true;
 	}
 	
+	/**
+	 * Check if the current line object is a mapped
+	 * event
+	 *
+	 * @return boolean depending on whether or not it is a mapped event
+	 */
 	public function isMappedEvent() {
 		
 		if (!$this->type)
@@ -136,6 +158,12 @@ class ReceivedLine {
 			return false;
 	}
 	
+	/**
+	 * Extracts the command from the line if
+	 * there is one
+	 *
+	 * @return string command
+	 */
 	public function getCommand() {
 		
 		$splitMessage = explode(" ", $this->message);

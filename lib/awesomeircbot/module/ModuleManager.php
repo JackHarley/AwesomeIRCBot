@@ -26,6 +26,13 @@ class ModuleManager {
 	 */
 	public static $mappedEvents = array();
 	
+	/**
+	 * Run a user command
+	 *
+	 * @param string command
+	 * @param string full message the user sent
+	 * @param string nickname of the user who sent the command
+	 */
 	public static function runCommand($command, $message, $nick) {
 		
 		$module = static::$mappedCommands[$command];
@@ -39,18 +46,24 @@ class ModuleManager {
 			return 2;
 	}
 	
-	public static function mapCommand($trigger, $module) {
-		static::$mappedCommands[$trigger] = $module;
+	/**
+	 * Map a command to a module
+	 *
+	 * @param string command to activate upon
+	 * @param string module full namespace to activate
+	 */
+	public static function mapCommand($command, $module) {
+		static::$mappedCommands[$command] = $module;
 	}
 	
-	public static function loadModuleConfig($moduleConfig) {
-		foreach($moduleConfig::$mappedCommands as $command => $module)
-			static::mapCommand($command, $module);
-			
-		foreach($moduleConfig::$mappedEvents as $event => $module)
-			static::mapEvent($event, $module);
-	}
-	
+	/**
+	 * Run an event
+	 *
+	 * @param integer numerical event type (see awesomeircbot\line\ReceivedLineTypes)
+	 * @param string The full line which triggered the mapping
+	 * @param string The nickname of the sender of the activating line
+	 * @param string The target of the line, if applicable
+	 */
 	public static function runEvent($eventType, $line, $senderNick=false, $targetNick=false) {
 		
 		$module = static::$mappedEvents[$eventType];
@@ -64,7 +77,27 @@ class ModuleManager {
 			return 2;
 	}
 	
+	/**
+	 * Map an event to a module
+	 *
+	 * @param string event numerical type to activate upon (see awesomeircbot\line\ReceivedLineTypes)
+	 * @param string module full namespace to activate
+	 */
 	public static function mapEvent($event, $module){
 		static::$mappedEvents[$event] = $module;
+	}
+	
+	/**
+	 * Load a module config which contains multiple
+	 * modules that need to be loaded
+	 *
+	 * @param string full namespace of the module config
+	 */
+	public static function loadModuleConfig($moduleConfig) {
+		foreach($moduleConfig::$mappedCommands as $command => $module)
+			static::mapCommand($command, $module);
+			
+		foreach($moduleConfig::$mappedEvents as $event => $module)
+			static::mapEvent($event, $module);
 	}
 }
