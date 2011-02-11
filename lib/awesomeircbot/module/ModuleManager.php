@@ -46,6 +46,9 @@ class ModuleManager {
 	public static function loadModuleConfig($moduleConfig) {
 		foreach($moduleConfig::$mappedCommands as $command => $module)
 			static::mapCommand($command, $module);
+			
+		foreach($moduleConfig::$mappedEvents as $event => $module)
+			static::mapEvent($event, $module);
 	}
 	
 	public static function runEvent($eventType, $line, $senderNick=false, $targetNick=false) {
