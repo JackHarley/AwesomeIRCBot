@@ -26,6 +26,13 @@ class ModuleManager {
 	 */
 	public static $mappedEvents = array();
 	
+	
+	/**
+	 * This is a static class, it should not be instantiated
+	 */
+	private function __construct() {
+	}
+	
 	/**
 	 * Run a user command
 	 *
