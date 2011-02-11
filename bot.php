@@ -40,6 +40,13 @@ while (true) {
 	// Identify
 	$server->identify();
 	
+	sleep(5);
+	
+	// Loop through the channels to join and join them
+	foreach(Config::$channels as $channel) {
+		$server->join($channel);
+	}
+	
 	// Loop-edy-loop
 	while($server->connected()) {
 		$line = $server->getNextLine();

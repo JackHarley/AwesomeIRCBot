@@ -14,6 +14,7 @@ class SystemCommands implements ModuleConfig {
 	
 	public static $mappedCommands = array(
 		"quit" => "modules\QuitFromServer",
+		"slap" => "modules\Slap",
 	);
 	
 	public static $mappedEvents = array(

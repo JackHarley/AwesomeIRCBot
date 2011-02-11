@@ -22,6 +22,9 @@ class Command {
 	// The nickname of the sender/commander
 	public $senderNick;
 	
+	// The channel the command was sent on
+	public $channel;
+	
 	// The command
 	public $command;
 	
@@ -33,14 +36,15 @@ class Command {
 	public function __construct($lineObject) {
 		$this->fullMessage = $lineObject->message;
 		$this->senderNick = $lineObject->senderNick;
-		echo $this->command = $lineObject->getCommand();
+		$this->channel = $lineObject->channel;
+		$this->command = $lineObject->getCommand();
 	}
 	
 	/**
 	 * Execute the command through ModuleManager
 	 */
 	public function execute() {
-		ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick);
+		ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick, $this->channel);
 	}
 }
 ?>

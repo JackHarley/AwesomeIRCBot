@@ -13,6 +13,7 @@ abstract class Module {
 	
 	public $runMessage;
 	public $senderNick;
+	public $channel;
 	public $eventType;
 	public $targetNick;
 	
@@ -24,11 +25,23 @@ abstract class Module {
 	 * @param string The event type, in case of event based activation
 	 * @param string The target of the action, if applicable
 	 */
-	public function __construct($runMessage, $senderNick, $eventType=false, $targetMick=false) {
+	public function __construct($runMessage, $senderNick, $channel=false, $eventType=false, $targetMick=false) {
 		$this->runMessage = $runMessage;
 		$this->senderNick = $senderNick;
+		$this->channel = $channel;
 		$this->eventType = $eventType;
 		$this->targetNick = $targetNick;
+	}
+	
+	/**
+	 * Gets the number parameter given, separated by spaces
+	 *
+	 * @param integer number parameter to return
+	 * @return string parameter
+	 */
+	public function parameters($parameter) {
+		$parameters = explode(" ", $this->runMessage);
+		return $parameters[$parameter];
 	}
 }
 ?>
