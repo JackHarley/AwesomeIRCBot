@@ -32,14 +32,15 @@ class ModuleManager {
 	 * @param string command
 	 * @param string full message the user sent
 	 * @param string nickname of the user who sent the command
+	 * @param string channel the message was sent on
 	 */
-	public static function runCommand($command, $message, $nick) {
+	public static function runCommand($command, $message, $nick, $channel) {
 		
 		$module = static::$mappedCommands[$command];
 		if (!$module)
 			return 1;
 			
-		$moduleInstance = new $module($message, $nick);
+		$moduleInstance = new $module($message, $nick, $channel);
 		if ($moduleInstance->run())
 			return true;
 		else
@@ -70,7 +71,7 @@ class ModuleManager {
 		if (!$module)
 			return 1;
 			
-		$moduleInstance = new $module($line, $senderNick, $eventType, $targetNick);
+		$moduleInstance = new $module($line, $senderNick, false, $eventType, $targetNick);
 		if ($moduleInstance->run())
 			return true;
 		else
