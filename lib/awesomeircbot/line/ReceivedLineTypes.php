@@ -14,6 +14,7 @@ class ReceivedLineTypes {
 	
 	const PRIVMSG = 4411;
 	const CHANMSG = 4412;
+	const PING = 462;
 }
 ?>
 	

@@ -12,6 +12,7 @@
 namespace awesomeircbot\line;
 
 use awesomeircbot\line\ReceivedLineTypes;
+use awesomeircbot\module\ModuleManager;
 use config\Config;
 
 class ReceivedLine {
@@ -34,7 +35,7 @@ class ReceivedLine {
 	
 	public function parse() {
 		
-		if (strpos($this->line, "PRIVMSG #")) {
+		if (strpos($this->line, "PRIVMSG #") !== false) {
 			
 			// Type
 			$this->type = ReceivedLineTypes::CHANMSG;
@@ -64,7 +65,7 @@ class ReceivedLine {
 			$this->message = trim($workingLine[1]);
 		}
 		
-		else if (strpos($this->line, "PRIVMSG")) {
+		else if (strpos($this->line, "PRIVMSG") !== false) {
 			
 			// Type
 			$this->type = ReceivedLineTypes::PRIVMSG;
@@ -94,6 +95,17 @@ class ReceivedLine {
 			$workingLine = explode(" :", $this->line, 2);
 			$this->message = trim($workingLine[1]);
 		}
+		
+		else if (strpos($this->line, "PING") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::PING;
+			
+			// Pinger
+			$workingLine = explode(" :", $this->line);
+			$this->senderNick = $workingLine[1];
+			$this->senderNick = trim($this->senderNick);
+		}
 	}
 	
 	public function isCommand() {
@@ -110,6 +122,18 @@ class ReceivedLine {
 			return false;
 		
 		return true;
+	}
+	
+	public function isMappedEvent() {
+		
+		if (!$this->type)
+			$this->parse();
+		
+		$module = ModuleManager::$mappedEvents[$this->type];
+		if ($module)
+			return true;
+		else
+			return false;
 	}
 	
 	public function getCommand() {

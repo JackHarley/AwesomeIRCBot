@@ -18,7 +18,7 @@ class QuitFromServer extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->message($this->runNick, "Shutting down...");
+		$server->message($this->senderNick, "Shutting down...");
 		$server->quit();
 	}
 }

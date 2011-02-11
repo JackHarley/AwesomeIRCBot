@@ -45,7 +45,7 @@ class ModuleManager {
 	
 	public static function runEvent($eventType, $line, $senderNick=false, $targetNick=false) {
 		
-		$module = static::$mappedEvents[$event];
+		$module = static::$mappedEvents[$eventType];
 		if (!$module)
 			return 1;
 			
