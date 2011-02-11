@@ -107,9 +107,10 @@ class Server {
 	}
 	
 	/**
-	 * Quits from the server and ends
-	 * program execution
-	 */
+	  * Sends the QUIT message to the server, closes
+	  * the connection and then kills the script
+	  */
+
 	public function quit() {
 		
 		// Quit and disconnect
@@ -128,6 +129,6 @@ class Server {
 	 	
 	 	// Send it
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
-	 }
+	 }	
 }
 	 
