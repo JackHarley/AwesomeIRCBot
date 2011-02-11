@@ -24,7 +24,7 @@ echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
 if (Config::$die)
 	die("READ THE CONFIG!");
 
-ModuleManager::mapCommand("quit", "modules\QuitFromServer");
+ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
 
 $server = Server::getInstance();
 

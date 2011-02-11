@@ -7,7 +7,7 @@
  */
  
 namespace modules\configs;
-use awesomeircbot\modules\ModuleConfig;
+use awesomeircbot\module\ModuleConfig;
 
 class SystemCommands implements ModuleConfig {
 	
