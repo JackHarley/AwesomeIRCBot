@@ -129,6 +129,15 @@ class Server {
 	 	
 	 	// Send it
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
-	 }	
+	 }
+	 
+	 /**
+	  * Pongs the given server
+	  */
+	 public function pong($target) {
+	 	
+	 	// Send it
+	 	fwrite(static::$serverHandle, "PONG " . $target . "\0\n");
+	 }
 }
 	 

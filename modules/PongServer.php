@@ -1,7 +1,7 @@
 <?php
 /**
- * QuitFromServer Module
- * Quits the server and stops script execution
+ * PongServer Module
+ * Responds to a ping request from a server
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -14,12 +14,12 @@ namespace modules;
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 
-class QuitFromServer extends Module {
+class PongServer extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->message($this->senderNick, "Shutting down...");
-		$server->quit();
+		$server->pong($this->senderNick);
+		echo "Sent pong\n";
 	}
 }
 ?>
