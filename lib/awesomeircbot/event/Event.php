@@ -16,17 +16,32 @@ use awesomeircbot\module\ModuleManager;
 
 class Event {
 	
+	// The full line received which triggered the event
 	public $fullLine;
+	
+	// The nickname of the sender/server that sent the line
 	public $senderNick;
+	
+	// The target of the action, if applicable
 	public $targetNick;
+	
+	// The type (numerical, see awesomeircbot\line\ReceivedLineTypes)
 	public $type;
 	
+	/**
+	 * Construction
+	 *
+	 * @param object the ReceivedLine object for the line which triggered the event
+	 */
 	public function __construct($lineObject) {
 		$this->fullLine = $lineObject->line;
 		$this->senderNick = $lineObject->senderNick;
 		$this->type = $lineObject->type;
 	}
-		
+	
+	/**
+	 * Execute the mapped module through ModuleManager
+	 */
 	public function execute() {
 		ModuleManager::runEvent($this->type, $this->fullLine, $this->senderNick);
 	}

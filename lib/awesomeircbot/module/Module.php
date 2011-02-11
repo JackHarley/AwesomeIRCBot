@@ -16,6 +16,14 @@ abstract class Module {
 	public $eventType;
 	public $targetNick;
 	
+	/**
+	 * Construction
+	 *
+	 * @param string The run message or line
+	 * @param string The sender nick
+	 * @param string The event type, in case of event based activation
+	 * @param string The target of the action, if applicable
+	 */
 	public function __construct($runMessage, $senderNick, $eventType=false, $targetMick=false) {
 		$this->runMessage = $runMessage;
 		$this->senderNick = $senderNick;
