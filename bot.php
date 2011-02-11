@@ -44,7 +44,6 @@ while (true) {
 		$line = new ReceivedLine($line);
 		$line->parse();
 		
-		print_r($line);
 		if ($line->isCommand()) {
 			$command = new Command($line);
 			$command->execute();
