@@ -11,9 +11,5 @@
 namespace awesomeircbot\module;
 
 interface ModuleConfig {
-	
-	public static $mappedCommands;
-	public static $mappedEvents;
-	public static $mappedTriggers;
 }
 ?>
