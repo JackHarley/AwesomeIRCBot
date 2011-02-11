@@ -13,10 +13,14 @@ abstract class Module {
 	
 	public $runMessage;
 	public $runNick;
+	public $eventType;
+	public $targetNick;
 	
-	public function __construct($runMessage, $runNick) {
+	public function __construct($runMessage, $runNick, $eventType=false, $targetMick=false) {
 		$this->runMessage = $runMessage;
 		$this->runNick = $runNick;
+		$this->eventType = $eventType;
+		$this->targetNick = $targetNick;
 	}
 }
 ?>
