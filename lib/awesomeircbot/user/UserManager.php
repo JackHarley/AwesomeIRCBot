@@ -11,13 +11,15 @@
 
 namespace awesomeircbot\user;
 
+use awesomeircbot\user\User;
+
 class UserManager {
 	
 	/**
 	 * Associative array of online tracked users
 	 * nick => user object
 	 */
-	protected static $trackedUsers = array();
+	public static $trackedUsers = array();
 	
 	private function __construct() {
 	}
@@ -29,7 +31,7 @@ class UserManager {
 	 * @param string online nickname
 	 * @param object User object
 	 */
-	public static function add($nick, $userObject) {
+	public static function store($nick, $userObject) {
 		static::$trackedUsers[$nick] = $userObject;
 	}
 	
@@ -38,13 +40,13 @@ class UserManager {
 	 *
 	 * @param string online nickname
 	 * @return object User object
-	 * @return boolean false if no user exists
+	 * @return object empty User object
 	 */
 	public static function get($nick) {
 		if (static::$trackedUsers[$nick])
 			return static::$trackedUsers[$nick];
 		else
-			return false;
+			return new User;
 	}
 	
 	/**

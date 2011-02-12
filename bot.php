@@ -40,9 +40,6 @@ while (true) {
 	// Identify
 	$server->identify();
 	
-	// Stabilise everything
-	sleep(2);
-	
 	// Loop through the channels in the config and join them
 	foreach(Config::$channels as $channel) {
 		$server->join($channel);

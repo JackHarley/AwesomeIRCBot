@@ -20,8 +20,7 @@ class User {
 	public $nickname;
 	public $ident;
 	public $host;
-	public $serverModes;
-	public $connectUnixTime;
-	public $connectedServer;
+	public $realName;
+	public $isIdentified = false;
 }
 ?>

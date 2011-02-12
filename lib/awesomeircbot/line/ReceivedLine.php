@@ -115,6 +115,35 @@ class ReceivedLine {
 			$this->senderNick = $workingLine[1];
 			$this->senderNick = trim($this->senderNick);
 		}
+		
+		else if (strpos($this->line, "irc.techndstuff.com") !== false) {
+			
+			// This is a server reply
+			// Get the numeric
+			$workingLine = explode(" ", $this->line);
+			$serverReplyNumeric = $workingLine[1];
+			
+			// Work out what the numeric means and parse it
+			switch ($serverReplyNumeric) {
+				
+				// Whois info line
+				case 311:
+					$this->type = ReceivedLineTypes::SERVERREPLYTHREEONEONE;
+					
+					$workingLine = explode(" ", $this->line, 4);
+					$this->message = $workingLine[4];
+				break;
+				
+				// Whois identified line
+				case 330:
+					$this->type = ReceivedLineTypes::SERVERREPLYTHREETHREEZERO;
+					
+					$workingLine = explode(" ", $this->line, 4);
+					$this->message = $workingLine[4];
+				break;
+			}
+		}
+			
 	}
 	
 	/**
