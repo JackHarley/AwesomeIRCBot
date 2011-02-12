@@ -18,6 +18,8 @@ use awesomeircbot\channel\ChannelManager;
 
 class NamesResponseParser extends Module {
 	
+	public static $requiredUserLevel = 0;
+	
 	public function run() {
 		
 		// Channel
