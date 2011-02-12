@@ -2,6 +2,7 @@
 /* Configuration file for Awesome IRC Bot
  * Rename this file to config.php and edit the options below
  */
+namespace config;
 
 class Config {
 	
