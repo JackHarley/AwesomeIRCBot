@@ -20,6 +20,8 @@ use awesomeircbot\user\UserManager;
 
 class WhoisResponseParser extends Module {
 	
+	public static $requiredUserLevel = 0;
+	
 	public function run() {
 		if ($this->eventType == ReceivedLineTypes::SERVERREPLYTHREEONEONE) {
 			$workingLine = explode(" ", $this->runMessage, 8);

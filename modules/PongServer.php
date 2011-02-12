@@ -16,6 +16,8 @@ use awesomeircbot\server\Server;
 
 class PongServer extends Module {
 	
+	public static $requiredUserLevel = 0;
+	
 	public function run() {
 		$server = Server::getInstance();
 		$server->pong($this->senderNick);

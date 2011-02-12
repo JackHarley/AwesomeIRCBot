@@ -46,6 +46,8 @@ while (true) {
 	$server->identify();
 	echo "done!\n\n";
 	
+	sleep(1);
+	
 	// Loop through the channels in the config and join them
 	foreach(Config::$channels as $channel) {
 		echo "Joining " . $channel . "...";

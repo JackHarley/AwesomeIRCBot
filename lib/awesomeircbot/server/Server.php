@@ -81,10 +81,6 @@ class Server {
 	 */
 	public function join($channel) {
 		
-		// Check for beginning # and add it if not present
-		if (strpos($channel, "#") != 0)
-			$channel = "#" . $channel;
-		
 		// Send to the server
 		fwrite(static::$serverHandle, "JOIN " . $channel . "\0\n");
 	}

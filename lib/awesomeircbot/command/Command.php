@@ -13,6 +13,8 @@
 namespace awesomeircbot\command;
 
 use awesomeircbot\module\ModuleManager;
+use awesomeircbot\user\UserManager;
+use awesomeircbot\server\Server;
 
 class Command {
 	
@@ -44,7 +46,14 @@ class Command {
 	 * Execute the command through ModuleManager
 	 */
 	public function execute() {
-		ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick, $this->channel);
+		$return = ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick, $this->channel);
+		if ($return !== true) {
+			if ($return == 1) {
+				$server = Server::getInstance();
+				$server->message($this->senderNick, "You do not have permission to use this command, please type .identify if you are logged in with NickServ and have privileges");
+			}
+		}
+			
 	}
 }
 ?>

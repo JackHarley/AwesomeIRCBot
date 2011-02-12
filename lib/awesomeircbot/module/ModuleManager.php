@@ -12,6 +12,9 @@
 
 namespace awesomeircbot\module;
 
+use awesomeircbot\user\UserManager;
+use config\Config;
+
 class ModuleManager {
 	
 	/**
@@ -46,12 +49,23 @@ class ModuleManager {
 		$module = static::$mappedCommands[$command];
 		if (!$module)
 			return 1;
+		
+		if ($module::$requiredUserLevel) {
+			$user = UserManager::get($nick);
 			
+			if (!$user->isIdentified) {
+				return 1;
+			}
+			else {
+				if ($module::$requiredUserLevel > Config::$users[$nick])
+					return 1;
+			}
+		}
+				
 		$moduleInstance = new $module($message, $nick, $channel);
-		if ($moduleInstance->run())
-			return true;
-		else
-			return 2;
+		
+		$moduleInstance->run();
+		return true;
 	}
 	
 	/**

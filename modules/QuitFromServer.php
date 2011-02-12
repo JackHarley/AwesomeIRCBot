@@ -16,6 +16,8 @@ use awesomeircbot\server\Server;
 
 class QuitFromServer extends Module {
 	
+	public static $requiredUserLevel = 10;
+	
 	public function run() {
 		$server = Server::getInstance();
 		$server->message($this->senderNick, "Shutting down...");

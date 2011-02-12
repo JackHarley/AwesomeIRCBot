@@ -16,6 +16,8 @@ use awesomeircbot\server\Server;
 
 class WhoisUser extends Module {
 	
+	public static $requiredUserLevel = 0;
+	
 	public function run() {
 		$server = Server::getInstance();
 		$server->whois($this->parameters(1));
