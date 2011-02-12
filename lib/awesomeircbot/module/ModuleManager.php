@@ -54,11 +54,11 @@ class ModuleManager {
 			$user = UserManager::get($nick);
 			
 			if (!$user->isIdentified) {
-				return 1;
+				return 2;
 			}
 			else {
 				if ($module::$requiredUserLevel > Config::$users[$nick])
-					return 1;
+					return 2;
 			}
 		}
 				

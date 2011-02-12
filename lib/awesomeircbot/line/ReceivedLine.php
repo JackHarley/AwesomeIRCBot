@@ -116,7 +116,7 @@ class ReceivedLine {
 			$this->senderNick = trim($this->senderNick);
 		}
 		
-		else if (strpos($this->line, "irc.techndstuff.com") !== false) {
+		else if ((preg_match('/[2-5][0-9][0-9]/', $this->line)) !== false) {
 			
 			// This is a server reply
 			// Get the numeric
@@ -187,7 +187,7 @@ class ReceivedLine {
 		
 		if (!$this->type)
 			$this->parse();
-		
+
 		$module = ModuleManager::$mappedEvents[$this->type];
 		if ($module)
 			return true;
