@@ -48,7 +48,7 @@ class Command {
 	public function execute() {
 		$return = ModuleManager::runCommand($this->command, $this->fullMessage, $this->senderNick, $this->channel);
 		if ($return !== true) {
-			if ($return == 1) {
+			if ($return == 2) {
 				$server = Server::getInstance();
 				$server->message($this->senderNick, "You do not have permission to use this command, please type .identify if you are logged in with NickServ and have privileges");
 			}

@@ -18,9 +18,11 @@ use awesomeircbot\line\ReceivedLine;
 use awesomeircbot\line\ReceivedLineTypes;
 use awesomeircbot\command\Command;
 use awesomeircbot\event\Event;
+use modules\configs\SystemCommands;
 
 passthru('clear');
 error_reporting(0);
+
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
@@ -52,7 +54,7 @@ while (true) {
 	foreach(Config::$channels as $channel) {
 		echo "Joining " . $channel . "...";
 		$server->join($channel);
-		echo "done!\n\n";
+		echo "done!\n";
 	}
 	
 	// Loop-edy-loop
