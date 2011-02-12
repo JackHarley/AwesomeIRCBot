@@ -20,6 +20,8 @@ class SystemCommands implements ModuleConfig {
 	
 	public static $mappedEvents = array(
 		ReceivedLineTypes::PING => "modules\PongServer",
+		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\WhoisResponseParser",
+		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\WhoisResponseParser",
 	);
 	
 	public static $mappedTriggers = array(

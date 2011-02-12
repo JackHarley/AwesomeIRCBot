@@ -22,6 +22,16 @@ class ReceivedLineTypes {
 	const PRIVMSG = 4411;
 	const CHANMSG = 4412;
 	const PING = 462;
+	
+	/**
+	 * These are the server reply codes, which all begin with either
+	 * 61 - Server error replies
+	 * 62 - Server replies to commands
+	 * 63 - Reserved numerics
+	 * Those 2 numbers are then followed by the reply numeric
+	 */
+	const SERVERREPLYTHREEONEONE = 62311;
+	const SERVERREPLYTHREETHREEZERO = 62330;
 }
 ?>
 	
