@@ -22,7 +22,7 @@ use awesomeircbot\event\Event;
 passthru('clear');
 error_reporting(0);
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
-echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
+echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 if (Config::$die)
 	die("READ THE CONFIG!");
@@ -31,18 +31,26 @@ ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
 
 $server = Server::getInstance();
 
+echo "\n";
+
 while (true) {
 	
 	// Connect
+	echo "Connecting to server...";
 	if ($server->connect() === false) 
 		die("Failed to connect to the server, check your connection details in the config!");
+	echo "done!\n";
 	
 	// Identify
+	echo "Sending identification details to server...";
 	$server->identify();
+	echo "done!\n\n";
 	
 	// Loop through the channels in the config and join them
 	foreach(Config::$channels as $channel) {
+		echo "Joining " . $channel . "...";
 		$server->join($channel);
+		echo "done!\n\n";
 	}
 	
 	// Loop-edy-loop
