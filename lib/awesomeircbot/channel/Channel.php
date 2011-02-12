@@ -23,7 +23,7 @@ class Channel {
 	 * Array of users that are
 	 * connected to the channel
 	 */
-	public $connectedNicks;
+	public $connectedNicks = array();
 	
 	/**
 	 * An associative array of nicknames
@@ -31,6 +31,29 @@ class Channel {
 	 * channel
 	 * nick => privilege character (~, &, @, %, +)
 	 */
-	public $privilegedNicks;
+	public $privilegedNicks = array();
+	
+	/**
+	 * Construction
+	 *
+	 * @param string channel name
+	 */
+	public function __construct($channel) {
+		$this->channelName = $channel;
+	}
+	
+	/**
+	 * Adds a nickname to the array of connected
+	 * nicknames, checking if it exists first
+	 *
+	 * @param string nickname to add
+	 * @param string privilege character (~, &, @, %, +)
+	 */
+	public function addConnectedNick($nick, $privileges=false) {
+		$this->connectedNicks[] = $nick;
+		
+		if ($privileges)
+			$this->privilegedNicks[$nick] = $privileges;
+	}
 }
 ?>

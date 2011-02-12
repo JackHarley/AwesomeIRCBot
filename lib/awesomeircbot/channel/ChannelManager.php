@@ -45,7 +45,7 @@ class ChannelManager {
 		if (static::$connectedChannels[$chan])
 			return static::$connectedChannels[$chan];
 		else
-			return new Channel;
+			return new Channel($chan);
 	}
 	
 	/**
