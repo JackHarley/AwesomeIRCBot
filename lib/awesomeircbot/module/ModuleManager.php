@@ -74,15 +74,16 @@ class ModuleManager {
 	 */
 	public static function runEvent($eventType, $line, $senderNick=false, $targetNick=false) {
 		
-		$module = static::$mappedEvents[$eventType];
-		if (!$module)
+		if (!static::$mappedEvents[$eventType])
 			return 1;
-			
-		$moduleInstance = new $module($line, $senderNick, false, $eventType, $targetNick);
-		if ($moduleInstance->run())
-			return true;
-		else
-			return 2;
+		
+		foreach(static::$mappedEvents[$eventType] as $mappedEvent) {
+			$module = $mappedEvent;
+			$moduleInstance = new $module($line, $senderNick, false, $eventType, $targetNick);
+			$moduleInstance->run();
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -92,7 +93,7 @@ class ModuleManager {
 	 * @param string module full namespace to activate
 	 */
 	public static function mapEvent($event, $module){
-		static::$mappedEvents[$event] = $module;
+		static::$mappedEvents[$event][] = $module;
 	}
 	
 	/**
