@@ -139,5 +139,17 @@ class Server {
 	 	// Send it
 	 	fwrite(static::$serverHandle, "PONG " . $target . "\0\n");
 	 }
+	 
+	 /**
+	  * Sends a WHOIS query to the server for
+	  * the nickname specified
+	  *
+	  * @param string nickname to whois
+	  */
+	 public function whois($nickname) {
+	 	
+	 	// Send it
+	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\0\n");
+	 }
 }
 	 

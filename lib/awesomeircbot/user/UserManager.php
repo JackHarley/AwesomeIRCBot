@@ -17,7 +17,7 @@ class UserManager {
 	 * Associative array of online tracked users
 	 * nick => user object
 	 */
-	public static $trackedUsers = array();
+	protected static $trackedUsers = array();
 	
 	private function __construct() {
 	}
