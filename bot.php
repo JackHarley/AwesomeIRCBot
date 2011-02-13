@@ -21,7 +21,7 @@ use awesomeircbot\event\Event;
 use modules\configs\SystemCommands;
 
 passthru('clear');
-//error_reporting(0);
+error_reporting(0);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
@@ -49,9 +49,16 @@ while (true) {
 	// Identify
 	echo "Sending identification details to server...";
 	$server->identify();
-	echo "done!\n\n";
+	echo "done!\n";
 	
 	sleep(1);
+	
+	// NickServ
+	if (Config::$nickservPassword) {
+		echo "Attempting to identify with NickServ...";
+		$server->identifyWithNickServ();
+		echo "done!\n";
+	}
 	
 	// Loop through the channels in the config and join them
 	foreach(Config::$channels as $channel) {

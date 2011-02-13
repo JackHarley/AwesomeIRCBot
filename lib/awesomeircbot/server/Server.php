@@ -74,6 +74,15 @@ class Server {
 	}
 	
 	/**
+	 * Identify to NickServ
+	 */
+	public function identifyWithNickServ() {
+	
+		// Send the identification messages to the server
+		fwrite(static::$serverHandle, "PRIVMSG NickServ :IDENTIFY " . Config::$nickservPassword . "\0\n");
+	}
+	
+	/**
 	 * Join a specified channel and register it
 	 * with the channel manager
 	 *
