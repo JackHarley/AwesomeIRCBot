@@ -21,7 +21,7 @@ use awesomeircbot\event\Event;
 use modules\configs\SystemCommands;
 
 passthru('clear');
-error_reporting(0);
+//error_reporting(0);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
@@ -32,6 +32,7 @@ if (Config::$configVersion != 1)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php");
 
 ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
+ModuleManager::loadModuleConfig('modules\configs\Harass');
 
 $server = Server::getInstance();
 

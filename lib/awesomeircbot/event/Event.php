@@ -28,6 +28,9 @@ class Event {
 	// The type (numerical, see awesomeircbot\line\ReceivedLineTypes)
 	public $type;
 	
+	// The channel, if applicable
+	public $channel;
+	
 	/**
 	 * Construction
 	 *
@@ -37,13 +40,14 @@ class Event {
 		$this->fullLine = $lineObject->line;
 		$this->senderNick = $lineObject->senderNick;
 		$this->type = $lineObject->type;
+		$this->channel = $lineObject->channel;
 	}
 	
 	/**
 	 * Execute the mapped module through ModuleManager
 	 */
 	public function execute() {
-		ModuleManager::runEvent($this->type, $this->fullLine, $this->senderNick);
+		ModuleManager::runEvent($this->type, $this->fullLine, $this->channel, $this->senderNick);
 	}
 }
 ?>

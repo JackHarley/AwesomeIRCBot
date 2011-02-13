@@ -41,7 +41,7 @@ class WhoisResponseParser extends Module {
 		}
 		else if ($this->eventType == ReceivedLineTypes::SERVERREPLYTHREETHREEZERO) {
 			$workingLine = explode(" ", $this->runMessage);
-			$nick = $workingLine[3];
+			echo $nick = $workingLine[3];
 			
 			$user = UserManager::get($nick);
 			$user->isIdentified = true;
