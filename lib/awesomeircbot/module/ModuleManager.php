@@ -83,17 +83,18 @@ class ModuleManager {
 	 *
 	 * @param integer numerical event type (see awesomeircbot\line\ReceivedLineTypes)
 	 * @param string The full line which triggered the mapping
+	 * @param string The channel on which it was sent, if applicable
 	 * @param string The nickname of the sender of the activating line
 	 * @param string The target of the line, if applicable
 	 */
-	public static function runEvent($eventType, $line, $senderNick=false, $targetNick=false) {
+	public static function runEvent($eventType, $line, $channel=false, $senderNick=false, $targetNick=false) {
 		
 		if (!static::$mappedEvents[$eventType])
 			return 1;
 		
 		foreach(static::$mappedEvents[$eventType] as $mappedEvent) {
 			$module = $mappedEvent;
-			$moduleInstance = new $module($line, $senderNick, false, $eventType, $targetNick);
+			$moduleInstance = new $module($line, $senderNick, $channel, $eventType, $targetNick);
 			$moduleInstance->run();
 		}
 		
