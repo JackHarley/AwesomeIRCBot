@@ -137,6 +137,17 @@ class Server {
 	 }
 	 
 	 /**
+	  * Act, (/me) a message, same syntax as the message()
+	  * method
+	  */
+	 public function act($target, $message) {
+	 	
+	 	// Send it
+	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\0\n");
+	 }
+	 	
+	 
+	 /**
 	  * Pongs the given server
 	  */
 	 public function pong($target) {
