@@ -53,7 +53,7 @@ class DataManager {
 		if (!DataManager::$data[$module])
 			DataManager::$data[$module] = array();
 		
-		print_r(DataManager::$data[$module][$id] = $data);
+		DataManager::$data[$module][$id] = $data;
 		
 		return true;
 	}
