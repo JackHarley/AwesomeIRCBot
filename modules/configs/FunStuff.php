@@ -1,6 +1,6 @@
 <?php
 /**
- * Harass Module Config
+ * FunStuff Module Config
  *
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
@@ -10,9 +10,10 @@ namespace modules\configs;
 use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
 
-class Harass implements ModuleConfig {
+class FunStuff implements ModuleConfig {
 	
 	public static $mappedCommands = array(
+		"slap" => "modules\Slap",
 		"harass" => "modules\Harass",
 	);
 	

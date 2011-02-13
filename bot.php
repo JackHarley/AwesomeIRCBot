@@ -32,7 +32,7 @@ if (Config::$configVersion != 1)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php");
 
 ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
-ModuleManager::loadModuleConfig('modules\configs\Harass');
+ModuleManager::loadModuleConfig('modules\configs\FunStuff');
 
 $server = Server::getInstance();
 
