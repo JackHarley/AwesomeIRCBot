@@ -23,9 +23,6 @@ class CheckHarass extends Module {
 		$harassedHosts = DataManager::retrieve("harassedHosts", "modules\Harass");
 		
 		if ($harassedNicks) {
-			echo $this->senderNick;
-			print_r($harassedNicks);
-			echo $this->channel;
 			if (in_array($this->senderNick, $harassedNicks) !== false) {
 				$server = Server::getInstance();
 				$server->message($this->channel, "Shutup " . $this->senderNick . "! We all hate you.");
