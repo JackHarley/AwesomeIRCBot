@@ -17,7 +17,7 @@ class Slap extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->message($this->channel, "Let's all slap " . $this->parameters(1));
+		$server->act($this->channel, "slaps " . $this->parameters(1));
 	}
 }
 ?>
