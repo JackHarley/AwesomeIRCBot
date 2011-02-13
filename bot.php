@@ -28,6 +28,8 @@ echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 if (Config::$die)
 	die("READ THE CONFIG!");
+if (Config::$configVersion != 1)
+	die("Your config is out of date, please delete your old config and remake your config from config.example.php");
 
 ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
 

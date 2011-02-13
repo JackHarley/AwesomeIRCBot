@@ -6,22 +6,25 @@ namespace config;
 
 class Config {
 	
-	/* Description/Name of the Server
+	/**
+	 * Description/Name of the Server
 	 * This will be used in the DB for logging
 	 * and the verbose output to command line
 	 */
-	public static $serverName = "Tech 'nd Stuff";
+	public static $serverName = "Rizon";
 	
-	/* Connection details
+	/**
+	 * Connection details
 	 * Make sure to fill these out correctly
 	 * $serverAddress - Host of the IRC server, e.g. irc.rizon.net
 	 * $serverPort - Port of the IRC server, SSL is NOT supported, 
 	 * 6667 on nearly all networks
 	 */
-	public static $serverAddress = "irc.techndstuff.com";
+	public static $serverAddress = "irc.rizon.net";
 	public static $serverPort = 6667;
 	
-	/* Bot details
+	/**
+	 * Bot details
 	 * These will be used for identifying the
 	 * bot to the server
 	 * $nickname - Nickname for bot to use, e.g. AwesomeBot
@@ -34,48 +37,59 @@ class Config {
 	public static $nickname = "AwesomeBot";
 	public static $username = "AwesomeBot";
 	public static $realName = "Awesome Bot";
-	public static $nickservPassword = "";
+	public static $nickservPassword = "awesomesauce123";
 	
-	/* Database details
-	 * These will be used to connect to the MySQL DB for
-	 * bot management
-	 * $databaseHost - Database host
-	 * $databasePort - Usually 3306
-	 * $databaseUser - MySQL Username
-	 * $databasePass - Password for the MySQL User
-	 * $databaseName - Database name
-	 */
-	public static $databaseHost = "localhost";
-	public static $databasePort = 3306;
-	public static $databaseUser = "user";
-	public static $databasePass = "pass";
-	public static $databaseName = "database";
-	
-	/* Commands to execute on connect
-	 * This should be an array of Line objects
-	 * e.g. 
-	 * $command1 = new Line("PRIVMSG #sup :Sup?");
-	 * array($command1);
-	 */
-	public static $connectCommands = array();
-	
-	/* Channels to join
+	/**
+	 * Channels to join
 	 * This should be an array of channel
 	 * names with the hash
-	 * e.g. array("#Chat", "#Help");
 	 */
-	public static $channels = array("#poop");
+	public static $channels = array(
+		"#Chat",
+		"#help",
+		"#bots",
+	);
 	
-	/* Bot customizations
+	/**
+	 * Users
+	 * Associative array of users to user levels
+	 * registered nick => user level
+	 * Admin Level is 10, make sure to set at least
+	 * one user to level 10
+	 */
+	public static $users = array(
+		"Admin" => 10,
+		"AGuyITrustToUseAbusiveCommands" => 5,
+		"RandomerWhoJustWantsSomeKindOfPrivileges" => 1,
+	);
+	
+	/**
+	 * Bot customizations
 	 * It is optional to edit these, they will
 	 * work just fine the way they are
-	 * $modulePrefix - Character to prefix module commands with
+	 * $commandCharacter - Character to prefix module commands with
 	 */
-	public static $modulePrefix = ".";
+	public static $commandCharacter = ".";
 	
-	/* Change the below line from true to false
+	/**
+	 * Change the below line from true to false
 	 * to prove you have read the config
 	 */
 	public static $die = false;
+	
+	/**
+	 * --------------------------------------
+	 * DO NOT EDIT ANYTHING BELOW THIS LINE
+	 * --------------------------------------
+	 */
+	 
+	/**
+	 * The version of the config this is, on
+	 * runtime the bot checks if you have an up to date config
+	 * and notifies you if you do not
+	 * This allows you to seamlessly pull from git without
+	 * worrying about a corrupt config
+	 */
+	public static $configVersion = 1;
 }
 ?>
