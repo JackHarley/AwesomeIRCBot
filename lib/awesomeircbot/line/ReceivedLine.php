@@ -116,6 +116,59 @@ class ReceivedLine {
 			$this->senderNick = trim($this->senderNick);
 		}
 		
+		else if (strpos($this->line, "JOIN") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::JOIN;
+			
+			// Channel
+			$workingLine = trim($this->line);
+			$workingLine = explode("JOIN :", $workingLine);
+			$this->channel = $workingLine[1];
+			
+			// User
+			$workingLine = explode(" JOIN", $this->line);
+			$workingLine[0] = str_replace(":", "", $workingLine[0]);
+				
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+		}
+		
+		else if (strpos($this->line, "PART") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::PART;
+			
+			// Channel
+			$workingLine = trim($this->line);
+			$workingLine = explode("PART ", $workingLine);
+			$workingLine = explode(" :", $workingLine[1]);
+			$this->channel = $workingLine[0];
+			
+			// User
+			$workingLine = explode(" PART", $this->line);
+			$workingLine[0] = str_replace(":", "", $workingLine[0]);
+				
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+		}
+		
 		else if ((preg_match('/[2-5][0-9][0-9]/', $this->line)) !== false) {
 			
 			// This is a server reply
