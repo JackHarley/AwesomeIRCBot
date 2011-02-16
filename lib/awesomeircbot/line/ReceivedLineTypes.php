@@ -19,9 +19,13 @@ class ReceivedLineTypes {
 	 * For example, in RFC 1459, Section 4.6.2 is PING,
 	 * so PING = 462
 	 */
+	const QUIT = 416;
+	const JOIN = 421;
+	const PART = 422;
 	const PRIVMSG = 4411;
 	const CHANMSG = 4412;
 	const PING = 462;
+	
 	
 	/**
 	 * These are the server reply codes, which all begin with either

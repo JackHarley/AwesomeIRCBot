@@ -15,10 +15,13 @@ class SystemCommands implements ModuleConfig {
 	public static $mappedCommands = array(
 		"quit" => "modules\QuitFromServer",
 		"identify" => "modules\Identify",
+		"join" => "modules\Join",
 	);
 	
 	public static $mappedEvents = array(
 		ReceivedLineTypes::PING => "modules\PongServer",
+		ReceivedLineTypes::JOIN => "modules\JoinParser",
+		ReceivedLineTypes::PART => "modules\PartParser",
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE => "modules\NamesResponseParser",

@@ -50,10 +50,27 @@ class Channel {
 	 * @param string privilege character (~, &, @, %, +)
 	 */
 	public function addConnectedNick($nick, $privileges=false) {
-		$this->connectedNicks[] = $nick;
+		if (in_array($nick, $this->connectedNicks) === false) {
+			$this->connectedNicks[] = $nick;
 		
-		if ($privileges)
-			$this->privilegedNicks[$nick] = $privileges;
+			if ($privileges)
+				$this->privilegedNicks[$nick] = $privileges;
+		}
+	}
+	
+	/**
+	 * Removes a nickname from the array
+	 * of connected nicknames
+	 *
+	 * @param string nickname to remove
+	 */
+	public function removeConnectedNick($nick) {
+		foreach($this->connectedNicks as $id => $connectedNick) {
+			if ($connectedNick == $nick)
+				unset($this->connectedNicks[$id]);
+		}
+		
+		unset($this->privilegedNicks[$nick]);
 	}
 }
 ?>
