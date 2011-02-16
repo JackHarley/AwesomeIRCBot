@@ -31,7 +31,7 @@ class Harass extends Module {
 						DataManager::store("harassedNicks", $harassedNicks);
 						
 						$server = Server::getInstance();
-						$server->message($this->senderNick, $this->parameters(3) . " added to harass list");
+						$server->notify($this->senderNick, $this->parameters(3) . " added to harass list");
 					break;
 				}
 			break;
@@ -49,9 +49,9 @@ class Harass extends Module {
 						
 						$server = Server::getInstance();
 						if ($success)
-							$server->message($this->senderNick, $this->parameters(3) . " removed from harass list");
+							$server->notify($this->senderNick, $this->parameters(3) . " removed from harass list");
 						else
-							$server->message($this->senderNick, "No harass entry found matching the nickname " . $this->parameters(3));
+							$server->notify($this->senderNick, "No harass entry found matching the nickname " . $this->parameters(3));
 					break;
 				}
 			break;

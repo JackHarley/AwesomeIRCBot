@@ -27,9 +27,9 @@ echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 if (Config::$die)
-	die("READ THE CONFIG!");
-if (Config::$configVersion != 1)
-	die("Your config is out of date, please delete your old config and remake your config from config.example.php");
+	die("READ THE CONFIG!\n\n");
+if (Config::$configVersion != 2)
+	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
 
 ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
 ModuleManager::loadModuleConfig('modules\configs\FunStuff');
@@ -43,7 +43,7 @@ while (true) {
 	// Connect
 	echo "Connecting to server...";
 	if ($server->connect() === false) 
-		die("Failed to connect to the server, check your connection details in the config!");
+		die("Failed to connect to the server, check your connection details in the config!\n\n");
 	echo "done!\n";
 	
 	// Identify

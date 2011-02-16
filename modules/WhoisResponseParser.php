@@ -41,7 +41,7 @@ class WhoisResponseParser extends Module {
 		}
 		else if ($this->eventType == ReceivedLineTypes::SERVERREPLYTHREETHREEZERO) {
 			$workingLine = explode(" ", $this->runMessage);
-			echo $nick = $workingLine[3];
+			$nick = $workingLine[3];
 			
 			$user = UserManager::get($nick);
 			$user->isIdentified = true;
@@ -53,7 +53,7 @@ class WhoisResponseParser extends Module {
 				$permissionLevel = 0;
 				
 			$server = Server::getInstance();
-			$server->message($nick, "You have been successfully authorized via NickServ with the permission level " . $permissionLevel);
+			$server->notify($nick, "You have been successfully authorized via NickServ with the permission level " . $permissionLevel);
 		}
 	}
 }

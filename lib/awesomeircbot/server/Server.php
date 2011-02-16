@@ -137,6 +137,29 @@ class Server {
 	 }
 	 
 	 /**
+	  * Sends a notice to the given user, same syntax as the 
+	  * message() method
+	  */
+	 public function notice($target, $message) {
+	 	
+	 	// Send it
+	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\0\n");
+	 }
+	 
+	 /**
+	  * Notifies the given user about an action based
+	  * on your config settings for notifications
+	  */
+	 public function notify($target, $message) {
+	 	
+	 	// Check config and pass it to the appropriate function
+	 	if (Config::$notificationType == "pm")
+	 		$this->message($target, $message);
+	 	else
+	 		$this->notice($target, $message);
+	 }
+	 	
+	 /**
 	  * Act, (/me) a message, same syntax as the message()
 	  * method
 	  */
