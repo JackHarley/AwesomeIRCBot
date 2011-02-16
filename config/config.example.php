@@ -68,8 +68,12 @@ class Config {
 	 * It is optional to edit these, they will
 	 * work just fine the way they are
 	 * $commandCharacter - Character to prefix module commands with
+	 * $notificationType - Type of message to use to notify you about
+	 *			     command outcomes, etc.
+	 *			     "notice" or "pm"
 	 */
 	public static $commandCharacter = ".";
+	public static $notificationType = "notice";
 	
 	/**
 	 * Change the below line from true to false
@@ -90,6 +94,6 @@ class Config {
 	 * This allows you to seamlessly pull from git without
 	 * worrying about a corrupt config
 	 */
-	public static $configVersion = 1;
+	public static $configVersion = 2;
 }
 ?>

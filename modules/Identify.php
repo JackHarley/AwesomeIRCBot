@@ -22,7 +22,7 @@ class Identify extends Module {
 	public function run() {
 		$server = Server::getInstance();
 		$server->whois($this->senderNick);
-		$server->message($this->senderNick, "We have now sent a query for your identification status, you will receive a message in a moment if the identification was successful");
+		$server->notify($this->senderNick, "We have now sent a query for your identification status, you will receive a message in a moment if the identification was successful");
 	}
 }
 ?>
