@@ -50,7 +50,7 @@ class Command {
 		if ($return !== true) {
 			if ($return == 2) {
 				$server = Server::getInstance();
-				$server->message($this->senderNick, "You do not have permission to use this command, please type .identify if you are logged in with NickServ and have privileges");
+				$server->notify($this->senderNick, "You do not have permission to use this command, please type .identify if you are logged in with NickServ and have privileges");
 			}
 		}
 			
