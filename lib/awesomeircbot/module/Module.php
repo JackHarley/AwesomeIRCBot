@@ -41,7 +41,7 @@ abstract class Module {
 	 * @return string parameter
 	 */
 	public function parameters($parameter) {
-		print_r($parameters = explode(" ", trim($this->runMessage)));
+		$parameters = explode(" ", trim($this->runMessage));
 		if ($parameters[$parameter])
 			return $parameters[$parameter];
 		else

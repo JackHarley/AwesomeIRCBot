@@ -25,10 +25,17 @@ class Help extends Module {
 		if ($subcommand != "") {
 			$description = HelpManager::getDescription($command, $subcommand);
 			$parameters = HelpManager::getParameters($command, $subcommand);
+			$subcommandsString = false;
 		}
 		else {
 			$description = HelpManager::getDescription($command);
 			$parameters = HelpManager::getParameters($command);
+			$subcommands = HelpManager::getSubcommands($command);
+			foreach($subcommands as $id => $subcommandOfCommand) {
+				
+				if ($subcommandOfCommand != "BASE")
+					$subcommandsString .= " " . $subcommandOfCommand;
+			}
 		}
 		
 		$server = Server::getInstance();
@@ -36,7 +43,9 @@ class Help extends Module {
 		$server->notify($this->senderNick, "Help for " . Config::$commandCharacter . $command . " " . $subcommand);
 		$server->notify($this->senderNick, "");
 		$server->notify($this->senderNick, $description);
-		$server->notify($this->senderNick, "Syntax: " . Config::$commandCharacter . $command . " " . $subcommand . " " . $parameters);
+		$server->notify($this->senderNick, chr(2) . "Syntax: " . chr(2) . Config::$commandCharacter . $command . " " . $subcommand . " " . $parameters);
+		if ($subcommandsString)
+			$server->notify($this->senderNick, chr(2) . "Subcommands:" . chr(2) . $subcommandsString);
 		$server->notify($this->senderNick, "************************************");
 	}
 }

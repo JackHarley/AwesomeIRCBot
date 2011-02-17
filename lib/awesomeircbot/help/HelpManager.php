@@ -33,6 +33,13 @@ class HelpManager {
 			return static::$help[$command]["BASE"]->parameters;
 	}
 	
+	public static function getSubcommands($command) {
+	
+		$subcommands = array();
+		foreach(static::$help[$command] as $subcommand => $subcommandData)
+			$subcommands[] = $subcommand;
+		return $subcommands;
+	}
 	
 	/**
 	 * Registers a command which subcommands can register
