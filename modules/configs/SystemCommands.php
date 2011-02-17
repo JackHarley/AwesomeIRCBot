@@ -16,6 +16,7 @@ class SystemCommands implements ModuleConfig {
 		"quit" => "modules\QuitFromServer",
 		"identify" => "modules\Identify",
 		"join" => "modules\Join",
+		"help" => "modules\Help",
 	);
 	
 	public static $mappedEvents = array(
@@ -29,5 +30,29 @@ class SystemCommands implements ModuleConfig {
 	
 	public static $mappedTriggers = array(
 	);
+	
+	public static $help = array(
+		"quit" => array(
+			"BASE" => array(
+				"description" => "Quits the bot from the server", 
+				"parameters" => false
+			)
+		),
+		
+		"identify" => array(
+			"BASE" => array(
+				"description" => "Attempts to identify you with the bot using MickServ and the permission level specified in the config",
+				"parameters" => false
+			)
+		),
+		
+		"join" => array(
+			"BASE" => array(
+				"description" => "Joins the given channel",
+				"parameters" => "<#channel>"
+			)
+		)
+	);
+			
 }
 ?>

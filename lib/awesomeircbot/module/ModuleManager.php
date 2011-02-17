@@ -13,6 +13,7 @@
 namespace awesomeircbot\module;
 
 use awesomeircbot\user\UserManager;
+use awesomeircbot\help\HelpManager;
 use config\Config;
 
 class ModuleManager {
@@ -123,5 +124,14 @@ class ModuleManager {
 			
 		foreach($moduleConfig::$mappedEvents as $event => $module)
 			static::mapEvent($event, $module);
+			
+		foreach($moduleConfig::$help as $command => $commandData) {
+			HelpManager::registerCommand($command, $commandData["BASE"]["description"], $commandData["BASE"]["parameters"]);
+			
+			foreach($commandData as $subcommand => $subcommandData) {
+				if ($subcommand != "BASE")
+					HelpManager::registerSubcommand($command, $subcommand, $subcommandData["description"], $subcommandData["parameters"]);
+			}
+		}
 	}
 }
