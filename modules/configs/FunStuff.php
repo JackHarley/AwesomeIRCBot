@@ -38,9 +38,13 @@ class FunStuff implements ModuleConfig {
 				"description" => "Lists out all the nicknames and hostnames currently on the harass list",
 				"parameters" => false
 			),
-			"nick" => array(
-				"description" => "Manages nicknames on the harass list",
-				"parameters" => "<add|del> <nickname>"
+			"add" => array(
+				"description" => "Adds nicknames/hostnames to the harass list",
+				"parameters" => "<nick|host> <nickname>"
+			),
+			"del" => array(
+				"description" => "Deletes nicknames/hostnames from the harass list",
+				"parameters" => "<nick|host> <nickname>"
 			),
 		)
 	);

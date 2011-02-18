@@ -39,7 +39,7 @@ class WhoisResponseParser extends Module {
 			$user->realName = $realName;
 			UserManager::store($nick, $user);
 		}
-		else if ($this->eventType == ReceivedLineTypes::SERVERREPLYTHREETHREEZERO) {
+		else if (($this->eventType == ReceivedLineTypes::SERVERREPLYTHREETHREEZERO) || ($this->eventType == ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN)) {
 			$workingLine = explode(" ", $this->runMessage);
 			$nick = $workingLine[3];
 			
