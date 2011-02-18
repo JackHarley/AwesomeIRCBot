@@ -17,28 +17,58 @@ class HelpManager {
 	
 	protected static $help = array();
 	
+	/**
+	 * Gets the description for a command/subcommand
+	 *
+	 * @param string command
+	 * @param string subcommand, if applicable
+	 * @return string description of command/subcommand
+	 */
 	public static function getDescription($command, $subcommand=false) {
-		
 		if ($subcommand)
 			return static::$help[$command][$subcommand]->description;
 		else
 			return static::$help[$command]["BASE"]->description;
 	}
 	
+	/**
+	 * Gets the parameters for a command/subcommand
+	 *
+	 * @param string command
+	 * @param string subcommand, if applicable
+	 * @return string parameters for command/subcommand
+	 */
 	public static function getParameters($command, $subcommand=false) {
-		
 		if ($subcommand)
 			return static::$help[$command][$subcommand]->parameters;
 		else
 			return static::$help[$command]["BASE"]->parameters;
 	}
 	
+	/**
+	 * Gets the subcommands associated with a command
+	 *
+	 * @param string command
+	 * @return array subcommands in string form
+	 */
 	public static function getSubcommands($command) {
 	
 		$subcommands = array();
 		foreach(static::$help[$command] as $subcommand => $subcommandData)
 			$subcommands[] = $subcommand;
 		return $subcommands;
+	}
+	
+	/**
+	 * Gets the full list of registered commands
+	 *
+	 * @return array commands in string form
+	 */
+	public static function getCommandList() {
+		$commands = array();
+		foreach(static::$help as $command => $commandData)
+			$commands[] = $command;
+		return $commands;
 	}
 	
 	/**
@@ -78,8 +108,7 @@ class HelpManager {
 	 *		     e.g. <nickname> <username> <real name> [<description of yourself>]
 	 */
 	public static function registerSubcommand($command, $subcommand, $description, $parameters) {
-
-			static::$help[$command][$subcommand] = new Help($description, $parameters);
+		static::$help[$command][$subcommand] = new Help($description, $parameters);
 	}
 }
 ?>
