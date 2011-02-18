@@ -11,7 +11,7 @@ namespace modules;
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 
-class CheckHarass extends Module {
+class Derp extends Module {
 	
 	public static $requiredUserLevel = 0;
 	

@@ -18,6 +18,7 @@ use awesomeircbot\line\ReceivedLine;
 use awesomeircbot\line\ReceivedLineTypes;
 use awesomeircbot\command\Command;
 use awesomeircbot\event\Event;
+use awesomeircbot\trigger\Trigger;
 use modules\configs\SystemCommands;
 
 passthru('clear');
@@ -82,6 +83,11 @@ while (true) {
 		if ($line->isMappedEvent()) {
 			$event = new Event($line);
 			$event->execute();
+		}
+		
+		if ($line->isMappedTrigger()) {
+			$trigger = new Trigger($line);
+			$trigger->execute();
 		}
 	}
 }

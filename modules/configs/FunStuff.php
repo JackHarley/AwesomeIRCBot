@@ -22,6 +22,7 @@ class FunStuff implements ModuleConfig {
 	);
 	
 	public static $mappedTriggers = array(
+		"/(h|H)erp/" => "modules\Derp",
 	);
 	
 	public static $help = array(

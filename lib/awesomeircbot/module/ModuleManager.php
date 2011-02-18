@@ -30,6 +30,11 @@ class ModuleManager {
 	 */
 	public static $mappedEvents = array();
 	
+	/**
+	 * Associative array of REGEX strings to modules
+	 * e.g. /[0-9]/ => modules\RandomNumberThingyMaJig
+	 */
+	public static $mappedTriggers = array();
 	
 	/**
 	 * This is a static class, it should not be instantiated
@@ -113,6 +118,33 @@ class ModuleManager {
 	}
 	
 	/**
+	 * Runs the module associated with a trigger
+	 *
+	 * @param string full message the user sent
+	 * @param string nickname of the user who sent the command
+	 * @param string channel the message was sent on
+	 */
+	public static function runTrigger($message, $senderNick, $channel) {
+		foreach(static::$mappedTriggers as $regexString => $module) {
+			if (preg_match($regexString, $message)) {
+				$moduleInstance = new $module($message, $senderNick, $channel);
+				$moduleInstance->run();
+				return true;
+			}
+		}
+	}
+	
+	/**
+	 * Map a regex string to a module
+	 *
+	 * @param string regex string in message to act upon
+	 * @param string module full namespace to activate
+	 */
+	public static function mapTrigger($regexString, $module) {
+		static::$mappedTriggers[$regexString] = $module;
+	}
+	
+	/**
 	 * Load a module config which contains multiple
 	 * modules that need to be loaded
 	 *
@@ -124,6 +156,9 @@ class ModuleManager {
 			
 		foreach($moduleConfig::$mappedEvents as $event => $module)
 			static::mapEvent($event, $module);
+			
+		foreach($moduleConfig::$mappedTriggers as $regexString => $module)
+			static::mapTrigger($regexString, $module);
 			
 		foreach($moduleConfig::$help as $command => $commandData) {
 			HelpManager::registerCommand($command, $commandData["BASE"]["description"], $commandData["BASE"]["parameters"]);
