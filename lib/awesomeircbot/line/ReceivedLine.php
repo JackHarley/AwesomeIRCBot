@@ -249,6 +249,29 @@ class ReceivedLine {
 	}
 	
 	/**
+	 * Check if the current message (if it is a message)
+	 * is a mapped REGEX match
+	 *
+	 * @return boolean depending on whether or not it is a mapped trigger
+	 */
+	public function isMappedTrigger() {
+		
+		if (!$this->type)
+			$this->parse();
+		
+		if ( ($this->type != ReceivedLineTypes::PRIVMSG) && ($this->type != ReceivedLineTypes::CHANMSG) ) {
+			return false;
+		}
+			
+		foreach(ModuleManager::$mappedTriggers as $regexString => $module) {
+			if (preg_match($regexString, $this->message)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Extracts the command from the line if
 	 * there is one
 	 *
