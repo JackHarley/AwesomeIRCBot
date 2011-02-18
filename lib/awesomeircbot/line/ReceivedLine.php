@@ -194,6 +194,12 @@ class ReceivedLine {
 					$workingLine = explode(" ", $this->line, 4);
 					$this->message = $workingLine[4];
 				break;
+				case 307:
+					$this->type = ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN;
+					
+					$workingLine = explode(" ", $this->line, 4);
+					$this->message = $workingLine[4];
+				break;
 				
 				// Names reply
 				case 353:

@@ -5,7 +5,6 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
- 
 namespace modules\configs;
 use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
@@ -25,12 +24,14 @@ class SystemCommands implements ModuleConfig {
 		ReceivedLineTypes::PART => "modules\PartParser",
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\WhoisResponseParser",
+		ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE => "modules\NamesResponseParser",
 	);
 	
 	public static $mappedTriggers = array(
+		"/(a|A)wesome(b|B)ot: (q|Q)uit the server/" => "modules\QuitFromServer",
 	);
-	
+
 	public static $help = array(
 		"quit" => array(
 			"BASE" => array(
