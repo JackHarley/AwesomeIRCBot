@@ -12,6 +12,7 @@ namespace modules;
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
+use awesomeircbot\user\UserManager;
 use awesomeircbot\data\DataManager;
 
 class CheckHarass extends Module {
@@ -34,10 +35,12 @@ class CheckHarass extends Module {
 			$user = UserManager::get($this->senderNick);
 			$host = $user->host;
 			
-			if (in_array($host, $harassedHosts) !== false) {
-				$server = Server::getInstance();
-				$server->message($this->channel, "Shutup " . $this->senderNick . "! We all hate you.");
-				return true;
+			foreach($harassedHosts as $harassedHost) {
+				if (preg_match($harassedHost, $host)) {
+					$server = Server::getInstance();
+					$server->message($this->channel, "Shutup " . $this->senderNick . "! We all hate you.");
+					return true;
+				}
 			}
 		}
 	}

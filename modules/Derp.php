@@ -13,7 +13,7 @@ use awesomeircbot\server\Server;
 
 class Derp extends Module {
 	
-	public static $requiredUserLevel = 0;
+	public static $requiredUserLevel = 5;
 	
 	public function run() {
 		$server = Server::getInstance();

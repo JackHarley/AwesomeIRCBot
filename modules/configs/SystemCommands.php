@@ -22,6 +22,8 @@ class SystemCommands implements ModuleConfig {
 		ReceivedLineTypes::PING => "modules\PongServer",
 		ReceivedLineTypes::JOIN => "modules\JoinParser",
 		ReceivedLineTypes::PART => "modules\PartParser",
+		ReceivedLineTypes::PRIVMSG => "modules\MessageParser",
+		ReceivedLineTypes::CHANMSG => "modules\MessageParser",
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN => "modules\WhoisResponseParser",
