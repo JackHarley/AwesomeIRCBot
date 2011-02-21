@@ -13,7 +13,7 @@ use awesomeircbot\line\ReceivedLineTypes;
 class Apptrackr implements ModuleConfig {
 	
 	public static $mappedCommands = array(
-		"getlink" => "modules\ApptrackrGetLinkFromiTunesURL",
+		"getlink" => "modules\apptrackr\ApptrackrGetLinkFromiTunesURL",
 	);
 	
 	public static $mappedEvents = array(
