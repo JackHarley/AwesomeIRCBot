@@ -10,7 +10,7 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules;
+namespace modules\systemcommands;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;

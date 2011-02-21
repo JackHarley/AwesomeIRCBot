@@ -1,7 +1,7 @@
 <?php
 /**
- * QuitFromServer Module
- * Quits the server and stops script execution
+ * Join Module
+ * Joins a given channel
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -9,19 +9,18 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules;
+namespace modules\systemcommands;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 
-class QuitFromServer extends Module {
+class Join extends Module {
 	
 	public static $requiredUserLevel = 10;
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->notify($this->senderNick, "Shutting down...");
-		$server->quit();
+		$server->join($this->parameters(1));
 	}
 }
 ?>

@@ -12,14 +12,17 @@ require_once(__DIR__ . "/lib/awesomeircbot/awesomeircbot.inc.php");
 require_once(__DIR__ . "/modules/modules.inc.php");
 
 use config\Config;
+
 use awesomeircbot\server\Server;
+
 use awesomeircbot\module\ModuleManager;
+
 use awesomeircbot\line\ReceivedLine;
 use awesomeircbot\line\ReceivedLineTypes;
+
 use awesomeircbot\command\Command;
 use awesomeircbot\event\Event;
 use awesomeircbot\trigger\Trigger;
-use modules\configs\SystemCommands;
 
 passthru('clear');
 error_reporting(0);
@@ -32,8 +35,8 @@ if (Config::$die)
 if (Config::$configVersion != 2)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
 
-ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
-ModuleManager::loadModuleConfig('modules\configs\FunStuff');
+ModuleManager::loadModuleConfig('modules\systemcommands\configs\SystemCommands');
+ModuleManager::loadModuleConfig('modules\funstuff\configs\FunStuff');
 
 $server = Server::getInstance();
 

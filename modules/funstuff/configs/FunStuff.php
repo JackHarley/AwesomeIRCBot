@@ -6,23 +6,23 @@
  * All Rights Reserved
  */
  
-namespace modules\configs;
+namespace modules\funstuff\configs;
 use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
 
 class FunStuff implements ModuleConfig {
 	
 	public static $mappedCommands = array(
-		"slap" => "modules\Slap",
-		"harass" => "modules\Harass",
+		"slap" => "modules\\funstuff\Slap",
+		"harass" => "modules\\funstuff\Harass",
 	);
 	
 	public static $mappedEvents = array(
-		ReceivedLineTypes::CHANMSG => "modules\CheckHarass",
+		ReceivedLineTypes::CHANMSG => "modules\\funstuff\CheckHarass",
 	);
 	
 	public static $mappedTriggers = array(
-		"/(h|H)erp/" => "modules\Derp",
+		"/(h|H)erp/" => "modules\\funstuff\Derp",
 	);
 	
 	public static $help = array(

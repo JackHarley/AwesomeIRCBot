@@ -1,13 +1,13 @@
 <?php
 /**
- * PartParser Module
- * Deals with removing users from the
- * channel list
+ * JoinParser Module
+ * Deals with adding users to the channel
+ * users' list when they join a channel
  *
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules;
+namespace modules\systemcommands;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
@@ -20,7 +20,7 @@ class JoinParser extends Module {
 	
 	public function run() {
 		$channel = ChannelManager::get($this->channel);
-		$channel->removeConnectedNick($this->senderNick);
+		$channel->addConnectedNick($this->senderNick);
 		ChannelManager::store($this->channel, $channel);
 	}
 }
