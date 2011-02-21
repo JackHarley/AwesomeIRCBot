@@ -99,7 +99,7 @@ class ModuleManager {
 			return 1;
 		
 		foreach(static::$mappedEvents[$eventType] as $mappedEvent) {
-			$module = $mappedEvent;
+			echo "\n\n" . $module = $mappedEvent;
 			$moduleInstance = new $module($line, $senderNick, $channel, $eventType, $targetNick);
 			$moduleInstance->run();
 		}

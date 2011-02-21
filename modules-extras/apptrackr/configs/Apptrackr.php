@@ -6,7 +6,7 @@
  * All Rights Reserved
  */
  
-namespace modules\configs;
+namespace modules\apptrackr\configs;
 use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
 

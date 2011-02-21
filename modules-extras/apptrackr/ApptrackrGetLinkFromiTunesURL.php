@@ -6,7 +6,7 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules;
+namespace modules\apptrackr;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
