@@ -37,6 +37,7 @@ Installing Modules From The modules-extras Folder
 -------------
 The /modules-extras/ folder contains contributed and other non essential modules for your use.
 To install a module pack, follow the instructions below:
+
 1. Copy the module folder you want from /modules-extras/ into /modules/
 2. Check the README in the modules folder for info on what line to add to bot.php
 3. Restart the bot
@@ -44,6 +45,7 @@ To install a module pack, follow the instructions below:
 Installing Other Modules
 -------------
 If a developer has sent you a module, or you've found it on the internet somewhere, follow the below instructions to install it
+
 1. Copy the module folder into /modules/
 2. Write down the name of the folder you copied
 3. Open the module folder you copied and go into the "configs" folder, write down the name of the file in there, without the .php (case sensitive)
