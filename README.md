@@ -49,8 +49,10 @@ If a developer has sent you a module, or you've found it on the internet somewhe
 1. Copy the module folder into /modules/
 2. Write down the name of the folder you copied
 3. Open the module folder you copied and go into the "configs" folder, write down the name of the file in there, without the .php (case sensitive)
-4. Open bot.php and add the following line, replacing the necessary parts
+4. Open bot.php and add the following line, replacing the necessary parts: 
+
 	ModuleManager::loadModuleConfig('modules\NAME-FROM-STEP-2\configs\NAME-FROM-STEP-3');
+
 5. Restart the bot
 
 Legal
