@@ -33,13 +33,23 @@ Debugging
 2. Type "php bot.php" into the shell and hit Enter
 3. Watch the verbose output for signs of trouble
 
-Using Modules
+Installing Modules From The modules-extras Folder
 -------------
-1. Copy the module into /modules/, and its config into /modules/configs/
-2. Open bot.php and find the line ModuleManager::loadModuleConfig('modules\configs\SystemCommands');
-3. Below it, put a new line saying ModuleManager::loadModuleConfig('modules\configs\REPLACE-WITH-THE-NAMEOF-THE-MODULE-CONFIG');
-4. Replace REPLACE-WITH-THE-NAMEOF-THE-MODULE-CONFIG with the name of the file you copied into /modules/configs/ (without the .php)
-5. Restart the bot
+The /modules-extras/ folder contains contributed and other non essential modules for your use.
+To install a module pack, follow the instructions below:
+1. Copy the module folder you want from /modules-extras/ into /modules/
+2. Check the README in the modules folder for info on what line to add to bot.php
+3. Restart the bot
+
+Installing Other Modules
+-------------
+If a developer has sent you a module, or you've found it on the internet somewhere, follow the below instructions to install it
+1, Copy the module folder into /modules/
+2, Write down the name of the folder you copied
+3, Open the module folder you copied and go into the "configs" folder, write down the name of the file in there, without the .php (case sensitive)
+4, Open bot.php and add the following line, replacing the necessary parts
+	ModuleManager::loadModuleConfig('modules\NAME-FROM-STEP-2\configs\NAME-FROM-STEP-3');
+5, Restart the bot
 
 Legal
 -------------
