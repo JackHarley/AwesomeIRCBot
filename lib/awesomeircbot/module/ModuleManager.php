@@ -37,6 +37,12 @@ class ModuleManager {
 	public static $mappedTriggers = array();
 	
 	/**
+	 * Array of folder names in /modules which have
+	 * been loaded into the bot
+	 */
+	protected static $loadedModuleFolders = array();
+	
+	/**
 	 * This is a static class, it should not be instantiated
 	 */
 	private function __construct() {
@@ -207,6 +213,9 @@ class ModuleManager {
 					HelpManager::registerSubcommand($command, $subcommand, $subcommandData["description"], $subcommandData["parameters"]);
 			}
 		}
+		
+		$moduleConfig = explode("\\", $moduleConfig);
+		static::$loadedModuleFolders[] = $moduleConfig[1];
 	}
 	
 	/**
@@ -228,5 +237,27 @@ class ModuleManager {
 		foreach($moduleConfig::$help as $command => $commandData) {
 			HelpManager::unregisterCommand($command);
 		}
+		
+		$moduleConfig = explode("\\", $moduleConfig);
+		foreach (static::$loadedModuleFolders as $id => $loadedModuleFolder) {
+			if ($moduleConfig[1] == $loadedModuleFolder)
+				unset(static::$loadedModuleFolders[$id]);
+		}
 	}
+	
+	/**
+	 * Checks if a config name is a loaded module config in
+	 * /modules
+	 *
+	 * @param string config name
+	 * @return boolean depending on load status
+	 */
+	public static function isLoaded($configName) {
+		$configName = str_replace(".php", "", $configName);
+		if (in_array(strtolower($configName), static::$loadedModuleFolders))
+			return true;
+		else
+			return false;
+	}
+	
 }
