@@ -93,6 +93,17 @@ class HelpManager {
 	}
 	
 	/**
+	 * Unregisters a command and all its subcommands from the help
+	 * register
+	 *
+	 * @param string the command name to remove
+	 *		     e.g. harass
+	 */
+	public static function unregisterCommand($command) {
+		unset(static::$help[$command]);
+	}
+	
+	/**
 	 * Registers a subcommand under a command
 	 * .harass add
 	 *

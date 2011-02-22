@@ -42,7 +42,7 @@ class Help extends Module {
 			$server = Server::getInstance();
 			$server->notify($this->senderNick, "************************************");
 			$server->notify($this->senderNick, "Help for " . Config::$commandCharacter . $command . " " . $subcommand);
-			$server->notify($this->senderNick, "");
+			$server->notify($this->senderNick, " ");
 			$server->notify($this->senderNick, $description);
 			$server->notify($this->senderNick, chr(2) . "Syntax: " . chr(2) . Config::$commandCharacter . $command . " " . $subcommand . " " . $parameters);
 			if ($subcommandsString)

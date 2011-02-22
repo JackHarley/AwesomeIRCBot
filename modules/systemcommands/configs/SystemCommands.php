@@ -16,6 +16,7 @@ class SystemCommands implements ModuleConfig {
 		"identify" => "modules\systemcommands\Identify",
 		"join" => "modules\systemcommands\Join",
 		"help" => "modules\systemcommands\Help",
+		"module" => "modules\systemcommands\ModuleControls",
 	);
 	
 	public static $mappedEvents = array(
@@ -54,7 +55,22 @@ class SystemCommands implements ModuleConfig {
 				"description" => "Joins the given channel",
 				"parameters" => "<#channel>"
 			)
-		)
+		),
+		
+		"module" => array(
+			"BASE" => array(
+				"description" => "Lists the loaded module sets",
+				"parameters" => false
+			),
+			"load" => array(
+				"description" => "Loads a module config",
+				"parameters" => "<module config full namespace>"
+			),
+			"unload" => array(
+				"description" => "Unloads a module config and all the items it loaded",
+				"parameters" => "<module config full namespace>"
+			),
+		),
 	);
 			
 }

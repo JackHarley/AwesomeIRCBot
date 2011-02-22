@@ -85,6 +85,15 @@ class ModuleManager {
 	}
 	
 	/**
+	 * Unmaps a command
+	 *
+	 * @param string command to remove mapping from
+	 */
+	public static function unmapCommand($command) {
+		unset(static::$mappedCommands[$command]);
+	}
+	
+	/**
 	 * Run an event
 	 *
 	 * @param integer numerical event type (see awesomeircbot\line\ReceivedLineTypes)
@@ -99,7 +108,7 @@ class ModuleManager {
 			return 1;
 		
 		foreach(static::$mappedEvents[$eventType] as $mappedEvent) {
-			echo "\n\n" . $module = $mappedEvent;
+			$module = $mappedEvent;
 			$moduleInstance = new $module($line, $senderNick, $channel, $eventType, $targetNick);
 			$moduleInstance->run();
 		}
@@ -114,7 +123,28 @@ class ModuleManager {
 	 * @param string module full namespace to activate
 	 */
 	public static function mapEvent($event, $module){
-		static::$mappedEvents[$event][] = $module;
+		$exists = false;
+		
+		foreach(static::$mappedEvents[$event] as $id => $mappedModule) {
+			if ($module == $mappedModules)
+				$exists = true;
+		}
+		
+		if (!$exists)
+			static::$mappedEvents[$event][] = $module;
+	}
+	
+	/**
+	 * Removes a module from the mapping of an event
+	 *
+	 * @param string event numerical type
+	 * @param string module full namespace to remove
+	 */
+	public static function unmapEvent($event, $module) {
+		foreach(static::$mappedEvents[$event] as $id => $mappedModule) {
+			if ($module == $mappedModule)
+				unset(static::$mappedEvents[$event][$id]);
+		}
 	}
 	
 	/**
@@ -145,6 +175,15 @@ class ModuleManager {
 	}
 	
 	/**
+	 * Unmaps a regex string
+	 *
+	 * @param string regex string to unmap
+	 */
+	public static function unmapTrigger($regexString, $module) {
+		unset(static::$mappedTriggers[$regexString]);
+	}
+	
+	/**
 	 * Load a module config which contains multiple
 	 * modules that need to be loaded
 	 *
@@ -167,6 +206,27 @@ class ModuleManager {
 				if ($subcommand != "BASE")
 					HelpManager::registerSubcommand($command, $subcommand, $subcommandData["description"], $subcommandData["parameters"]);
 			}
+		}
+	}
+	
+	/**
+	 * Unload a module config and all it's mappings from the
+	 * bot. Basically the opposite of above
+	 *
+	 * @param string full namespace of the module config
+	 */
+	public static function unloadModuleConfig($moduleConfig) {
+		foreach($moduleConfig::$mappedCommands as $command => $module)
+			static::unmapCommand($command, $module);
+			
+		foreach($moduleConfig::$mappedEvents as $event => $module)
+			static::unmapEvent($event, $module);
+			
+		foreach($moduleConfig::$mappedTriggers as $regexString => $module)
+			static::unmapTrigger($regexString, $module);
+			
+		foreach($moduleConfig::$help as $command => $commandData) {
+			HelpManager::unregisterCommand($command);
 		}
 	}
 }
