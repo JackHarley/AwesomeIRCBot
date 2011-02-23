@@ -20,8 +20,8 @@ class CheckHarass extends Module {
 	public static $requiredUserLevel = 0;
 	
 	public function run() {
-		$harassedNicks = DataManager::retrieve("harassedNicks", "modules\funstuff\Harass");
-		$harassedHosts = DataManager::retrieve("harassedHosts", "modules\funstuff\Harass");
+		$harassedNicks = DataManager::retrieve("harassedNicks", "modules\\funstuff\Harass");
+		$harassedHosts = DataManager::retrieve("harassedHosts", "modules\\funstuff\Harass");
 		
 		if ($harassedNicks) {
 			if (in_array($this->senderNick, $harassedNicks) !== false) {
