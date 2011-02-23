@@ -12,6 +12,8 @@
 namespace awesomeircbot\user;
 
 use awesomeircbot\user\User;
+use awesomeircbot\server\Server;
+use config\Config;
 
 class UserManager {
 	
@@ -26,12 +28,22 @@ class UserManager {
 	
 	/**
 	 * Adds tracking for an online nick and stores
-	 * the given user object for them
+	 * the given user object for them, if their nick is on the
+	 * privileged config list it also sends a WHOIS
 	 *
 	 * @param string online nickname
 	 * @param object User object
 	 */
 	public static function store($nick, $userObject) {
+		foreach(Config::$users as $privilegedUser => $level) {
+			if ($nick == $privilegedUser) {
+				if (!static::$trackedUsers[$nick]) {
+					$server = Server::getInstance();
+					$server->whois($nick);
+				}
+			}
+		}
+		
 		static::$trackedUsers[$nick] = $userObject;
 	}
 	

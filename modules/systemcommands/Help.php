@@ -3,6 +3,9 @@
  * Help Module
  * Responds to help requests
  *
+ * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
+ * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
+ *
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */

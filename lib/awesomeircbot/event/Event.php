@@ -41,13 +41,14 @@ class Event {
 		$this->senderNick = $lineObject->senderNick;
 		$this->type = $lineObject->type;
 		$this->channel = $lineObject->channel;
+		$this->targetNick = $lineObject->targetNick;
 	}
 	
 	/**
 	 * Execute the mapped module through ModuleManager
 	 */
 	public function execute() {
-		ModuleManager::runEvent($this->type, $this->fullLine, $this->channel, $this->senderNick);
+		ModuleManager::runEvent($this->type, $this->fullLine, $this->channel, $this->senderNick, $this->targetNick);
 	}
 }
 ?>

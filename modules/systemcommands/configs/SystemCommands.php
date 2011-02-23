@@ -23,6 +23,8 @@ class SystemCommands implements ModuleConfig {
 		ReceivedLineTypes::PING => "modules\systemcommands\PongServer",
 		ReceivedLineTypes::JOIN => "modules\systemcommands\JoinParser",
 		ReceivedLineTypes::PART => "modules\systemcommands\PartParser",
+		ReceivedLineTypes::KICK => "modules\systemcommands\KickParser",
+		ReceivedLineTypes::QUIT => "modules\systemcommands\QuitParser",
 		ReceivedLineTypes::PRIVMSG => "modules\systemcommands\MessageParser",
 		ReceivedLineTypes::CHANMSG => "modules\systemcommands\MessageParser",
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\systemcommands\WhoisResponseParser",

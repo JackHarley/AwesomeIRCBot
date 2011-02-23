@@ -1,8 +1,9 @@
 <?php
 /**
- * JoinParser Module
- * Deals with adding users to the channel
- * users' list when they join a channel
+ * QuitParser Module
+ * Deals with removing users from the
+ * channel list and from the UserManager when
+ * they quit
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -15,16 +16,15 @@ namespace modules\systemcommands;
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
-use awesomeircbot\data\DataManager;
+use awesomeircbot\user\UserManager;
 
-class JoinParser extends Module {
+class QuitParser extends Module {
 	
 	public static $requiredUserLevel = 0;
 	
 	public function run() {
-		$channel = ChannelManager::get($this->channel);
-		$channel->addConnectedNick($this->senderNick);
-		ChannelManager::store($this->channel, $channel);
+		ChannelManager::removeConnectedNickFromAll($this->senderNick);
+		UserManager::remove($this->senderNick);
 	}
 }
 ?>

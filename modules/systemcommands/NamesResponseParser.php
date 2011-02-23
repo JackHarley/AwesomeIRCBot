@@ -15,6 +15,7 @@ namespace modules\systemcommands;
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
+use awesomeircbot\user\UserManager;
 
 class NamesResponseParser extends Module {
 	
@@ -34,7 +35,7 @@ class NamesResponseParser extends Module {
 		// Fetch the channel object
 		$channelObject = ChannelManager::get($channel);
 		
-		// Loop through the names adding them to the channel
+		// Loop through the names adding them to the channel and UserManager
 		foreach ($names as $name) {
 			$privileges = false;
 			
@@ -52,6 +53,9 @@ class NamesResponseParser extends Module {
 			$nick = str_replace(array("~", "@", "&", "%", "+"), "", $name);
 				
 			$channelObject->addConnectedNick($nick, $privileges);
+			$user = UserManager::get($nick);
+			$user->nickname = $nick;
+			UserManager::store($nick, $user);
 		}
 		
 		// Store away the channel object
