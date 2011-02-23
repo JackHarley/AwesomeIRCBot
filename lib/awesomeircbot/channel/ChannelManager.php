@@ -56,5 +56,35 @@ class ChannelManager {
 	public static function remove($chan) {
 		unset(static::$connectedChannels[$chan]);
 	}
+	
+	/**
+	 * Removes the given nickname from all the
+	 * connected channels by cycling through them
+	 *
+	 * @param string nickname
+	 */
+	public static function removeConnectedNickFromAll($nick) {
+		foreach(static::$connectedChannels as $channel => $channelObject) {
+			$channelObject->removeConnectedNick($nick);
+			static::$connectedChannels[$channel] = $channelObject;
+		}
+	}
+	
+	/**
+	 * Checks if a nickname is connected to any tracked
+	 * channels
+	 *
+	 * @param string nickname
+	 * @return boolean depending on whether or not the user is connected to a
+	 *			 tracked channel
+	 */
+	public static function isConnectedToTrackedChannel($nick) {
+		foreach(static::$connectedChannels as $channel => $channelObject) {
+			if ($channelObject->isConnected($nick))
+				return true;
+		}
+		
+		return false;
+	}
 }
 ?>

@@ -169,6 +169,33 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 		
+		else if (strpos($this->line, "KICK") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::KICK;
+			
+			// Channel
+			$workingLine = explode(" ", $this->line);
+			$this->channel = $workingLine[2];
+			
+			// Target
+			$this->targetNick = $workingLine[3];
+			
+			// User
+			$workingLine = str_replace(":", "", $workingLine[0]);
+				
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+		}
+		
 		else if ((preg_match('/[2-5][0-9][0-9]/', $this->line)) !== false) {
 			
 			// This is a server reply

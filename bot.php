@@ -25,7 +25,7 @@ use awesomeircbot\event\Event;
 use awesomeircbot\trigger\Trigger;
 
 passthru('clear');
-error_reporting(0);
+//error_reporting(0);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
@@ -71,6 +71,9 @@ while (true) {
 		echo "done!\n";
 	}
 	
+	// Since for some reason the first notice never gets through, send a blank one
+	$server->notice("RandomGuyWhoHopefullyWontExist", "SUP");
+	
 	// Loop-edy-loop
 	while($server->connected()) {
 		$line = $server->getNextLine();
@@ -93,5 +96,8 @@ while (true) {
 			$trigger->execute();
 		}
 	}
+	// Disconnected, Give the server 10 seconds before we attempt a reconnect
+	echo "Connection lost...\nCycling around to reconnect in 10 seconds...\n\n";
+	sleep(10);
 }
 ?>

@@ -66,11 +66,26 @@ class Channel {
 	 */
 	public function removeConnectedNick($nick) {
 		foreach($this->connectedNicks as $id => $connectedNick) {
-			if ($connectedNick == $nick)
+			if ($connectedNick == $nick) {
 				unset($this->connectedNicks[$id]);
+			}
 		}
 		
 		unset($this->privilegedNicks[$nick]);
+	}
+	
+	/**
+	 * Checks if a nickname is connected to the
+	 * channel
+	 *
+	 * @param string nickname
+	 * @return boolean depending on whether or not user is connected
+	 */
+	public function isConnected($nick) {
+		if (in_array($nick, $this->connectedNicks))
+			return true;
+		else
+			return false;
 	}
 }
 ?>

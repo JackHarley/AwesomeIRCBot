@@ -26,7 +26,7 @@ abstract class Module {
 	 * @param string The event type, in case of event based activation
 	 * @param string The target of the action, if applicable
 	 */
-	public function __construct($runMessage, $senderNick, $channel=false, $eventType=false, $targetMick=false) {
+	public function __construct($runMessage, $senderNick, $channel=false, $eventType=false, $targetNick=false) {
 		$this->runMessage = $runMessage;
 		$this->senderNick = $senderNick;
 		$this->channel = $channel;
