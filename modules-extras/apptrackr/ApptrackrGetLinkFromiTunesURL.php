@@ -80,7 +80,6 @@ class ApptrackrGetLinkFromiTunesURL extends Module {
 		$dataBlock = json_decode($jsonDataBlock);
 		$latestVersion = $dataBlock->app->latest_version;
 		$appName = $dataBlock->app->name;
-		$nd5Pass = md5("yelrah");
 		
 		// Now get some links
 		$request = array(	
@@ -88,10 +87,6 @@ class ApptrackrGetLinkFromiTunesURL extends Module {
 			'action' => 'get',
 			'args' => array(
 				'app_id' => $appID,
-			),
-			'auth' => array(
-				'id' => 8167,
-				'passhash' => $md5Pass
 			)
 		
 		);
