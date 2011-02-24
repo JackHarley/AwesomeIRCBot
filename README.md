@@ -14,8 +14,7 @@ Right now, the bot is in beta and will be subject to rapid changes in the way pa
 
 Prerequisites
 -------------
-* PHP 5.3+ CLI (will NOT run on 5.2)
-* Screen or another shell backgrounding utility if you want to background the bot
+* PHP 5.3+ CLI (will NOT run on 5.2) (If you use Ubuntu/Debian, apt-get probably won't have PHP 5.3 unless you modify your source list)
 
 Installation
 -------------
@@ -39,21 +38,16 @@ The /modules-extras/ folder contains contributed and other non essential modules
 To install a module pack, follow the instructions below:
 
 1. Copy the module folder you want from /modules-extras/ into /modules/
-2. Check the README in the modules folder for info on what line to add to bot.php
-3. Restart the bot
+2. Restart the bot
 
 Installing Other Modules
 -------------
 If a developer has sent you a module, or you've found it on the internet somewhere, follow the below instructions to install it
 
 1. Copy the module folder into /modules/
-2. Write down the name of the folder you copied
-3. Open the module folder you copied and go into the "configs" folder, write down the name of the file in there, without the .php (case sensitive)
-4. Open bot.php and add the following line, replacing the necessary parts: 
+2. Restart the bot
 
-	ModuleManager::loadModuleConfig('modules\NAME-FROM-STEP-2\configs\NAME-FROM-STEP-3');
-
-5. Restart the bot
+Please note that while modules in the /modules-extras/ folder have been checked and fixed to make absolutely sure drag and drop installation will work, this is not the case for modules you may obtain from other sources.
 
 Legal
 -------------

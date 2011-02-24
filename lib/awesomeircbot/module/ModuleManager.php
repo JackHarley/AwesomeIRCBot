@@ -190,6 +190,32 @@ class ModuleManager {
 	}
 	
 	/**
+	 * Initializes by loading all module sets located
+	 * in /modules
+	 */
+	public static function initialize() {
+		$folder = opendir(__DIR__ . "/../../../modules");
+		$modulePacks = array();
+		while (($file = readdir($folder)) !== false) {
+			if (($file != ".") && ($file != "..") && ($file != "modules.inc.php")) {
+				$folder2 = opendir(__DIR__ . "/../../../modules/" . $file . "/configs");
+				while (($file2 = readdir($folder2)) !== false) {
+					if (($file2 != ".") && ($file2 != "..")) {
+						$modulePacks[] = str_replace(".php", "", $file2);
+					}
+				}
+				closedir($folder2);
+			}
+		}
+		closedir($folder);
+		
+		foreach ($modulePacks as $modulePack) {
+			$moduleNamespace = "modules\\" . strtolower($modulePack) . "\configs\\" . $modulePack;
+			static::loadModuleConfig($moduleNamespace);
+		}
+	}
+	
+	/**
 	 * Load a module config which contains multiple
 	 * modules that need to be loaded
 	 *

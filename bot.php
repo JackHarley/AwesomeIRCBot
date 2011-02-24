@@ -25,7 +25,7 @@ use awesomeircbot\event\Event;
 use awesomeircbot\trigger\Trigger;
 
 passthru('clear');
-//error_reporting(0);
+error_reporting(0);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
@@ -35,8 +35,7 @@ if (Config::$die)
 if (Config::$configVersion != 2)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
 
-ModuleManager::loadModuleConfig('modules\systemcommands\configs\SystemCommands');
-ModuleManager::loadModuleConfig('modules\funstuff\configs\FunStuff');
+ModuleManager::initialize();
 
 $server = Server::getInstance();
 

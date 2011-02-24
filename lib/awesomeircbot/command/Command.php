@@ -15,6 +15,7 @@ namespace awesomeircbot\command;
 use awesomeircbot\module\ModuleManager;
 use awesomeircbot\user\UserManager;
 use awesomeircbot\server\Server;
+use config\Config;
 
 class Command {
 	
@@ -50,7 +51,7 @@ class Command {
 		if ($return !== true) {
 			if ($return == 2) {
 				$server = Server::getInstance();
-				$server->notify($this->senderNick, "You do not have permission to use this command, please type .identify if you are logged in with NickServ and have privileges");
+				$server->notify($this->senderNick, "You do not have permission to use this command. Please identify via NickServ if you have privileges, then type " . Config::$commandCharacter . "identify");
 			}
 		}
 			
