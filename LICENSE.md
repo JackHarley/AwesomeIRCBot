@@ -15,15 +15,12 @@ documentation, with or without modification, for any purpose, provided that
 the following conditions are met:
 
 1. A copy of this license agreement must be included with the distribution.
-
 2. Redistributions of source code must retain the above copyright notice in
    all source code files.
-
 3. Redistributions in binary form must reproduce the above copyright notice
    in the documentation and/or other materials provided with the distribution.
-
 4. Products derived from the Software must include an acknowledgment that
-   they are derived from Hydrogen in their documentation and/or other
+   they are derived from Awesome IRC Bot in their documentation and/or other
    materials provided with the distribution.
 
 INDEMNITY
