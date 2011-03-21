@@ -24,20 +24,26 @@ use awesomeircbot\command\Command;
 use awesomeircbot\event\Event;
 use awesomeircbot\trigger\Trigger;
 
+use awesomeircbot\database\Database;
+
 passthru('clear');
-error_reporting(0);
+error_reporting(E_ALL & ~E_NOTICE);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 if (Config::$die)
 	die("READ THE CONFIG!\n\n");
-if (Config::$configVersion != 2)
+if (Config::$configVersion != 3)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
 
 ModuleManager::initialize();
 
 $server = Server::getInstance();
+
+$db = Database::getInstance();
+$db->updateScriptArrays();
+$db->updateDatabase();
 
 echo "\n";
 
@@ -70,9 +76,6 @@ while (true) {
 		echo "done!\n";
 	}
 	
-	// Since for some reason the first notice never gets through, send a blank one
-	$server->notice("RandomGuyWhoHopefullyWontExist", "SUP");
-	
 	// Loop-edy-loop
 	while($server->connected()) {
 		$line = $server->getNextLine();
@@ -94,9 +97,11 @@ while (true) {
 			$trigger = new Trigger($line);
 			$trigger->execute();
 		}
+		
+		$db->updateDatabase();
 	}
-	// Disconnected, Give the server 10 seconds before we attempt a reconnect
+	// Disconnected, Give the server 2 seconds before we attempt a reconnect
 	echo "Connection lost...\nCycling around to reconnect in 10 seconds...\n\n";
-	sleep(10);
+	sleep(2);
 }
 ?>

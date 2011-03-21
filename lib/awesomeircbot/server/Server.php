@@ -10,6 +10,7 @@
 
 namespace awesomeircbot\server;
 use config\Config;
+use awesomeircbot\channel\ChannelManager;
 
 class Server {
 	
@@ -83,8 +84,7 @@ class Server {
 	}
 	
 	/**
-	 * Join a specified channel and register it
-	 * with the channel manager
+	 * Join a specified channel
 	 *
 	 * @param string channel name
 	 */
@@ -92,6 +92,20 @@ class Server {
 		
 		// Send to the server
 		fwrite(static::$serverHandle, "JOIN " . $channel . "\0\n");
+	}
+	
+	/**
+	 * Part a specified channel
+	 *
+	 * @param string channel name
+	 */
+	public function part($channel) {
+		
+		// Send to the server
+		fwrite(static::$serverHandle, "PART " . $channel . "\0\n");
+		
+		// Remove the channel from the ChannelManager
+		ChannelManager::remove($channel);
 	}
 	
 	/**
