@@ -17,6 +17,7 @@ class SystemCommands implements ModuleConfig {
 		"join" => "modules\systemcommands\Join",
 		"help" => "modules\systemcommands\Help",
 		"module" => "modules\systemcommands\ModuleControls",
+		"user" => "modules\systemcommands\PrivilegedUserControls",
 	);
 	
 	public static $mappedEvents = array(
@@ -72,6 +73,21 @@ class SystemCommands implements ModuleConfig {
 				"description" => "Unloads a module config and all the items it loaded",
 				"parameters" => "<module config full namespace>"
 			),
+		),
+		
+		"user" => array(
+			"BASE" => array(
+				"description" => "Lists the privileged users",
+				"parameters" => false
+			),
+			"add" => array(
+				"description" => "Adds/Modifies a privileged user and their level",
+				"parameters" => "<nickname> <user level>"
+			),
+			"del" => array(
+				"description" => "Deletes a privileged user",
+				"parameters" => "<nickname>"
+			)
 		),
 	);
 			

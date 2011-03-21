@@ -94,6 +94,6 @@ class Config {
 	 * This allows you to seamlessly pull from git without
 	 * worrying about a corrupt config
 	 */
-	public static $configVersion = 2;
+	public static $configVersion = 3;
 }
 ?>
