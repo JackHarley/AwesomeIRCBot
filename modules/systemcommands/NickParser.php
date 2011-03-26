@@ -1,8 +1,8 @@
 <?php
 /**
- * JoinParser Module
- * Deals with adding users to the channel
- * users' list when they join a channel
+ * NickParser Module
+ * Deals with renaming users in both the
+ * Channel and User Manager
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -17,23 +17,16 @@ use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\user\UserManager;
 use awesomeircbot\line\ReceivedLine;
 
-class JoinParser extends Module {
+class NickParser extends Module {
 	
 	public static $requiredUserLevel = 0;
 	
 	public function run() {
-		$channel = ChannelManager::get($this->channel);
-		$channel->addConnectedNick($this->senderNick);
-		ChannelManager::store($this->channel, $channel);
-		
 		$line = new ReceivedLine($this->runMessage);
 		$line->parse();
 		
-		$user = UserManager::get($this->senderNick);
-		$user->nickname = $line->senderNick;
-		$user->ident = $line->senderIdent;
-		$user->host = $line->senderHost;
-		UserManager::store($this->senderNick, $user);
+		ChannelManager::rename($this->senderNick, $this->targetNick);
+		UserManager::rename($this->senderNick, $this->targetNick, $line->senderIdent, $line->senderHost);
 	}
 }
 ?>

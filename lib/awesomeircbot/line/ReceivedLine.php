@@ -35,7 +35,7 @@ class ReceivedLine {
 	 * @param string line received from the server
 	 */
 	public function __construct($line) {
-		$this->line = $line;
+		$this->line = trim($line);
 	}
 	
 	/**
@@ -105,6 +105,32 @@ class ReceivedLine {
 			$this->message = trim($workingLine[1]);
 		}
 		
+		else if (strpos($this->line, "NICK") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::NICK;
+			
+			// Target
+			$workingLine = explode(" :", $this->line);
+			$workingLine = explode("NICK ", $workingLine[0]);
+			$this->targetNick = $workingLine[1];
+			
+			// User
+			$workingLine = explode(" NICK", $this->line);
+			$workingLine[0] = str_replace(":", "", $workingLine[0]);
+			
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+		}
+				
 		else if (strpos($this->line, "PING") !== false) {
 			
 			// Type
@@ -196,6 +222,59 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 		
+		else if (strpos($this->line, "QUIT") !== false) {
+			
+			// Type
+			$this->type = ReceivedLineTypes::QUIT;
+			
+			// User
+			$workingLine = explode(" QUIT", $this->line);
+			$workingLine[0] = str_replace(":", "", $workingLine[0]);
+				
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+		}
+		
+		else if (strpos($this->line, "MODE") !== false) {
+				
+			// Type
+			$this->type = ReceivedLineTypes::MODE;
+				
+			// User
+			$workingLine = explode(" MODE", $this->line);
+			$workingLine[0] = str_replace(":", "", $workingLine[0]);
+				
+				// Nick
+				$workingLine = explode("!", $workingLine[0]);
+				$this->senderNick = $workingLine[0];
+				
+				// Ident
+				$workingLine = explode("@", $workingLine[1]);
+				$this->senderIdent = $workingLine[0];
+				
+				// Host
+				$this->senderHost = $workingLine[1];
+			
+						
+			// Channel
+			$workingLine = explode(" ", $this->line);
+			$this->channel = $workingLine[2];
+			
+			// Mode
+			$this->message = $workingLine[3];
+			
+			// Target nick
+			$this->targetNick = $workingLine[4];
+		}
+				
 		else if ((preg_match('/[2-5][0-9][0-9]/', $this->line)) !== false) {
 			
 			// This is a server reply

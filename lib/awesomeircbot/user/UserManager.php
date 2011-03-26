@@ -69,5 +69,22 @@ class UserManager {
 	public static function remove($nick) {
 		unset(static::$trackedUsers[$nick]);
 	}
+	
+	/**
+	 * Renames a user
+	 *
+	 * @param string original nick
+	 * @param string new nick
+	 */
+	public static function rename($oldNick, $newNick, $newIdent, $newHost) {
+		unset(static::$trackedUsers[$oldNick]);
+		
+		$user = new User;
+		$user->nickname = $newNick;
+		$user->ident = $newIdent;
+		$user->host = $newHost;
+
+		static::store($newNick, $user);
+	}
 }
 ?>

@@ -16,6 +16,7 @@ use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\user\User;
 use awesomeircbot\user\UserManager;
+use awesomeircbot\line\ReceivedLine;
 use config\Config;
 
 class MessageParser extends Module {
@@ -24,27 +25,13 @@ class MessageParser extends Module {
 	
 	public function run() {
 		
+		$line = new ReceivedLine($this->runMessage);
+		$line->parse();
+		
 		$user = UserManager::get($this->senderNick);
-		
-		/*************
-		 * PARSE IT! *
-		 *************/
-		 
-		// User
-		$workingLine = explode(" PRIVMSG", $this->runMessage);
-		$workingLine[0] = str_replace(":", "", $workingLine[0]);
-		
-			// Nick
-			$workingLine = explode("!", $workingLine[0]);
-			$user->nickname = $workingLine[0];
-			
-			// Ident
-			$workingLine = explode("@", $workingLine[1]);
-			$user->ident = $workingLine[0];
-			
-			// Host
-			$user->host = $workingLine[1];
-		
+		$user->nickname = $line->senderNick;
+		$user->ident = $line->senderIdent;
+		$user->host = $line->senderHost;
 		UserManager::store($this->senderNick, $user);
 	}
 }

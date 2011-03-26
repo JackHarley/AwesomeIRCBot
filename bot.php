@@ -27,7 +27,7 @@ use awesomeircbot\trigger\Trigger;
 use awesomeircbot\database\Database;
 
 passthru('clear');
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";

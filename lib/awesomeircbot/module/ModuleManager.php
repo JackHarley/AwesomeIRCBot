@@ -131,9 +131,11 @@ class ModuleManager {
 	public static function mapEvent($event, $module){
 		$exists = false;
 		
-		foreach(static::$mappedEvents[$event] as $id => $mappedModule) {
-			if ($module == $mappedModules)
-				$exists = true;
+		if (static::$mappedEvents) {
+			foreach(static::$mappedEvents[$event] as $id => $mappedModule) {
+				if ($module == $mappedModules)
+					$exists = true;
+			}
 		}
 		
 		if (!$exists)

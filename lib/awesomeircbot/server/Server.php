@@ -119,7 +119,7 @@ class Server {
 		// Check we're connected
 		if ($this->connected())
 			// Get and return the next line
-			return fgets(static::$serverHandle, 256);
+			return fgets(static::$serverHandle, 1024);
 		else
 			// Not connected? Return false
 			return false;

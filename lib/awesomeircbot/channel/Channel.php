@@ -50,12 +50,65 @@ class Channel {
 	 * @param string privilege character (~, &, @, %, +)
 	 */
 	public function addConnectedNick($nick, $privileges=false) {
+		
+		if (!$nick)
+			return;
+		
 		if (in_array($nick, $this->connectedNicks) === false) {
 			$this->connectedNicks[] = $nick;
 		
 			if ($privileges)
 				$this->privilegedNicks[$nick] = $privileges;
 		}
+	}
+	
+	/**
+	 * Adds a privilege to a nickname
+	 *
+	 * @param string nickname
+	 * @param string privilege character (~, &, @, %, +)
+	 */
+	public function addPrivilege($nick, $privilege) {
+		
+		if (!$this->privilegedNicks[$nick]) {
+			$this->privilegedNicks[$nick] = $privilege;
+			return;
+		}
+		
+		$currentPrivilege = $this->privilegedNicks[$nick];
+		$newPrivilege = $privilege;
+		
+		if ($currentPrivilege == "~")
+			return;
+		
+		if ($currentPrivilege == "&") {
+			if ($newPrivilege == "~") {
+				$this->privilegedNicks[$nick] = $newPrivilege;
+			}
+			return;
+		}
+		
+		if ($currentPrivilege == "@") {
+			if (($newPrivilege == "&") || ($newPrivilege == "~")) {
+				$this->privilegedNicks[$nick] = $newPrivilege;
+			}
+			return;
+		}
+		
+		if ($currentPrivilege == "%") {
+			if (($newPrivilege == "@") || ($newPrivilege == "&") || ($newPrivilege == "~")) {
+				$this->privilegedNicks[$nick] = $newPrivilege;
+			}
+			return;
+		}
+		
+		if ($currentPrivilege == "+") {
+			if (($newPrivilege == "%") || ($newPrivilege == "@") || ($newPrivilege == "&") || ($newPrivilege == "~")) {
+				$this->privilegedNicks[$nick] = $newPrivilege;
+			}
+			return;
+		}
+		
 	}
 	
 	/**
@@ -72,6 +125,23 @@ class Channel {
 		}
 		
 		unset($this->privilegedNicks[$nick]);
+	}
+	
+	/**
+	 * Renames a user in the channel
+	 *
+	 * @param string original nick
+	 * @param string new nick
+	 */
+	public function renameConnectedNick($oldNick, $newNick) {
+		$this->connectedNicks[] = $newNick;
+		
+		if ($this->privilegedNicks[$oldNick]) {
+			$this->privilegedNicks[$newNick] = $this->privilegedNicks[$oldNick];
+			unset($this->privilegedNicks[$oldNick]);
+		}
+		
+		$this->removeConnectedNick($oldNick);
 	}
 	
 	/**
