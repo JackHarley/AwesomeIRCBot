@@ -58,6 +58,20 @@ class ChannelManager {
 	}
 	
 	/**
+	 * Renames a user in all the channels they
+	 * are connected to
+	 *
+	 * @param string original nick
+	 * @param string new nick
+	 */
+	public static function rename($oldNick, $newNick) {
+		foreach(static::$connectedChannels as $channel => $channelObject) {
+			$channelObject->renameConnectedNick($oldNick, $newNick);
+			static::$connectedChannels[$channel] = $channelObject;
+		}
+	}
+	
+	/**
 	 * Removes the given nickname from all the
 	 * connected channels by cycling through them
 	 *

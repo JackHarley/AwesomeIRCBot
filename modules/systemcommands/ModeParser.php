@@ -1,8 +1,7 @@
 <?php
 /**
- * JoinParser Module
- * Deals with adding users to the channel
- * users' list when they join a channel
+ * ModeParser Module
+ * Deals with channel modes and privileges
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -14,26 +13,25 @@ namespace modules\systemcommands;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\channel\ChannelManager;
-use awesomeircbot\user\UserManager;
 use awesomeircbot\line\ReceivedLine;
 
-class JoinParser extends Module {
+class ModeParser extends Module {
 	
 	public static $requiredUserLevel = 0;
 	
 	public function run() {
 		$channel = ChannelManager::get($this->channel);
-		$channel->addConnectedNick($this->senderNick);
-		ChannelManager::store($this->channel, $channel);
 		
 		$line = new ReceivedLine($this->runMessage);
 		$line->parse();
 		
-		$user = UserManager::get($this->senderNick);
-		$user->nickname = $line->senderNick;
-		$user->ident = $line->senderIdent;
-		$user->host = $line->senderHost;
-		UserManager::store($this->senderNick, $user);
+		switch ($line->message) {
+			case "+v":
+				$channel->addPrivilege($line->targetNick, "+");
+			break;
+		}
+		
+		ChannelManager::store($this->channel, $channel);
 	}
 }
 ?>

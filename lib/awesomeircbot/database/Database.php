@@ -18,11 +18,18 @@ class Database {
     protected static $instance;
     protected $pdo;
 
+	/**
+	 * Construction method
+	 *
+	 * Connects to the database and attempts to create
+	 * the tables if they have not been created
+	 */
     protected function __construct() {
         $this->pdo = new \PDO("sqlite:" . __DIR__ . "/../../../database/database.sqlite");
 		
 		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS privileged_users (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				nickname TEXT,
 				level INTEGER
 			);"
@@ -30,6 +37,7 @@ class Database {
 		
 		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS channels (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				name TEXT,
 				topic TEXT,
 				modes TEXT
@@ -38,23 +46,48 @@ class Database {
 		
 		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS channel_users (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				nickname TEXT,
 				channel_name TEXT,
 				privilege TEXT
 			);"
 		);
+		
+		$this->pdo->query("
+			CREATE TABLE IF NOT EXISTS channel_messages (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				nickname TEXT,
+				host TEXT,
+				ident TEXT,
+				channel_name TEXT,
+				message TEXT,
+				time INTEGER
+			);"
+		);
     }
-
+	
+	/**
+	 * Returns an instance of this Database singleton
+	 *
+	 * @return An instance of this Database
+	 */
     public static function getInstance() {
         if (!static::$instance)
             static::$instance = new Database();
         return static::$instance;
     }
-
+	
+	/**
+	 * Redirects calls to the object to the PDO object
+	 */
     public function __call($method, $args) {
         return call_user_func_array(array($this->pdo, $method), $args);
     }
 	
+	/**
+	 * Updates the arrays in the script with data from
+	 * the database
+	 */
 	public function updateScriptArrays() {
 		
 		// Users
@@ -65,6 +98,10 @@ class Database {
 			Config::$users[$row->nickname] = $row->level;
 	}
 		
+	/**
+	 * Updates the database with data from the script
+	 * arrays
+	 */
 	public function updateDatabase() {
 		
 		// Privileged Users
@@ -77,7 +114,10 @@ class Database {
 		}
 		
 		// Channels
-		$stmt = $this->pdo->prepare("DELETE FROM channels;DELETE FROM channel_users");
+		$stmt = $this->pdo->prepare("DELETE FROM channel_users");
+		$stmt->execute();
+		
+		$stmt = $this->pdo->prepare("DELETE FROM channels");
 		$stmt->execute();
 		
 		foreach(ChannelManager::$connectedChannels as $channel) {

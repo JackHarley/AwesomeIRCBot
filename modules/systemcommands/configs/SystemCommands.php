@@ -21,11 +21,13 @@ class SystemCommands implements ModuleConfig {
 	);
 	
 	public static $mappedEvents = array(
+		ReceivedLineTypes::NICK => "modules\systemcommands\NickParser",
 		ReceivedLineTypes::PING => "modules\systemcommands\PongServer",
 		ReceivedLineTypes::JOIN => "modules\systemcommands\JoinParser",
 		ReceivedLineTypes::PART => "modules\systemcommands\PartParser",
 		ReceivedLineTypes::KICK => "modules\systemcommands\KickParser",
 		ReceivedLineTypes::QUIT => "modules\systemcommands\QuitParser",
+		ReceivedLineTypes::MODE => "modules\systemcommands\ModeParser",
 		ReceivedLineTypes::PRIVMSG => "modules\systemcommands\MessageParser",
 		ReceivedLineTypes::CHANMSG => "modules\systemcommands\MessageParser",
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\systemcommands\WhoisResponseParser",

@@ -19,9 +19,11 @@ class ReceivedLineTypes {
 	 * For example, in RFC 1459, Section 4.6.2 is PING,
 	 * so PING = 462
 	 */
+	const NICK = 412;
 	const QUIT = 416;
 	const JOIN = 421;
 	const PART = 422;
+	const MODE = 423;
 	const KICK = 428;
 	const PRIVMSG = 4411;
 	const CHANMSG = 4412;
