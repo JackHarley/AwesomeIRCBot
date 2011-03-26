@@ -29,6 +29,18 @@ class ModeParser extends Module {
 			case "+v":
 				$channel->addPrivilege($line->targetNick, "+");
 			break;
+			case "+h":
+				$channel->addPrivilege($line->targetNick, "%");
+			break;
+			case "+o":
+				$channel->addPrivilege($line->targetNick, "@");
+			break;
+			case "+a":
+				$channel->addPrivilege($line->targetNick, "&");
+			break;
+			case "+q":
+				$channel->addPrivilege($line->targetNick, "~");
+			break;
 		}
 		
 		ChannelManager::store($this->channel, $channel);
