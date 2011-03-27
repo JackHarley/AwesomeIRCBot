@@ -17,7 +17,7 @@ class Derp extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->message($this->channel, "Derp");
+		$server->message($this->channel, "derp");
 	}
 }
 ?>
