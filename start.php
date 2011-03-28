@@ -9,9 +9,10 @@
 passthru('clear');
 error_reporting(0);
 
-echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
+echo "Welcome to Awesome IRC Bot v2\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
 echo "Backgrounding process...\n";
+echo "Please note that this startup script will NOT work on Windows, use 'php bot.php' instead, and background it in some way";
 
 // Fork
 $pid = pcntl_fork();
