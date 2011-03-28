@@ -26,7 +26,17 @@ use awesomeircbot\trigger\Trigger;
 
 use awesomeircbot\database\Database;
 
-passthru('clear');
+/**
+ * If we're not in CLI, running clear could fuck stuff up, so
+ * check whether we're in CLI or not. Also, different commands
+ * for Windoze and Unix, so run the correct command.
+ */
+if (PHP_SAPI === 'CLI')
+{
+	$command = (stristr(PHP_OS, 'win')) ? 'cls' : 'clear';
+	passthru($command);
+}
+
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
