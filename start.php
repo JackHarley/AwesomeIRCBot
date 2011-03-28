@@ -6,7 +6,11 @@
  * instead
  */
 
-passthru('clear');
+if (PHP_SAPI === 'CLI')
+{
+	$command = (stristr(PHP_OS, 'win')) ? 'cls' : 'clear';
+	passthru($command);
+}
 error_reporting(0);
 
 echo "Welcome to Awesome IRC Bot v2 Seriously Unstable Edition\n";
