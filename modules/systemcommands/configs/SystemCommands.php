@@ -37,7 +37,6 @@ class SystemCommands implements ModuleConfig {
 	);
 	
 	public static $mappedTriggers = array(
-		"/(a|A)wesome(b|B)ot: (q|Q)uit the server/" => "modules\systemcommands\QuitFromServer",
 	);
 
 	public static $help = array(

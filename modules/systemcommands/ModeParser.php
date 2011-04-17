@@ -25,22 +25,38 @@ class ModeParser extends Module {
 		$line = new ReceivedLine($this->runMessage);
 		$line->parse();
 		
-		switch ($line->message) {
-			case "+v":
-				$channel->addPrivilege($line->targetNick, "+");
-			break;
-			case "+h":
-				$channel->addPrivilege($line->targetNick, "%");
-			break;
-			case "+o":
-				$channel->addPrivilege($line->targetNick, "@");
-			break;
-			case "+a":
-				$channel->addPrivilege($line->targetNick, "&");
-			break;
-			case "+q":
-				$channel->addPrivilege($line->targetNick, "~");
-			break;
+		$modes = array();
+		if (strlen($line->message) > 2) {
+			$split = str_split($line->message);
+			foreach ($split as $id => $character) {
+				if ($id == 0)
+					$symbol = $split[0];
+				else
+					$modes[] = $symbol . $character;
+			}
+		}
+		else {
+			$modes[] = $line->message;
+		}
+		
+		foreach ($modes as $mode) {
+			switch ($mode) {
+				case "+v":
+					$channel->addPrivilege($line->targetNick, "+");
+				break;
+				case "+h":
+					$channel->addPrivilege($line->targetNick, "%");
+				break;
+				case "+o":
+					$channel->addPrivilege($line->targetNick, "@");
+				break;
+				case "+a":
+					$channel->addPrivilege($line->targetNick, "&");
+				break;
+				case "+q":
+					$channel->addPrivilege($line->targetNick, "~");
+				break;	
+			}
 		}
 		
 		ChannelManager::store($this->channel, $channel);
