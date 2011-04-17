@@ -21,22 +21,33 @@ class PrivilegedUserControls extends Module {
 	
 	public function run() {
 	
+		$user = $this->parameters(2);
+		$level = $this->parameters(3);
+	}
+	
+	public function add() {
+		
+		$user = $this->parameters(2);
+		$level = $this->parameters(3);
+		
+		$server = Server::getInstance();
+		
+		Config::$users[$user] = $level;
+		$server->notify($this->senderNick, $user . " added to privileged users list at level " . $level);
+				
+		$server->whois($user);
+	}
+	
+	public function del() {
+		
 		$action = $this->parameters(1);
 		$user = $this->parameters(2);
 		$level = $this->parameters(3);
 		
 		$server = Server::getInstance();
 		
-		switch ($action) {
-			case "add":
-				Config::$users[$user] = $level;
-				$server->notify($this->senderNick, $user . " added to privileged users list at level " . $level);
-			break;
-			case "del":
-				unset(Config::$users[$user]);
-				$server->notify($this->senderNick, $user . " removed from privileged users list");
-			break;
-		}
+		unset(Config::$users[$user]);
+		$server->notify($this->senderNick, $user . " removed from privileged users list");
 				
 		$server->whois($user);
 	}

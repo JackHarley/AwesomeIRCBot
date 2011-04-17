@@ -26,7 +26,7 @@ class NickParser extends Module {
 		$line->parse();
 		
 		ChannelManager::rename($this->senderNick, $this->targetNick);
-		UserManager::rename($this->senderNick, $this->targetNick, $line->senderIdent, $line->senderHost);
+		UserManager::rename($this->senderNick, $line->targetNick, $line->senderIdent, $line->senderHost);
 	}
 }
 ?>

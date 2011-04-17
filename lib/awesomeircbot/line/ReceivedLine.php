@@ -111,9 +111,8 @@ class ReceivedLine {
 			$this->type = ReceivedLineTypes::NICK;
 			
 			// Target
-			$workingLine = explode(" :", $this->line);
-			$workingLine = explode("NICK ", $workingLine[0]);
-			$this->targetNick = $workingLine[1];
+			$workingLine = explode("NICK ", $this->line);
+			$this->targetNick = str_replace(":", "", $workingLine[1]);
 			
 			// User
 			$workingLine = explode(" NICK", $this->line);
