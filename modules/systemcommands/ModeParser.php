@@ -16,15 +16,15 @@ use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\line\ReceivedLine;
 
 class ModeParser extends Module {
-	
+
 	public static $requiredUserLevel = 0;
-	
+
 	public function run() {
 		$channel = ChannelManager::get($this->channel);
-		
+
 		$line = new ReceivedLine($this->runMessage);
 		$line->parse();
-		
+
 		$modes = array();
 		if (strlen($line->message) > 2) {
 			$split = str_split($line->message);
@@ -38,7 +38,7 @@ class ModeParser extends Module {
 		else {
 			$modes[] = $line->message;
 		}
-		
+
 		foreach ($modes as $mode) {
 			switch ($mode) {
 				case "+v":
@@ -58,7 +58,7 @@ class ModeParser extends Module {
 				break;	
 			}
 		}
-		
+
 		ChannelManager::store($this->channel, $channel);
 	}
 }
