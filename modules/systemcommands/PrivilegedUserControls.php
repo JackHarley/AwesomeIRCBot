@@ -16,39 +16,28 @@ use awesomeircbot\server\Server;
 use config\Config;
 
 class PrivilegedUserControls extends Module {
-	
+
 	public static $requiredUserLevel = 10;
-	
+
 	public function run() {
-	
-		$user = $this->parameters(2);
-		$level = $this->parameters(3);
-	}
-	
-	public function add() {
-		
-		$user = $this->parameters(2);
-		$level = $this->parameters(3);
-		
-		$server = Server::getInstance();
-		
-		Config::$users[$user] = $level;
-		$server->notify($this->senderNick, $user . " added to privileged users list at level " . $level);
-				
-		$server->whois($user);
-	}
-	
-	public function del() {
-		
+
 		$action = $this->parameters(1);
 		$user = $this->parameters(2);
 		$level = $this->parameters(3);
-		
+
 		$server = Server::getInstance();
-		
-		unset(Config::$users[$user]);
-		$server->notify($this->senderNick, $user . " removed from privileged users list");
-				
+
+		switch ($action) {
+			case "add":
+				Config::$users[$user] = $level;
+				$server->notify($this->senderNick, $user . " added to privileged users list at level " . $level);
+			break;
+			case "del":
+				unset(Config::$users[$user]);
+				$server->notify($this->senderNick, $user . " removed from privileged users list");
+			break;
+		}
+
 		$server->whois($user);
 	}
 }
