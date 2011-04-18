@@ -1,36 +1,40 @@
-# Awesome IRC Bot Framework v2
+# Awesome IRC Bot Framework
 #### Powerful, User Friendly PHP IRC Bot Framework
 #### Created by AwesomezGuy
 #### Follow me on [Twitter](http://twitter.com/AwesomezGuy)
+#### v0.3.0
 
 Introduction
 -------------
-Awesome IRC Bot v2 is a powerful framework which I have created for running a stable PHP IRC Bot. 
-With easily customizable features such as modules, it's simple for simple users, yet has the capabilities for developers to hook advanced plugins into.
+Awesome IRC Bot is a powerful framework which I have created for running a stable PHP IRC Bot. 
+With easily customizable features such as modules, it's simple to use, yet has the capabilities for developers to hook advanced plugins into.
 
 Beta Notice
 -------------
-Right now, the bot is in beta and will be subject to rapid changes in the way parts work, it is not recommended for the bot to be used in a production environment until v1.0 is released.
+The bot is stable, however it is lacking a few features and there will be a fair bit more work done before v1.0.
+You can consider any version after v0.3.0 to be safe for use in a production environment.
+I recommend only using tagged versions, and upgrading with each new tag.
 
 Prerequisites
 -------------
 * PHP 5.3+ CLI (will NOT run on 5.2) (If you use Ubuntu/Debian, apt-get probably won't have PHP 5.3 unless you modify your source list)
+* UNIX based system for backgrounding
+* SQLite PDO Extension (apt-get install php5-sqlite)
 
 Installation
 -------------
 1. Copy all the files to a directory of your choice
 2. Rename "config/config.example.php" to "config/config.php" and edit it
 
-Startup
+Startup with Backgrounding (UNIX based systems ONLY, e.g. Mac OS X, Ubuntu, Debian, CentOS, etc.)
 -------------
 1. Navigate to the directory where the script is stored in a shell
 2. Type "php start.php" into the shell and hit Enter
 
-Debugging
+Startup
 -------------
 1. Navigate to the directory where the script is stored in a shell
 2. Type "php bot.php" into the shell and hit Enter
-3. Watch the verbose output for signs of trouble
 
 Installing Modules From The modules-extras Folder
 -------------
@@ -48,6 +52,17 @@ If a developer has sent you a module, or you've found it on the internet somewhe
 2. Restart the bot
 
 Please note that while modules in the /modules-extras/ folder have been checked and fixed to make absolutely sure drag and drop installation will work, this is not the case for modules you may obtain from other sources.
+
+Uninstalling Modules
+-------------
+To uninstall a module set, follow the instructions below
+
+1. Delete the module folder from /modules/
+2. Restart the bot
+
+Using the Bot
+-------------
+Type .help on a channel the bot is on (replace . with your command prefix), to get information on the commands and functions available for use
 
 Legal
 -------------
