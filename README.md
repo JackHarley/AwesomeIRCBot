@@ -2,7 +2,7 @@
 #### Powerful, User Friendly PHP IRC Bot Framework
 #### Created by AwesomezGuy
 #### Follow me on [Twitter](http://twitter.com/AwesomezGuy)
-#### v0.3.0
+#### v0.4.0
 
 Introduction
 -------------
