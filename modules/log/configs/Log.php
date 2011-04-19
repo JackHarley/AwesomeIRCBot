@@ -17,6 +17,8 @@ class Log implements ModuleConfig {
 	public static $mappedEvents = array(
 		ReceivedLineTypes::CHANMSG => "modules\log\LogChannelMessage",
 		ReceivedLineTypes::JOIN => "modules\log\LogChannelJoin",
+		ReceivedLineTypes::PART => "modules\log\LogChannelPart",
+		ReceivedLineTypes::NICK => "modules\log\LogNicknameChange",
 	);
 	
 	public static $mappedTriggers = array(
