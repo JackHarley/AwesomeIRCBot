@@ -54,13 +54,15 @@ class Database {
 		);
 		
 		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS channel_messages (
+			CREATE TABLE IF NOT EXISTS channel_actions (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				type INTEGER,
 				nickname TEXT,
 				host TEXT,
 				ident TEXT,
 				channel_name TEXT,
 				message TEXT,
+				target_nick TEXT,
 				time INTEGER
 			);"
 		);

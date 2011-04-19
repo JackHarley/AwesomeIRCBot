@@ -15,6 +15,7 @@ use awesomeircbot\module\Module;
 use awesomeircbot\database\Database;
 use awesomeircbot\user\UserManager;
 use awesomeircbot\line\ReceivedLine;
+use awesomeircbot\line\ReceivedLineTypes;
 
 class LogChannelMessage extends Module {
 	
@@ -27,8 +28,8 @@ class LogChannelMessage extends Module {
 		$user = UserManager::get($this->senderNick);
 		$db = Database::getInstance();
 		
-		$stmt = $db->prepare("INSERT INTO channel_messages (nickname, host, ident, channel_name, message, time) VALUES (?,?,?,?,?,?)");
-		$stmt->execute(array($this->senderNick, $user->host, $user->ident, $this->channel, $line->message, time()));
+		$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, host, ident, channel_name, message, time) VALUES (?,?,?,?,?,?)");
+		$stmt->execute(array(ReceivedLineTypes::CHANMSG, $this->senderNick, $user->host, $user->ident, $this->channel, $line->message, time()));
 	}
 }
 ?>
