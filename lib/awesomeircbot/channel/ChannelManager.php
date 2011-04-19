@@ -100,5 +100,22 @@ class ChannelManager {
 		
 		return false;
 	}
+	
+	/**
+	 * Returns an array of channels that the bot and user
+	 * are both joined
+	 *
+	 * @param string nickname
+	 * @return array channel names
+	 */
+	public static function getCommonChannels($nick) {
+		$channels = array();
+		foreach(static::$connectedChannels as $channel => $channelObject) {
+			if ($channelObject->isConnected($nick))
+				$channels[] = $channelObject->channelName;
+		}
+		
+		return $channels;
+	}
 }
 ?>
