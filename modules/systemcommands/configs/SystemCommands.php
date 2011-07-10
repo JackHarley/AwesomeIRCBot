@@ -24,6 +24,7 @@ class SystemCommands implements ModuleConfig {
 	public static $mappedEvents = array(
 		ReceivedLineTypes::NICK => "modules\systemcommands\NickParser",
 		ReceivedLineTypes::PING => "modules\systemcommands\PongServer",
+		ReceivedLineTypes::PING => "modules\systemcommands\Topic",
 		ReceivedLineTypes::JOIN => "modules\systemcommands\JoinParser",
 		ReceivedLineTypes::PART => "modules\systemcommands\PartParser",
 		ReceivedLineTypes::KICK => "modules\systemcommands\KickParser",

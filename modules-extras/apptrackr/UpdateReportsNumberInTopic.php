@@ -99,10 +99,12 @@ class UpdateReportsNumberInTopic extends Module {
 		$newTopic = preg_replace("/ ([0-9]*) Pages of Reports /", " $numberOfReportPages Pages of Reports ", $currentTopic);
 		$newTopic = preg_replace("/ ([0-9]*) Pages of Moderated Links /", " $numberOfModeratedPages Pages of Moderated Links ", $newTopic);
 		
-		$channel->topic = $newTopic;
-		ChannelManager::store(static::$channelTopicToUpdate, $channel);
-		
-		$server->topic(static::$channelTopicToUpdate, $newTopic);
+		if ($newTopic != $currentTopic) {
+			$channel->topic = $newTopic;
+			ChannelManager::store(static::$channelTopicToUpdate, $channel);
+			
+			$server->topic(static::$channelTopicToUpdate, $newTopic);
+		}
 
 	}
 }
