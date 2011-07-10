@@ -18,6 +18,7 @@ class SystemCommands implements ModuleConfig {
 		"help" => "modules\systemcommands\Help",
 		"module" => "modules\systemcommands\ModuleControls",
 		"user" => "modules\systemcommands\PrivilegedUserControls",
+		"topic" => "modules\systemcommands\Topic",
 	);
 	
 	public static $mappedEvents = array(
@@ -34,6 +35,7 @@ class SystemCommands implements ModuleConfig {
 		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\systemcommands\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN => "modules\systemcommands\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE => "modules\systemcommands\NamesResponseParser",
+		ReceivedLineTypes::SERVERREPLYTHREETHREETWO => "modules\systemcommands\TopicResponseParser",
 	);
 	
 	public static $mappedTriggers = array(

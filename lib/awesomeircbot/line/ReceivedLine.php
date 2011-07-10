@@ -289,7 +289,7 @@ class ReceivedLine {
 					$this->type = ReceivedLineTypes::SERVERREPLYTHREEONEONE;
 
 					$workingLine = explode(" ", $this->line, 4);
-					$this->message = $workingLine[4];
+					$this->message = $workingLine[3];
 				break;
 
 				// Whois identified line
@@ -297,13 +297,13 @@ class ReceivedLine {
 					$this->type = ReceivedLineTypes::SERVERREPLYTHREETHREEZERO;
 
 					$workingLine = explode(" ", $this->line, 4);
-					$this->message = $workingLine[4];
+					$this->message = $workingLine[3];
 				break;
 				case 307:
 					$this->type = ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN;
 
 					$workingLine = explode(" ", $this->line, 4);
-					$this->message = $workingLine[4];
+					$this->message = $workingLine[3];
 				break;
 
 				// Names reply
@@ -311,6 +311,14 @@ class ReceivedLine {
 					$this->type = ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE;
 
 					$workingLine = explode(" ", $this->line, 3);
+					$this->message = $workingLine[2];
+				break;
+			
+				// Topic reply
+				case 332:
+					$this->type = ReceivedLineTypes::SERVERREPLYTHREETHREETWO;
+					
+					$workingLine = explode(" ", $this->line, 4);
 					$this->message = $workingLine[3];
 				break;
 			}

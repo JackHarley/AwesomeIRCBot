@@ -204,5 +204,22 @@ class Server {
 	 	// Send it
 	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\0\n");
 	 }
+	 
+	 /**
+	  * Updates a channel topic
+	  *
+	  * @param string channel
+	  * @param string topic
+	  */
+	 public function topic($channel, $topic=false) {
+	 	
+		if ($topic)
+			// Send it
+			fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\0\n");
+		else
+			// Send it
+			fwrite(static::$serverHandle, "TOPIC " . $channel . "\0\n");
+
+	 }
 }
 	 
