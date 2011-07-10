@@ -20,7 +20,7 @@ class Topic extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->topic($this->parameters(1));
+		$server->topic("#LinkHunters");
 	}
 }
 ?>
