@@ -50,8 +50,37 @@ class UpdateReportsNumberInTopic extends Module {
 		$signature = $working->signature;
 		
 		$dataBlock = json_decode($jsonDataBlock);
+		$numberOfReportPages = $dataBlock->pages;
 		
-		$numberOfPages = $dataBlock->pages;
+		// Find out the number of moderated pages
+		$request = array(
+			'object' => 'Moderator',
+			'action' => 'getModeratedPages',
+			'auth' => array(
+				'id' => static::$userID,
+				'passhash' => md5(static::$userPassword)
+			)
+		);
+		
+		$wrapper = array('request' => json_encode($request));
+		$wrapper = urlencode(json_encode($wrapper));
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://api.apptrackr.org/');
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'request=' . $wrapper);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$returnData = curl_exec($ch);
+		curl_close($ch);
+		
+		$working = json_decode($returnData);
+		
+		$responseCode = $working->code;
+		$jsonDataBlock = $working->data;
+		$signature = $working->signature;
+		
+		$dataBlock = json_decode($jsonDataBlock);
+		$numberOfModeratedPages = $dataBlock->pages;
 		
 		$server = Server::getInstance();
 		
@@ -61,7 +90,16 @@ class UpdateReportsNumberInTopic extends Module {
 		if (!$currentTopic)
 			return;
 		
-		$newTopic = preg_replace("/:: ([0-9]*) Pages of Reports ::/", ":: $numberOfPages Pages of Reports ::", $currentTopic);
+		if ($numberOfReportPages != 1)
+			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Pages of Reports ::", $currentTopic);
+		else
+			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Page of Reports ::", $currentTopic);
+		
+		if ($numberOfModeratedPages != 1)
+			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Pages of Moderated Links ::", $currentTopic);
+		else
+			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Page of Moderated Links ::", $currentTopic);
+			
 		$channel->topic = $newTopic;
 		ChannelManager::store(static::$channelTopicToUpdate, $channel);
 		
