@@ -23,12 +23,10 @@ class TopicResponseParser extends Module {
 	
 	public function run() {
 		$workingLine = explode(" ", $this->runMessage, 5);
-		
 		$channel = $workingLine[3];
-		$newTopic = $workingLine[4];
 		
-		$newTopic = explode(":", $newTopic, 1);
-		$newTopic = $newTopic[0];
+		$workingLine = explode(" :", $this->runMessage, 2);
+		$newTopic = $workingLine[1];
 		
 		$channelObject = ChannelManager::get($channel);
 		$channelObject->topic = $newTopic;

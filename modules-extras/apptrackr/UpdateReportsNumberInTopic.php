@@ -52,6 +52,9 @@ class UpdateReportsNumberInTopic extends Module {
 		$dataBlock = json_decode($jsonDataBlock);
 		$numberOfReportPages = $dataBlock->pages;
 		
+		if (!$numberOfReportPages)
+			$numberOfReportPages = 0;
+			
 		// Find out the number of moderated pages
 		$request = array(
 			'object' => 'Moderator',
@@ -82,6 +85,9 @@ class UpdateReportsNumberInTopic extends Module {
 		$dataBlock = json_decode($jsonDataBlock);
 		$numberOfModeratedPages = $dataBlock->pages;
 		
+		if (!$numberOfModeratedPages)
+			$numberOfModeratedPages = 0;
+			
 		$server = Server::getInstance();
 		
 		$channel = ChannelManager::get(static::$channelTopicToUpdate);
@@ -90,16 +96,9 @@ class UpdateReportsNumberInTopic extends Module {
 		if (!$currentTopic)
 			return;
 		
-		if ($numberOfReportPages != "1")
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Pages of Reports", $currentTopic);
-		else
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Page of Reports", $currentTopic);
+		$newTopic = preg_replace("/ ([0-9]*) Pages of Reports /", " $numberOfReportPages Pages of Reports ", $currentTopic);
+		$newTopic = preg_replace("/ ([0-9]*) Pages of Moderated Links /", " $numberOfModeratedPages Pages of Moderated Links ", $newTopic);
 		
-		if ($numberOfModeratedPages != "1")
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Pages of Moderated Links", $currentTopic);
-		else
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Page of Moderated Links", $currentTopic);
-			
 		$channel->topic = $newTopic;
 		ChannelManager::store(static::$channelTopicToUpdate, $channel);
 		
