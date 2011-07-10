@@ -27,7 +27,7 @@ class TopicResponseParser extends Module {
 		$channel = $workingLine[3];
 		$newTopic = $workingLine[4];
 		
-		$newTopic = preg_replace('/"/', '', $newTopic);
+		$newTopic = preg_replace('/:/', '', $newTopic);
 		
 		$channelObject = ChannelManager::get($channel);
 		$channelObject->topic = $newTopic;

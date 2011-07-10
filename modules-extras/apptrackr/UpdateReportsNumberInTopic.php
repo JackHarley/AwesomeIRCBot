@@ -75,7 +75,7 @@ class UpdateReportsNumberInTopic extends Module {
 		
 		$working = json_decode($returnData);
 		
-		$responseCode = $working->code;
+		echo $responseCode = $working->code;
 		$jsonDataBlock = $working->data;
 		$signature = $working->signature;
 		
@@ -90,12 +90,12 @@ class UpdateReportsNumberInTopic extends Module {
 		if (!$currentTopic)
 			return;
 		
-		if ($numberOfReportPages != 1)
+		if ($numberOfReportPages != "1")
 			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Pages of Reports ::", $currentTopic);
 		else
 			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Page of Reports ::", $currentTopic);
 		
-		if ($numberOfModeratedPages != 1)
+		if ($numberOfModeratedPages != "1")
 			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Pages of Moderated Links ::", $currentTopic);
 		else
 			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Page of Moderated Links ::", $currentTopic);
