@@ -91,14 +91,14 @@ class UpdateReportsNumberInTopic extends Module {
 			return;
 		
 		if ($numberOfReportPages != "1")
-			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Pages of Reports ::", $currentTopic);
+			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Pages of Reports", $currentTopic);
 		else
-			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Reports ::/", ":: $numberOfReportPages Page of Reports ::", $currentTopic);
+			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Page of Reports", $currentTopic);
 		
 		if ($numberOfModeratedPages != "1")
-			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Pages of Moderated Links ::", $currentTopic);
+			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Pages of Moderated Links", $currentTopic);
 		else
-			$newTopic = preg_replace("/:: ([0-9]*) Page[s] of Moderated Links ::/", ":: $numberOfModeratedPages Page of Moderated Links ::", $currentTopic);
+			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Page of Moderated Links", $currentTopic);
 			
 		$channel->topic = $newTopic;
 		ChannelManager::store(static::$channelTopicToUpdate, $channel);
