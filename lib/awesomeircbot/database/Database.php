@@ -123,8 +123,8 @@ class Database {
 		$stmt->execute();
 		
 		foreach(ChannelManager::$connectedChannels as $channel) {
-			$stmt = $this->pdo->prepare("INSERT INTO channels(name) VALUES(?);");
-			$stmt->execute(array($channel->channelName));
+			$stmt = $this->pdo->prepare("INSERT INTO channels(name, topic) VALUES(?,?);");
+			$stmt->execute(array($channel->channelName, $channel->topic));
 			
 			foreach($channel->connectedNicks as $connectedNick) {
 				$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name, privilege) VALUES(?,?,?);");
