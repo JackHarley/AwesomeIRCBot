@@ -49,6 +49,21 @@ class ChannelManager {
 	}
 	
 	/**
+	 * Gets a list of channels which the bot
+	 * is connected to and returns it as an array
+	 *
+	 * @return array channels
+	 */
+	public static function getConnectedChannelArray() {
+		$channels = array();
+		foreach (static::$connectedChannels as $channel => $channelObject) {
+			$channels[] = $channel;
+		}
+		
+		return $channels;
+	}	
+		
+	/**
 	 * Clears any data for the channel supplied
 	 *
 	 * @param string channel name

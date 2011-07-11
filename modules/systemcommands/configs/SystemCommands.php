@@ -18,13 +18,13 @@ class SystemCommands implements ModuleConfig {
 		"help" => "modules\systemcommands\Help",
 		"module" => "modules\systemcommands\ModuleControls",
 		"user" => "modules\systemcommands\PrivilegedUserControls",
-		"topic" => "modules\systemcommands\Topic",
+		"topic" => "modules\systemcommands\UpdateTopic",
 	);
 	
 	public static $mappedEvents = array(
 		ReceivedLineTypes::NICK => "modules\systemcommands\NickParser",
 		ReceivedLineTypes::PING => "modules\systemcommands\PongServer",
-		ReceivedLineTypes::PING => "modules\systemcommands\Topic",
+		ReceivedLineTypes::PING => "modules\systemcommands\UpdateTopic",
 		ReceivedLineTypes::JOIN => "modules\systemcommands\JoinParser",
 		ReceivedLineTypes::PART => "modules\systemcommands\PartParser",
 		ReceivedLineTypes::KICK => "modules\systemcommands\KickParser",
@@ -60,6 +60,13 @@ class SystemCommands implements ModuleConfig {
 		"join" => array(
 			"BASE" => array(
 				"description" => "Joins the given channel",
+				"parameters" => "<#channel>"
+			)
+		),
+		
+		"topic" => array(
+			"BASE" => array(
+				"description" => "Updates the topic in the database for the given channel",
 				"parameters" => "<#channel>"
 			)
 		),
