@@ -1,7 +1,7 @@
 <?php
 /**
- * PongServer Module
- * Responds to a ping request from a server
+ * QuitFromServer Module
+ * Quits the server and stops script execution
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -9,18 +9,19 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules\systemcommands;
+namespace modules\system;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 
-class PongServer extends Module {
+class QuitFromServer extends Module {
 	
-	public static $requiredUserLevel = 0;
+	public static $requiredUserLevel = 10;
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->pong($this->senderNick);
+		$server->notify($this->senderNick, "Shutting down...");
+		$server->quit();
 	}
 }
 ?>

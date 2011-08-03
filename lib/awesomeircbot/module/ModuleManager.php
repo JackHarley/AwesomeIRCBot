@@ -73,6 +73,15 @@ class ModuleManager {
 					return 2;
 			}
 		}
+		
+		if (strpos("#", $channel) !== false) {
+			if ($module::$requiredChannelPrivilege) {
+				$channel = ChannelManager::get($channel);
+				
+				if (!$channel->hasPrivilegeOrHigher($nick))
+					return 2;
+			}
+		}
 				
 		$moduleInstance = new $module($message, $nick, $channel);
 		
@@ -196,13 +205,19 @@ class ModuleManager {
 	 * in /modules
 	 */
 	public static function initialize() {
+		
+		// Load the system stuff first so as to ensure it's executed before
+		// additional modules
+		$modulePacks[] = "Parsers";
+		$modulePacks[] = "System";
+		
 		$folder = opendir(__DIR__ . "/../../../modules");
 		$modulePacks = array();
 		while (($file = readdir($folder)) !== false) {
 			if (($file != ".") && ($file != "..") && ($file != "modules.inc.php")) {
 				$folder2 = opendir(__DIR__ . "/../../../modules/" . $file . "/configs");
 				while (($file2 = readdir($folder2)) !== false) {
-					if (($file2 != ".") && ($file2 != "..")) {
+					if (($file2 != ".") && ($file2 != "..") && (!in_array($file2, $modulePacks))) {
 						$modulePacks[] = str_replace(".php", "", $file2);
 					}
 				}

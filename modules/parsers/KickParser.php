@@ -1,8 +1,8 @@
 <?php
 /**
- * PartParser Module
+ * KickParser Module
  * Deals with removing users from the
- * channel list
+ * channel list when they're kicked
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -10,25 +10,24 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules\systemcommands;
+namespace modules\parsers;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\user\UserManager;
-use awesomeircbot\data\DataManager;
 
-class PartParser extends Module {
+class KickParser extends Module {
 	
 	public static $requiredUserLevel = 0;
 	
 	public function run() {
 		$channel = ChannelManager::get($this->channel);
-		$channel->removeConnectedNick($this->senderNick);
+		$channel->removeConnectedNick($this->targetNick);
 		ChannelManager::store($this->channel, $channel);
 		
-		if (!ChannelManager::isConnectedToTrackedChannel($this->senderNick))
-			UserManager::remove($this->senderNick);
+		if (!ChannelManager::isConnectedToTrackedChannel($this->targetNick))
+			UserManager::remove($this->targetNick);
 	}
 }
 ?>

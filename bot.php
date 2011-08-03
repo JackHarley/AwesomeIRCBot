@@ -1,7 +1,7 @@
 <?php
-/* Awesome IRC Bot v2 Seriously Unstable Edition
- * Created by AwesomezGuy
- * bashIRC snools
+/* Awesome IRC Bot v2
+ * Created by AwesomezGuy/Naikcaj/TheAwesomeGuy/Neon/Jackian/Jack Harley
+ * Yes, I have a lot of names, but I no longer use any but the first 2 online
  *
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
@@ -26,25 +26,16 @@ use awesomeircbot\trigger\Trigger;
 
 use awesomeircbot\database\Database;
 
-/**
- * If we're not in CLI, running clear could fuck stuff up, so
- * check whether we're in CLI or not. Also, different commands
- * for Windoze and Unix, so run the correct command.
- */
-if (PHP_SAPI === 'CLI')
-{
-	$command = (stristr(PHP_OS, 'win')) ? 'cls' : 'clear';
-	passthru($command);
-}
-
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
+passthru('clear');
 
 echo "Welcome to Awesome IRC Bot v2\n";
 echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 if (Config::$die)
 	die("READ THE CONFIG!\n\n");
-if (Config::$configVersion != 3)
+if (Config::$configVersion != 4)
 	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
 
 ModuleManager::initialize();
@@ -60,30 +51,20 @@ echo "\n";
 while (true) {
 	
 	// Connect
-	echo "Connecting to server...";
-	if ($server->connect() === false) 
-		die("Failed to connect to the server, check your connection details in the config!\n\n");
-	echo "done!\n";
+	$server->connect();
 	
 	// Identify
-	echo "Sending identification details to server...";
 	$server->identify();
-	echo "done!\n";
 	
 	sleep(1);
 	
 	// NickServ
-	if (Config::$nickservPassword) {
-		echo "Attempting to identify with NickServ...";
+	if (Config::$nickservPassword) 
 		$server->identifyWithNickServ();
-		echo "done!\n";
-	}
 	
 	// Loop through the channels in the config and join them
 	foreach(Config::$channels as $channel) {
-		echo "Joining " . $channel . "...";
 		$server->join($channel);
-		echo "done!\n";
 	}
 	
 	// Loop-edy-loop
@@ -111,7 +92,6 @@ while (true) {
 		$db->updateDatabase();
 	}
 	// Disconnected, Give the server 2 seconds before we attempt a reconnect
-	echo "Connection lost...\nCycling around to reconnect in 10 seconds...\n\n";
 	sleep(2);
 }
 ?>

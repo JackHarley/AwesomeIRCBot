@@ -40,7 +40,7 @@ class DataManager {
 	 * full namespace unless $module is provided
 	 *
 	 * @param string the identifier to store the data under
-	 * @param anything the data to store, supports objects, arrays, strings, etc.
+	 * @param mixed the data to store, supports objects, arrays, strings, etc.
 	 * @param string optionally, override the module name to store in another
 	 * module's space
 	 */

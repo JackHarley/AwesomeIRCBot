@@ -3,13 +3,10 @@
  * Join Module
  * Joins a given channel
  *
- * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
- * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
- *
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules\systemcommands;
+namespace modules\general;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;

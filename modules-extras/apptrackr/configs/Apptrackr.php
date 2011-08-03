@@ -17,8 +17,7 @@ class Apptrackr implements ModuleConfig {
 	);
 	
 	public static $mappedEvents = array(
-		ReceivedLineTypes::PING => "modules\apptrackr\Topic",
-		ReceivedLineTypes::SERVERREPLYTHREETHREETWO => "modules\apptrackr\UpdateReportsNumberInTopic",
+		//ReceivedLineTypes::SERVERREPLYTHREETHREETWO => "modules\apptrackr\UpdateReportsNumberInTopic",
 	);
 	
 	public static $mappedTriggers = array(

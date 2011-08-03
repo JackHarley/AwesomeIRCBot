@@ -38,10 +38,16 @@ abstract class Module {
 	 * Gets the number parameter given, separated by spaces
 	 *
 	 * @param integer number parameter to return
+	 * @param boolean supply all parameters from the given number to
+	 * the end of the message
 	 * @return string parameter
 	 */
-	public function parameters($parameter) {
-		$parameters = explode(" ", trim($this->runMessage));
+	public function parameters($parameter, $continueToEnd=false) {
+		if (!$continueToEnd)
+			$parameters = explode(" ", trim($this->runMessage));
+		else
+			$parameters = explode(" ", trim($this->runMessage), $parameter+1);
+			
 		if ($parameters[$parameter])
 			return $parameters[$parameter];
 		else

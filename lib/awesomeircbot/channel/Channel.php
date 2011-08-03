@@ -157,5 +157,53 @@ class Channel {
 		else
 			return false;
 	}
+	
+	/**
+	 * Checks if a connected nick has the given privilege
+	 * or a higher privilege
+	 *
+	 * @param string nickname
+	 * @param string privilege character (~, &, @, %, +)
+	 * @return boolean true if nick has privilege or higher
+	 *	     boolean false if not
+	 */
+	public function hasPrivilegeOrHigher($nick, $privilege) {
+		
+		$userPrivilege = $this->privilegedNicks[$nick];
+		
+		if (!$userPrivilege)
+			return false;
+		
+		if ($userPrivilege == "~")
+			return true;
+		
+		if ($userPrivilege == "&") {
+			if ($privilege == "~") {
+				return false;
+			}
+			return true;
+		}
+		
+		if ($userPrivilege == "@") {
+			if (($privilege == "&") || ($$privilege == "~")) {
+				return false;
+			}
+			return true;
+		}
+		
+		if ($userPrivilege == "%") {
+			if (($privilege == "@") || ($privilege == "&") || ($privilege == "~")) {
+				return false;
+			}
+			return true;
+		}
+		
+		if ($userPrivilege == "+") {
+			if (($privilege == "%") || ($privilege == "@") || ($privilege == "&") || ($privilege == "~")) {
+				return false;
+			}
+			return true;
+		}
+	}
 }
 ?>
