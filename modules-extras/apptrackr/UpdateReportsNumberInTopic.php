@@ -17,7 +17,7 @@ class UpdateReportsNumberInTopic extends Module {
 	
 	public static $requiredUserLevel = 10;
 	public static $channelTopicToUpdate = "#LinkHunters";
-	public static $userID = 0;
+	public static $userID = ;
 	public static $userPassword = "";
 	
 	public function run() {
@@ -45,7 +45,7 @@ class UpdateReportsNumberInTopic extends Module {
 		
 		$working = json_decode($returnData);
 		
-		echo $responseCode = $working->code;
+		$responseCode = $working->code;
 		$jsonDataBlock = $working->data;
 		$signature = $working->signature;
 		
@@ -78,7 +78,7 @@ class UpdateReportsNumberInTopic extends Module {
 		
 		$working = json_decode($returnData);
 		
-		echo $responseCode = $working->code;
+		$responseCode = $working->code;
 		$jsonDataBlock = $working->data;
 		$signature = $working->signature;
 		
@@ -93,30 +93,17 @@ class UpdateReportsNumberInTopic extends Module {
 		$channel = ChannelManager::get(static::$channelTopicToUpdate);
 		$currentTopic = $channel->topic;
 		
-		if (!$currentTopic)
+		if (!$currentTopic) {
 			return;
-		
-		if ($numberOfReportPages == "1") {
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Page of Reports", $currentTopic);
-		}
-		else {
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Reports/", "$numberOfReportPages Pages of Reports", $currentTopic);
 		}
 		
-		if ($numberOfModeratedPages == "1") {
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Page of Moderated Links", $newTopic);
-		}
-		else {
-			$newTopic = preg_replace("/([0-9]*) Page[s] of Moderated Links/", "$numberOfModeratedPages Pages of Moderated Links", $newTopic);
-		}
+		$newTopic = preg_replace("/([0-9]*) Pages of Reports/", "$numberOfReportPages Pages of Reports", $currentTopic);
+		$newTopic = preg_replace("/([0-9]*) Pages of Moderated Links/", "$numberOfModeratedPages Pages of Moderated Links", $newTopic);
 		
 		if ($newTopic == $currentTopic) {
 			return;
 		}
 		
-		$channel->topic = $newTopic;
-		ChannelManager::store(static::$channelTopicToUpdate, $channel);
-			
 		$server->topic(static::$channelTopicToUpdate, $newTopic);
 
 	}

@@ -1,7 +1,6 @@
 <?php
 /**
  * UpdateTopic Module
- * Gets the topic for the given channel otr alternatively
  * loops through all connected channels and updates the topic for
  * them
  *
@@ -11,11 +10,12 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules\systemcommands;
+namespace modules\system;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
+use awesomeircbot\line\ReceivedLineTypes;
 
 class UpdateTopic extends Module {
 	
@@ -23,16 +23,11 @@ class UpdateTopic extends Module {
 	
 	public function run() {
 		$server = Server::getInstance();
+		$channels = ChannelManager::getConnectedChannelArray();
 		
-		if ($this->eventType) {
-			$channels = ChannelManager::getConnectedChannelArray();
-			
-			foreach ($channels as $channel) {
-				$server->topic($channel);
-			}
-		}
-		else {
-			$server->topic($this->parameters(1));
+		$server->notify($this->senderNick, "Flushed topic cache successfully");
+		foreach ($channels as $channel) {
+			$server->topic($channel);
 		}
 	}
 }

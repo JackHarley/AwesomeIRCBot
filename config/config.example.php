@@ -2,7 +2,9 @@
 /* Configuration file for Awesome IRC Bot
  * Rename this file to config.php and edit the options below
  */
-namespace config; 
+namespace config;
+
+use awesomeircbot\log\ErrorCategories;
 
 class Config {
 	
@@ -34,33 +36,28 @@ class Config {
 	 * this is the password for bot to identify with using /msg 
 	 * NickServ IDENTIFY
 	 */
-	public static $nickname = "AwesomeBot";
-	public static $username = "AwesomeBot";
-	public static $realName = "Awesome Bot";
-	public static $nickservPassword = "awesomesauce123";
+	public static $nickname = "AwesomezzzBot";
+	public static $username = "AwesomeSauce";
+	public static $realName = "Awesome Thingy";
+	public static $nickservPassword = "";
 	
 	/**
 	 * Channels to join
 	 * This should be an array of channel
 	 * names with the hash
+	 * e.g. array("#Chat", "#Help");
 	 */
 	public static $channels = array(
-		"#Chat",
-		"#help",
-		"#bots",
+		"#LinkHunters"
 	);
 	
 	/**
 	 * Users
 	 * Associative array of users to user levels
 	 * registered nick => user level
-	 * Admin Level is 10, make sure to set at least
-	 * one user to level 10
 	 */
 	public static $users = array(
-		"Admin" => 10,
-		"AGuyITrustToUseAbusiveCommands" => 5,
-		"RandomerWhoJustWantsSomeKindOfPrivileges" => 1,
+		"Naikcaj" => 10,
 	);
 	
 	/**
@@ -74,6 +71,15 @@ class Config {
 	 */
 	public static $commandCharacter = ".";
 	public static $notificationType = "notice";
+	
+	/**
+	 * Verbose output types, ranging from FATAL down to DEBUG.
+	 * Use ALL for all messages
+	 * Use & to subtract and | to add
+	 * e.g. ALL & NOTICE & DEBUG
+	 *      All without notices or debug
+	 */
+	public static $verboseOutput = ErrorCategories::ALL;
 	
 	/**
 	 * Change the below line from true to false
@@ -94,6 +100,6 @@ class Config {
 	 * This allows you to seamlessly pull from git without
 	 * worrying about a corrupt config
 	 */
-	public static $configVersion = 3;
+	public static $configVersion = 4;
 }
 ?>

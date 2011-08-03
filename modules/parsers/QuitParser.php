@@ -11,7 +11,7 @@
  * Copyright (c) 2011, Jack Harley
  * All Rights Reserved
  */
-namespace modules\systemcommands;
+namespace modules\parsers;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;

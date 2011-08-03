@@ -342,7 +342,7 @@ class ReceivedLine {
 			return false;
 
 		$splitMessage = str_split($this->message);
-
+		
 		if ($splitMessage[0] != Config::$commandCharacter)
 			return false;
 

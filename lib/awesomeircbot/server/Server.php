@@ -11,6 +11,8 @@
 namespace awesomeircbot\server;
 use config\Config;
 use awesomeircbot\channel\ChannelManager;
+use awesomeircbot\log\ErrorCategories;
+use awesomeircbot\log\ErrorLog;
 
 class Server {
 	
@@ -41,13 +43,19 @@ class Server {
 	public function connect() {
 	
 		// Establish a connection
+		ErrorLog::log(ErrorCategories::NOTICE, "Opening socket to server at " . Config::$serverAddress . ":" . Config::$serverPort);
 		static::$serverHandle = fsockopen(Config::$serverAddress, Config::$serverPort);
 		
+		
 		// Check if it worked
-		if (!static::$serverHandle)
+		if (!static::$serverHandle) {
+			ErrorLog::log(ErrorCategories::FATAL, "Attempt to establish connection failed!");
 			return 1;
-		else
+		}
+		else {
+			ErrorLog::log(ErrorCategories::NOTICE, "Socket connection to server established");
 			return true;
+		}
 	}
 	
 	/**
@@ -70,6 +78,7 @@ class Server {
 	public function identify() {
 	
 		// Send the identification messages to the server
+		ErrorLog::log(ErrorCategories::NOTICE, "Authenticating with the server");
 		fwrite(static::$serverHandle, "NICK " . Config::$nickname . "\0\n");
 		fwrite(static::$serverHandle, "USER " . Config::$username . " 0 * :" . Config::$realName . "\0\n");
 	}
@@ -78,9 +87,9 @@ class Server {
 	 * Identify to NickServ
 	 */
 	public function identifyWithNickServ() {
-	
-		// Send the identification messages to the server
-		fwrite(static::$serverHandle, "PRIVMSG NickServ :IDENTIFY " . Config::$nickservPassword . "\0\n");
+		// Send the identification message to the server
+		ErrorLog::log(ErrorCategories::NOTICE, "Identifying with NickServ with password '" . Config::$nickservPassword ."'");
+		$this->message("NickServ", "IDENTIFY " . Config::$nickservPassword);
 	}
 	
 	/**
@@ -91,6 +100,7 @@ class Server {
 	public function join($channel) {
 		
 		// Send to the server
+		ErrorLog::log(ErrorCategories::NOTICE, "Joining IRC channel '" . $channel);
 		fwrite(static::$serverHandle, "JOIN " . $channel . "\0\n");
 	}
 	
@@ -103,6 +113,7 @@ class Server {
 		
 		// Send to the server
 		fwrite(static::$serverHandle, "PART " . $channel . "\0\n");
+		ErrorLog::log(ErrorCategories::NOTICE, "Parting IRC channel '" . $channel);
 		
 		// Remove the channel from the ChannelManager
 		ChannelManager::remove($channel);
@@ -116,12 +127,18 @@ class Server {
 	 */
 	public function getNextLine() {
 		
+		ErrorLog::log(ErrorCategories::DEBUG, "Getting next line from IRC server");
+		
 		// Check we're connected
-		if ($this->connected())
+		if ($this->connected()) {
 			// Get and return the next line
-			return fgets(static::$serverHandle, 1024);
+			$return = fgets(static::$serverHandle, 1024);
+			ErrorLog::log(ErrorCategories::DEBUG, "Received IRC line from server (" . $return . ")");
+			return $return;
+		}
 		else
 			// Not connected? Return false
+			ErrorLog::log(ErrorCategories::ERROR, "No longer connected to server!");
 			return false;
 	}
 	
@@ -135,8 +152,10 @@ class Server {
 		// Quit and disconnect
 		fwrite(static::$serverHandle, "QUIT :Bye Bye!\0\n");
 		fclose(static::$serverHandle);
+		ErrorLog::log(ErrorCategories::NOTICE, "Server quit sent and socket closed");
 		
 		// Die
+		ErrorLog::log(ErrorCategories::NOTICE, "Killing script and all associated processes");
 		die();
 	}
 	
@@ -147,6 +166,7 @@ class Server {
 	 public function message($target, $message) {
 	 	
 	 	// Send it
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Messaging '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
 	 }
 	 
@@ -157,6 +177,7 @@ class Server {
 	 public function notice($target, $message) {
 	 	
 	 	// Send it
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Noticing '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\0\n");
 	 }
 	 
@@ -167,6 +188,7 @@ class Server {
 	 public function notify($target, $message) {
 	 	
 	 	// Check config and pass it to the appropriate function
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Going to notify '" . $target . "' with message '" . $message . "'");
 	 	if (Config::$notificationType == "pm")
 	 		$this->message($target, $message);
 	 	else
@@ -180,6 +202,7 @@ class Server {
 	 public function act($target, $message) {
 	 	
 	 	// Send it
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Messaging '" . $target . "' with message '" . $message . "' formatted as an ACTION (/me)");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\0\n");
 	 }
 	 	
@@ -190,6 +213,7 @@ class Server {
 	 public function pong($target) {
 	 	
 	 	// Send it
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending PONG to server");
 	 	fwrite(static::$serverHandle, "PONG " . $target . "\0\n");
 	 }
 	 
@@ -202,6 +226,7 @@ class Server {
 	 public function whois($nickname) {
 	 	
 	 	// Send it
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending WHOIS request for '" . $nickname . "'");
 	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\0\n");
 	 }
 	 
@@ -210,16 +235,36 @@ class Server {
 	  *
 	  * @param string channel
 	  * @param string topic
+	  * @param boolean true if you want the bot to update the topic
+	  * via chanserv
 	  */
-	 public function topic($channel, $topic=false) {
+	 public function topic($channel, $topic=false, $chanserv=false) {
 	 	
-		if ($topic)
-			// Send it
-			fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\0\n");
-		else
-			// Send it
+		if ($topic) {
+			if ($chanserv) {
+				ErrorLog::log(ErrorCategories::NOTICE, "Changing topic for '" . $channel . "' to '" . $topic . "' via ChanServ");
+				$this->message("ChanServ", "TOPIC " . $channel . " " . $topic);
+			}
+			else {
+				ErrorLog::log(ErrorCategories::NOTICE, "Changing topic for '" . $channel . "' to '" . $topic . "'");
+				fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\0\n");
+			}
+		}
+		else {
+			ErrorLog::log(ErrorCategories::NOTICE, "Sending request to server for the current topic for '" . $channel . "'");
 			fwrite(static::$serverHandle, "TOPIC " . $channel . "\0\n");
-
+		}
+	 }
+	 
+	 /**
+	  * Invites the given user to the given channel
+	  *
+	  * @param string nickname to invite
+	  * @param string channel name
+	  */
+	 public function channelInvite($nick, $channel) {
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
+	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\0\n");
 	 }
 }
 	 
