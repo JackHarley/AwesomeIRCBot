@@ -183,7 +183,7 @@ class ModuleManager {
 						return 2;
 					}
 					else {
-						if ($module::$requiredUserLevel > Config::$users[$nick])
+						if ($module::$requiredUserLevel > Config::$users[$senderNick])
 							return 2;
 					}
 				}
