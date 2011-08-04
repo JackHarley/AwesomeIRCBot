@@ -172,8 +172,31 @@ class ModuleManager {
 	 * @param string channel the message was sent on
 	 */
 	public static function runTrigger($message, $senderNick, $channel) {
+		
 		foreach(static::$mappedTriggers as $regexString => $module) {
 			if (preg_match($regexString, $message)) {
+				
+				if ($module::$requiredUserLevel) {
+					$user = UserManager::get($senderNick);
+					
+					if (!$user->isIdentified) {
+						return 2;
+					}
+					else {
+						if ($module::$requiredUserLevel > Config::$users[$nick])
+							return 2;
+					}
+				}
+				
+				if (strpos("#", $channel) !== false) {
+					if ($module::$requiredChannelPrivilege) {
+						$channel = ChannelManager::get($channel);
+						
+						if (!$channel->hasPrivilegeOrHigher($senderNick))
+							return 2;
+					}
+				}
+						
 				$moduleInstance = new $module($message, $senderNick, $channel);
 				$moduleInstance->run();
 				return true;
