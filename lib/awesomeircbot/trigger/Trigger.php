@@ -14,6 +14,7 @@ namespace awesomeircbot\trigger;
 use awesomeircbot\module\ModuleManager;
 use awesomeircbot\user\UserManager;
 use awesomeircbot\server\Server;
+use config\Config;
 
 class Trigger {
 
