@@ -266,5 +266,57 @@ class Server {
 	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
 	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\0\n");
 	 }
+	 
+	 /**
+	  * Sets or unsets the given mode on the given channel
+	  *
+	  * @param string channel name
+	  * @param string mode letter (e.g. i)
+	  * @param boolean value, true will + the mode, false will - it
+	  */
+	 public function channelMode($channel, $mode, $value) {
+	 	ErrorLog::log(ErrorCategories::NOTICE, "Setting mode " . $mode . " on '" . $channel . "' to '" . $value . "'");
+	 	
+		if ($value == true)
+			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . "\0\n");
+		else if ($value == false)
+			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . "\0\n");
+	 }
+	 
+	 /**
+	  * Kicks a user from a channel
+	  *
+	  * @param string channel name
+	  * @param string nickname
+	  * @param string kick reason (optional)
+	  */
+	 public function kick($channel, $nick, $reason="Bye!") {
+		ErrorLog::log(ErrorCategories::NOTICE, "Kicking " . $nick . " from " . $channel . "for " . $reason);
+		
+		fwrite(static::$serverHandle, "KICK " . $channel . " " . $nick . " :" . $reason . "\0\n");
+	}
+	
+	/**
+	 * Bans a user from a channel
+	 *
+	 * @param string channel name
+	 * @param string nickname
+	 */
+	public function ban($channel, $nick) {
+		ErrorLog::log(ErrorCategories::NOTICE, "Banning " . $nick . " from " . $channel);
+		
+		$this->channelMode($channel, "b " . $nick . "!*@*", true);
+	}
+	
+	/**
+	 * Kickbans a user from a channel
+	 *
+	 * @param string channel name
+	 * @param string nickname
+	 */
+	public function kickban($channel, $nick) {
+		$this->ban($channel, $nick);
+		$this->kick($channel, $nick);
+	}
 }
 	 
