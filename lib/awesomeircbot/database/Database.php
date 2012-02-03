@@ -12,6 +12,7 @@ namespace awesomeircbot\database;
 use config\Config;
 
 use awesomeircbot\channel\ChannelManager;
+use awesomeircbot\data\DataManager;
 
 class Database {
 	
@@ -66,6 +67,16 @@ class Database {
 				time INTEGER
 			);"
 		);
+		
+		$this->pdo->query("
+			CREATE TABLE IF NOT EXISTS module_data (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				module TEXT,
+				title TEXT,
+				data TEXT,
+				last_updated_time INTEGER 
+			);"
+		);
     }
 	
 	/**
@@ -93,11 +104,25 @@ class Database {
 	public function updateScriptArrays() {
 		
 		// Users
-		$stmt = $this->pdo->prepare("SELECT * FROM privileged_users");
+		/*$stmt = $this->pdo->prepare("SELECT * FROM privileged_users");
 		$stmt->execute();
 		
 		while ($row = $stmt->fetchObject())
-			Config::$users[$row->nickname] = $row->level;
+			Config::$users[$row->nickname] = $row->level;*/
+		//above needs to be updated to be compatible with constant updating
+			
+		// Module data
+		$stmt = $this->pdo->prepare("SELECT * FROM module_data");
+		$stmt->execute();
+		
+		while($row = $stmt->fetchObject()) {
+			if (!DataManager::checkIfDataExistsAndIsNewerThan($row->title, $row->module, $row->last_updated_time)) {
+				
+				$data = unserialize($row->data);
+				DataManager::store($row->title, $data, $row->module, $row->last_updated_time);
+			}
+		}
+			
 	}
 		
 	/**
@@ -130,7 +155,46 @@ class Database {
 				$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name, privilege) VALUES(?,?,?);");
 				$stmt->execute(array($connectedNick, $channel->channelName, $channel->privilegedNicks[$connectedNick]));
 			}
-		}	
+		}
+		
+		// Module data
+		
+		// check if we need to update anything currently in the db
+		$stmt = $this->pdo->prepare("SELECT * FROM module_data");
+		$stmt->execute();
+		
+		$doneTitles = array();
+		while($row = $stmt->fetchObject()) {
+			if (DataManager::checkIfDataExistsAndIsNewerThan($row->title, $row->module, $row->last_updated_time)) {
+				
+				$data = DataManager::retrieve($row->title, $row->module);
+				$dbData = serialize($data);
+				$time = DataManager::getLastUpdatedTime($row->title, $row->data);
+				
+				$stmt = $this->pdo->prepare("DELETE FROM module_data WHERE title=?;");
+				$stmt->execute(array($row->title));
+				
+				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
+				$stmt->execute(array($row->title, $dbData, $row->module, $time));
+			}
+			$doneTitles[$row->title] = true;
+		}
+		
+		// do everything else
+		$allModules = DataManager::getAllData();
+		
+		foreach($allModules as $module => $titles) {
+			foreach($titles as $title => $types) {
+				
+				if ($doneTitles[$title])
+					continue;
+				
+				$dbData = serialize($types["data"]);
+				
+				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
+				$stmt->execute(array($title, $dbData, $module, $types["lastUpdated"]));
+			}
+		}
 	}
 }
 ?>

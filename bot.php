@@ -89,6 +89,7 @@ while (true) {
 			$trigger->execute();
 		}
 		
+		$db->updateScriptArrays();
 		$db->updateDatabase();
 	}
 	// Disconnected, Give the server 2 seconds before we attempt a reconnect
