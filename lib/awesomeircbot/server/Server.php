@@ -318,5 +318,45 @@ class Server {
 		$this->ban($channel, $nick);
 		$this->kick($channel, $nick);
 	}
+	
+	/**
+	 * Ops a user
+	 *
+	 * @param string channel name
+	 * @param string nickname to op
+	 */
+	public function op($channel, $nick) {
+		$this->channelMode($channel, "o " . $nick, true);
+	}
+	
+	/**
+	 * DeOps a user
+	 *
+	 * @param string channel name
+	 * @param string nickname to deop
+	 */
+	public function deOp($channel, $nick) {
+		$this->channelMode($channel, "o " . $nick, false);
+	}
+	
+	/**
+	 * HalfOps a user
+	 *
+	 * @param string channel name
+	 * @param string nickname to halfop
+	 */
+	public function halfOp($channel, $nick) {
+		$this->channelMode($channel, "h " . $nick, true);
+	}
+	
+	/**
+	 * DeHalfOps a user
+	 *
+	 * @param string channel name
+	 * @param string nickname to dehalfop
+	 */
+	public function deHalfOp($channel, $nick) {
+		$this->channelMode($channel, "h " . $nick, false);
+	}
 }
 	 
