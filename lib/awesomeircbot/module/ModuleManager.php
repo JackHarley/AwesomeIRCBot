@@ -238,6 +238,10 @@ class ModuleManager {
 		$modulePacks = array();
 		while (($file = readdir($folder)) !== false) {
 			if (($file != ".") && ($file != "..") && ($file != "modules.inc.php")) {
+				
+				if (!is_dir("/../../../modules/" . $file . "/configs"))
+					continue;
+				
 				$folder2 = opendir(__DIR__ . "/../../../modules/" . $file . "/configs");
 				while (($file2 = readdir($folder2)) !== false) {
 					if (($file2 != ".") && ($file2 != "..") && (!in_array($file2, $modulePacks))) {
