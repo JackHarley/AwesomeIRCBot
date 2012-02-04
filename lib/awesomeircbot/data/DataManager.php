@@ -111,5 +111,18 @@ class DataManager {
 	public function getAllData() {
 		return self::$data;
 	}
+	
+	/**
+	 * Changes all the data timestamps to now
+	 */
+	public function changeAllTimestampsToNow() {
+		$allModules = self::getAllData();
+		
+		foreach($allModules as $module => $titles) {
+			foreach($titles as $title => $types) {
+				self::$data[$module][$title]["lastUpdated"] = time();
+			}
+		}
+	}
 }
 ?>

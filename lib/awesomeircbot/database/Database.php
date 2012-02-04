@@ -29,14 +29,6 @@ class Database {
         $this->pdo = new \PDO("sqlite:" . __DIR__ . "/../../../database/database.sqlite");
 		
 		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS privileged_users (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				nickname TEXT,
-				level INTEGER
-			);"
-		);
-		
-		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS channels (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				name TEXT,
@@ -111,14 +103,6 @@ class Database {
 	 * the database
 	 */
 	public function updateScriptArrays() {
-		
-		// Users
-		/*$stmt = $this->pdo->prepare("SELECT * FROM privileged_users");
-		$stmt->execute();
-		
-		while ($row = $stmt->fetchObject())
-			Config::$users[$row->nickname] = $row->level;*/
-		//above needs to be updated to be compatible with constant updating
 			
 		// Module data
 		$stmt = $this->pdo->prepare("SELECT * FROM module_data");
@@ -150,16 +134,6 @@ class Database {
 	 * arrays
 	 */
 	public function updateDatabase() {
-		
-		// Privileged Users
-		$stmt = $this->pdo->prepare("DELETE FROM privileged_users;");
-		$stmt->execute();
-		
-		$configUsers = Config::getRequiredValue("users");
-		foreach ($configUsers as $user => $level) {
-			$stmt = $this->pdo->prepare("INSERT INTO privileged_users(nickname, level) VALUES(?,?);");
-			$stmt->execute(array($user, $level));
-		}
 		
 		// Channels
 		$stmt = $this->pdo->prepare("DELETE FROM channel_users");
@@ -212,6 +186,9 @@ class Database {
 				
 				$dbData = serialize($types["data"]);
 				
+				$stmt = $this->pdo->prepare("DELETE FROM module_data WHERE title=?;");
+				$stmt->execute(array($title));
+				
 				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
 				$stmt->execute(array($title, $dbData, $module, $types["lastUpdated"]));
 			}
@@ -250,6 +227,9 @@ class Database {
 			
 			$dbData = serialize($types["data"]);
 			
+			$stmt = $this->pdo->prepare("DELETE FROM config WHERE key=?;");
+			$stmt->execute(array($key));
+				
 			$stmt = $this->pdo->prepare("INSERT INTO config(key, data, last_updated_time) VALUES(?,?,?);");
 			$stmt->execute(array($key, $dbData, $types["lastUpdated"]));
 		}

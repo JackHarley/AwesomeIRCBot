@@ -242,4 +242,15 @@ class Config {
 	public function getAllValues() {
 		return self::$config;
 	}
+	
+	/**
+	 * Changes all the timestamps to now
+	 */
+	public function changeAllTimestampsToNow() {
+		$allKeys = self::getAllValues();
+		
+		foreach($allKeys as $key => $types) {
+			self::$config[$key]["lastUpdated"] = time();
+		}
+	}
 }
