@@ -10,7 +10,7 @@
 namespace awesomeircbot\log;
 
 use awesomeircbot\log\Error;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class ErrorLog {
 
@@ -28,7 +28,7 @@ class ErrorLog {
 		$error = new Error($type, $message);
 		$log[] = $error;
 		
-		if ((Config::$verboseOutput & $type) === $type)
+		if ((Config::getRequiredValue("verboseOutput") & $type) === $type)
 			echo "[*] " . $message . "\n";
 		
 		if ($type == ErrorCategories::FATAL) {

@@ -17,7 +17,7 @@ use awesomeircbot\server\Server;
 use awesomeircbot\user\User;
 use awesomeircbot\user\UserManager;
 use awesomeircbot\line\ReceivedLine;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class MessageParser extends Module {
 	

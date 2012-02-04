@@ -13,7 +13,7 @@ namespace awesomeircbot\user;
 
 use awesomeircbot\user\User;
 use awesomeircbot\server\Server;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class UserManager {
 	
@@ -35,7 +35,8 @@ class UserManager {
 	 * @param object User object
 	 */
 	public static function store($nick, $userObject) {
-		foreach(Config::$users as $privilegedUser => $level) {
+		$configUsers = Config::getRequiredValue("users");
+		foreach($configUsers as $privilegedUser => $level) {
 			if ($nick == $privilegedUser) {
 				if (!static::$trackedUsers[$nick]) {
 					$server = Server::getInstance();

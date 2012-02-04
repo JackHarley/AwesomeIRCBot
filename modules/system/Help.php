@@ -14,7 +14,7 @@ namespace modules\system;
 use awesomeircbot\module\Module;
 use awesomeircbot\help\HelpManager;
 use awesomeircbot\server\Server;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class Help extends Module {
 	
@@ -44,10 +44,10 @@ class Help extends Module {
 			
 			$server = Server::getInstance();
 			$server->notify($this->senderNick, "************************************");
-			$server->notify($this->senderNick, "Help for " . Config::$commandCharacter . $command . " " . $subcommand);
+			$server->notify($this->senderNick, "Help for " . Config::getRequiredValue("commandCharacter") . $command . " " . $subcommand);
 			$server->notify($this->senderNick, " ");
 			$server->notify($this->senderNick, $description);
-			$server->notify($this->senderNick, chr(2) . "Syntax: " . chr(2) . Config::$commandCharacter . $command . " " . $subcommand . " " . $parameters);
+			$server->notify($this->senderNick, chr(2) . "Syntax: " . chr(2) . Config::getRequiredValue("commandCharacter") . $command . " " . $subcommand . " " . $parameters);
 			if ($subcommandsString)
 				$server->notify($this->senderNick, chr(2) . "Subcommands:" . chr(2) . $subcommandsString);
 			$server->notify($this->senderNick, "************************************");
@@ -64,7 +64,7 @@ class Help extends Module {
 			$server->notify($this->senderNick, "Follow @AwesomezGuy on Twitter http://twitter.com/AwesomezGuy");
 			$server->notify($this->senderNick, "");
 			$server->notify($this->senderNick, chr(2) . "Commands: " . chr(2) . $commandsString);
-			$server->notify($this->senderNick, chr(2) . "Getting help with commands: " . chr(2) . Config::$commandCharacter . "help <command to get help for>");
+			$server->notify($this->senderNick, chr(2) . "Getting help with commands: " . chr(2) . Config::getRequiredValue("commandCharacter") . "help <command to get help for>");
 			$server->notify($this->senderNick, "************************************");
 		}
 	}

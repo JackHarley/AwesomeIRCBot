@@ -17,7 +17,7 @@ use awesomeircbot\server\Server;
 use awesomeircbot\line\ReceivedLineTypes;
 use awesomeircbot\user\User;
 use awesomeircbot\user\UserManager;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class WhoisResponseParser extends Module {
 	
@@ -47,8 +47,9 @@ class WhoisResponseParser extends Module {
 			$user->isIdentified = true;
 			UserManager::store($nick, $user);
 			
-			if (Config::$users[$nick])
-				$permissionLevel = Config::$users[$nick];
+			$configUsers = Config::getRequiredValue("users");
+			if ($configUsers[$nick])
+				$permissionLevel = $configUsers[$nick];
 			else
 				$permissionLevel = 0;
 				

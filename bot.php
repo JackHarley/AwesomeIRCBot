@@ -7,41 +7,38 @@
  * All Rights Reserved
  */
 
-require_once(__DIR__ . "/config/config.php");
+// import
 require_once(__DIR__ . "/lib/awesomeircbot/awesomeircbot.inc.php");
 require_once(__DIR__ . "/modules/modules.inc.php");
 
-use config\Config;
-
 use awesomeircbot\server\Server;
-
 use awesomeircbot\module\ModuleManager;
-
 use awesomeircbot\line\ReceivedLine;
 use awesomeircbot\line\ReceivedLineTypes;
-
 use awesomeircbot\command\Command;
 use awesomeircbot\event\Event;
 use awesomeircbot\trigger\Trigger;
-
 use awesomeircbot\database\Database;
+use awesomeircbot\config\Config;
 
+// set up environment
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
 passthru('clear');
 
+// welcome the user
 echo "Welcome to Awesome IRC Bot v2\n";
-echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
+echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
 
-if (Config::$die)
-	die("READ THE CONFIG!\n\n");
-if (Config::$configVersion != 4)
-	die("Your config is out of date, please delete your old config and remake your config from config.example.php\n\n");
+// configure
+Config::initializeRequiredValues();
 
+// import all modules
 ModuleManager::initialize();
 
+// get a server instance
 $server = Server::getInstance();
 
+// setup database
 $db = Database::getInstance();
 $db->updateScriptArrays();
 $db->updateDatabase();
@@ -56,14 +53,17 @@ while (true) {
 	// Identify
 	$server->identify();
 	
-	sleep(1);
+	// If we send anything else too soon after identification it could be
+	// lost, so sleep for 2 seconds
+	sleep(2);
 	
 	// NickServ
-	if (Config::$nickservPassword) 
+	if (Config::getValue("nickservPassword")) 
 		$server->identifyWithNickServ();
 	
 	// Loop through the channels in the config and join them
-	foreach(Config::$channels as $channel) {
+	$channels = Config::getValue("channels");
+	foreach($channels as $channel) {
 		$server->join($channel);
 	}
 	
@@ -92,7 +92,8 @@ while (true) {
 		$db->updateScriptArrays();
 		$db->updateDatabase();
 	}
-	// Disconnected, Give the server 2 seconds before we attempt a reconnect
-	sleep(2);
+	
+	// Disconnected, Give the server 5 seconds before we attempt a reconnect
+	sleep(5);
 }
 ?>
