@@ -13,7 +13,7 @@ namespace awesomeircbot\line;
 
 use awesomeircbot\line\ReceivedLineTypes;
 use awesomeircbot\module\ModuleManager;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class ReceivedLine {
 
@@ -343,7 +343,7 @@ class ReceivedLine {
 
 		$splitMessage = str_split($this->message);
 		
-		if ($splitMessage[0] != Config::$commandCharacter)
+		if ($splitMessage[0] != Config::getRequiredValue("commandCharacter"))
 			return false;
 
 		return true;
@@ -399,7 +399,7 @@ class ReceivedLine {
 	public function getCommand() {
 
 		$splitMessage = explode(" ", $this->message);
-		$command = str_replace(Config::$commandCharacter, "", $splitMessage[0]);
+		$command = str_replace(Config::getRequiredValue("commandCharacter"), "", $splitMessage[0]);
 		return $command;
 	}
 

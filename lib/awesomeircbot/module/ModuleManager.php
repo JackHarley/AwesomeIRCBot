@@ -14,7 +14,7 @@ namespace awesomeircbot\module;
 
 use awesomeircbot\user\UserManager;
 use awesomeircbot\help\HelpManager;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class ModuleManager {
 	
@@ -69,7 +69,8 @@ class ModuleManager {
 				return 2;
 			}
 			else {
-				if ($module::$requiredUserLevel > Config::$users[$nick])
+				$configUsers = Config::getRequiredValue("users");
+				if ($module::$requiredUserLevel > $configUsers[$nick])
 					return 2;
 			}
 		}
@@ -183,7 +184,8 @@ class ModuleManager {
 						return 2;
 					}
 					else {
-						if ($module::$requiredUserLevel > Config::$users[$senderNick])
+						$configUsers = Config::getRequiredValue("users");
+						if ($module::$requiredUserLevel > $configUsers[$senderNick])
 							return 2;
 					}
 				}

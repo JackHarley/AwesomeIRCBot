@@ -9,7 +9,7 @@
 
 namespace awesomeircbot\database;
 
-use config\Config;
+use awesomeircbot\config\Config;
 
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\data\DataManager;
@@ -135,7 +135,8 @@ class Database {
 		$stmt = $this->pdo->prepare("DELETE FROM privileged_users;");
 		$stmt->execute();
 		
-		foreach (Config::$users as $user => $level) {
+		$configUsers = Config::getRequiredValue("users");
+		foreach ($configUsers as $user => $level) {
 			$stmt = $this->pdo->prepare("INSERT INTO privileged_users(nickname, level) VALUES(?,?);");
 			$stmt->execute(array($user, $level));
 		}

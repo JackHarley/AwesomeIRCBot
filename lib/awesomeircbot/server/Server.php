@@ -9,7 +9,7 @@
  */
 
 namespace awesomeircbot\server;
-use config\Config;
+use awesomeircbot\config\Config;
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\log\ErrorCategories;
 use awesomeircbot\log\ErrorLog;
@@ -43,8 +43,8 @@ class Server {
 	public function connect() {
 	
 		// Establish a connection
-		ErrorLog::log(ErrorCategories::NOTICE, "Opening socket to server at " . Config::$serverAddress . ":" . Config::$serverPort);
-		static::$serverHandle = fsockopen(Config::$serverAddress, Config::$serverPort);
+		ErrorLog::log(ErrorCategories::NOTICE, "Opening socket to server at " . Config::getRequiredValue("serverAddress") . ":" . Config::getRequiredValue("serverPort"));
+		static::$serverHandle = fsockopen(Config::getRequiredValue("serverAddress"), Config::getRequiredValue("serverPort"));
 		
 		
 		// Check if it worked
@@ -79,8 +79,8 @@ class Server {
 	
 		// Send the identification messages to the server
 		ErrorLog::log(ErrorCategories::NOTICE, "Authenticating with the server");
-		fwrite(static::$serverHandle, "NICK " . Config::$nickname . "\0\n");
-		fwrite(static::$serverHandle, "USER " . Config::$username . " 0 * :" . Config::$realName . "\0\n");
+		fwrite(static::$serverHandle, "NICK " . Config::getRequiredValue("nickname") . "\0\n");
+		fwrite(static::$serverHandle, "USER " . Config::getRequiredValue("username") . " 0 * :" . Config::getRequiredValue("realName") . "\0\n");
 	}
 	
 	/**
@@ -88,8 +88,8 @@ class Server {
 	 */
 	public function identifyWithNickServ() {
 		// Send the identification message to the server
-		ErrorLog::log(ErrorCategories::NOTICE, "Identifying with NickServ with password '" . Config::$nickservPassword ."'");
-		$this->message("NickServ", "IDENTIFY " . Config::$nickservPassword);
+		ErrorLog::log(ErrorCategories::NOTICE, "Identifying with NickServ with password '" . Config::getRequiredValue("nickservPassword") ."'");
+		$this->message("NickServ", "IDENTIFY " . Config::getRequiredValue("nickservPassword"));
 	}
 	
 	/**
@@ -166,7 +166,7 @@ class Server {
 	 public function message($target, $message) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Messaging '" . $target . "' with message '" . $message . "'");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
 	 }
 	 
@@ -177,7 +177,7 @@ class Server {
 	 public function notice($target, $message) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Noticing '" . $target . "' with message '" . $message . "'");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Noticing '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\0\n");
 	 }
 	 
@@ -189,7 +189,7 @@ class Server {
 	 	
 	 	// Check config and pass it to the appropriate function
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Going to notify '" . $target . "' with message '" . $message . "'");
-	 	if (Config::$notificationType == "pm")
+	 	if (Config::getRequiredValue("notificationType") == "pm")
 	 		$this->message($target, $message);
 	 	else
 	 		$this->notice($target, $message);
@@ -202,7 +202,7 @@ class Server {
 	 public function act($target, $message) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Messaging '" . $target . "' with message '" . $message . "' formatted as an ACTION (/me)");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "' formatted as an ACTION (/me)");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\0\n");
 	 }
 	 	
@@ -213,7 +213,7 @@ class Server {
 	 public function pong($target) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending PONG to server");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending PONG to server");
 	 	fwrite(static::$serverHandle, "PONG " . $target . "\0\n");
 	 }
 	 
@@ -226,7 +226,7 @@ class Server {
 	 public function whois($nickname) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending WHOIS request for '" . $nickname . "'");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending WHOIS request for '" . $nickname . "'");
 	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\0\n");
 	 }
 	 
@@ -242,16 +242,16 @@ class Server {
 	 	
 		if ($topic) {
 			if ($chanserv) {
-				ErrorLog::log(ErrorCategories::NOTICE, "Changing topic for '" . $channel . "' to '" . $topic . "' via ChanServ");
+				ErrorLog::log(ErrorCategories::DEBUG, "Changing topic for '" . $channel . "' to '" . $topic . "' via ChanServ");
 				$this->message("ChanServ", "TOPIC " . $channel . " " . $topic);
 			}
 			else {
-				ErrorLog::log(ErrorCategories::NOTICE, "Changing topic for '" . $channel . "' to '" . $topic . "'");
+				ErrorLog::log(ErrorCategories::DEBUG, "Changing topic for '" . $channel . "' to '" . $topic . "'");
 				fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\0\n");
 			}
 		}
 		else {
-			ErrorLog::log(ErrorCategories::NOTICE, "Sending request to server for the current topic for '" . $channel . "'");
+			ErrorLog::log(ErrorCategories::DEBUG, "Sending request to server for the current topic for '" . $channel . "'");
 			fwrite(static::$serverHandle, "TOPIC " . $channel . "\0\n");
 		}
 	 }
@@ -263,7 +263,7 @@ class Server {
 	  * @param string channel name
 	  */
 	 public function channelInvite($nick, $channel) {
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
 	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\0\n");
 	 }
 	 
@@ -275,7 +275,7 @@ class Server {
 	  * @param boolean value, true will + the mode, false will - it
 	  */
 	 public function channelMode($channel, $mode, $value) {
-	 	ErrorLog::log(ErrorCategories::NOTICE, "Setting mode " . $mode . " on '" . $channel . "' to '" . $value . "'");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Setting mode " . $mode . " on '" . $channel . "' to '" . $value . "'");
 	 	
 		if ($value == true)
 			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . "\0\n");
@@ -291,7 +291,7 @@ class Server {
 	  * @param string kick reason (optional)
 	  */
 	 public function kick($channel, $nick, $reason="Bye!") {
-		ErrorLog::log(ErrorCategories::NOTICE, "Kicking " . $nick . " from " . $channel . "for " . $reason);
+		ErrorLog::log(ErrorCategories::DEBUG, "Kicking " . $nick . " from " . $channel . "for " . $reason);
 		
 		fwrite(static::$serverHandle, "KICK " . $channel . " " . $nick . " :" . $reason . "\0\n");
 	}
@@ -303,7 +303,7 @@ class Server {
 	 * @param string nickname
 	 */
 	public function ban($channel, $nick) {
-		ErrorLog::log(ErrorCategories::NOTICE, "Banning " . $nick . " from " . $channel);
+		ErrorLog::log(ErrorCategories::DEBUG, "Banning " . $nick . " from " . $channel);
 		
 		$this->channelMode($channel, "b " . $nick . "!*@*", true);
 	}

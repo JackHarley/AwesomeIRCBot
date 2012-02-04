@@ -17,24 +17,18 @@ I recommend only using tagged versions, and upgrading with each new tag.
 
 Prerequisites
 -------------
-* PHP 5.3+ CLI (will NOT run on 5.2) (If you use Ubuntu/Debian, apt-get probably won't have PHP 5.3 unless you modify your source list)
-* UNIX based system for backgrounding
+* PHP 5.3+ CLI (apt-get install php5-cli)
 * SQLite PDO Extension (apt-get install php5-sqlite)
 
 Installation
 -------------
 1. Copy all the files to a directory of your choice
-2. Rename "config/config.example.php" to "config/config.php" and edit it
-
-Startup with Backgrounding (UNIX based systems ONLY, e.g. Mac OS X, Ubuntu, Debian, CentOS, etc.)
--------------
-1. Navigate to the directory where the script is stored in a shell
-2. Type "php start.php" into the shell and hit Enter
 
 Startup
 -------------
 1. Navigate to the directory where the script is stored in a shell
 2. Type "php bot.php" into the shell and hit Enter
+3. If this is your first run, you will be prompted for configuration values
 
 Installing Modules From The modules-extras Folder
 -------------
@@ -43,15 +37,6 @@ To install a module pack, follow the instructions below:
 
 1. Copy the module folder you want from /modules-extras/ into /modules/
 2. Restart the bot
-
-Installing Other Modules
--------------
-If a developer has sent you a module, or you've found it on the internet somewhere, follow the below instructions to install it
-
-1. Copy the module folder into /modules/
-2. Restart the bot
-
-Please note that while modules in the /modules-extras/ folder have been checked and fixed to make absolutely sure drag and drop installation will work, this is not the case for modules you may obtain from other sources.
 
 Uninstalling Modules
 -------------

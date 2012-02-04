@@ -13,7 +13,7 @@ namespace modules\system;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
-use config\Config;
+use awesomeircbot\config\Config;
 
 class PrivilegedUserControls extends Module {
 
@@ -29,11 +29,17 @@ class PrivilegedUserControls extends Module {
 
 		switch ($action) {
 			case "add":
-				Config::$users[$user] = $level;
+				$configUsers = Config::getRequiredValue("users");
+				$configUsers[$user] = $level;
+				Config::setValue("users", $configUsers);
+				
 				$server->notify($this->senderNick, $user . " added to privileged users list at level " . $level);
 			break;
 			case "del":
-				unset(Config::$users[$user]);
+				$configUsers = Config::getRequiredValue("users");
+				unset($configUsers[$user]);
+				Config::setValue("users", $configUsers);
+				
 				$server->notify($this->senderNick, $user . " removed from privileged users list");
 			break;
 		}
