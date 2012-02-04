@@ -21,6 +21,7 @@ class System implements ModuleConfig {
 		"topic" => "modules\system\UpdateTopic",
 		"config" => "modules\system\ConfigControls",
 		"reconnect" => "modules\system\Reconnect",
+		"forceupdatedatabase" => "modules\system\ForceUpdateDatabase",
 	);
 	
 	public static $mappedEvents = array(
@@ -42,6 +43,13 @@ class System implements ModuleConfig {
 		"reconnect" => array(
 			"BASE" => array(
 				"description" => "Disconnects from the server, reloads the config and then connects", 
+				"parameters" => false
+			)
+		),
+		
+		"forceupdatedatabase" => array(
+			"BASE" => array(
+				"description" => "Forces database to reload module data and config from RAM", 
 				"parameters" => false
 			)
 		),
