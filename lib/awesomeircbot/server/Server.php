@@ -143,7 +143,7 @@ class Server {
 	
 	/**
 	  * Sends the QUIT message to the server, closes
-	  * the connection and then kills the script
+	  * the connection
 	  */
 
 	public function quit() {
@@ -152,10 +152,6 @@ class Server {
 		fwrite(static::$serverHandle, "QUIT :Bye Bye!\0\n");
 		fclose(static::$serverHandle);
 		ErrorLog::log(ErrorCategories::NOTICE, "Server quit sent and socket closed");
-		
-		// Die
-		ErrorLog::log(ErrorCategories::NOTICE, "Killing script and all associated processes");
-		die();
 	}
 	
 	/** 
