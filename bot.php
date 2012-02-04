@@ -27,10 +27,7 @@ passthru('clear');
 
 // welcome the user
 echo "Welcome to Awesome IRC Bot v2\n";
-echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n\n";
-
-// configure
-Config::initializeRequiredValues();
+echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
 
 // import all modules
 ModuleManager::initialize();
@@ -41,6 +38,11 @@ $server = Server::getInstance();
 // setup database
 $db = Database::getInstance();
 $db->updateScriptArrays();
+
+// configure
+Config::initializeRequiredValues();
+
+// update database
 $db->updateDatabase();
 
 echo "\n";

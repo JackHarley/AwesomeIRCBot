@@ -97,8 +97,8 @@ class DataManager {
 	public function getLastUpdatedTime($id, $module) {
 		$module = str_replace('\\', '*', $module);
 		
-		if (self::$data[$module][$request]["lastUpdated"])
-		 	return self::$data[$module][$request]["lastUpdated"];
+		if (self::$data[$module][$id]["lastUpdated"])
+		 	return self::$data[$module][$id]["lastUpdated"];
 		 else
 		 	return false;
 	}

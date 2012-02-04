@@ -46,7 +46,6 @@ class Server {
 		ErrorLog::log(ErrorCategories::NOTICE, "Opening socket to server at " . Config::getRequiredValue("serverAddress") . ":" . Config::getRequiredValue("serverPort"));
 		static::$serverHandle = fsockopen(Config::getRequiredValue("serverAddress"), Config::getRequiredValue("serverPort"));
 		
-		
 		// Check if it worked
 		if (!static::$serverHandle) {
 			ErrorLog::log(ErrorCategories::FATAL, "Attempt to establish connection failed!");
