@@ -1,7 +1,7 @@
 <?php
 /**
- * QuitFromServer Module
- * Quits the server and stops script execution
+ * Reconnect Module
+ * Disconnects from the server and then reconnects
  *
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
@@ -13,19 +13,17 @@ namespace modules\system;
 
 use awesomeircbot\module\Module;
 use awesomeircbot\server\Server;
-use awesomeircbot\log\ErrorLog;
-use awesomeircbot\log\ErrorCategories;
 
-class QuitFromServer extends Module {
+class Reconnect extends Module {
 	
 	public static $requiredUserLevel = 10;
 	
 	public function run() {
 		$server = Server::getInstance();
-		$server->notify($this->senderNick, "Shutting down...");
+		$server->notify($this->senderNick, "Disconnecting and reconnecting as according to config values...");
 		$server->quit();
-		ErrorLog::log(ErrorCategories::NOTICE, "Killing script and all associated processes");
-		die();
+		sleep(3);
+		$server->connect();
 	}
 }
 ?>

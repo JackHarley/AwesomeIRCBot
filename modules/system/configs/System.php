@@ -6,6 +6,7 @@
  * All Rights Reserved
  */
 namespace modules\system\configs;
+
 use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
 
@@ -18,6 +19,8 @@ class System implements ModuleConfig {
 		"module" => "modules\system\ModuleControls",
 		"user" => "modules\system\PrivilegedUserControls",
 		"topic" => "modules\system\UpdateTopic",
+		"config" => "modules\system\ConfigControls",
+		"reconnect" => "modules\system\Reconnect",
 	);
 	
 	public static $mappedEvents = array(
@@ -32,6 +35,13 @@ class System implements ModuleConfig {
 		"quit" => array(
 			"BASE" => array(
 				"description" => "Quits the bot from the server", 
+				"parameters" => false
+			)
+		),
+		
+		"reconnect" => array(
+			"BASE" => array(
+				"description" => "Disconnects from the server, reloads the config and then connects", 
 				"parameters" => false
 			)
 		),
@@ -62,6 +72,21 @@ class System implements ModuleConfig {
 			"unload" => array(
 				"description" => "Unloads a module config and all the items it loaded",
 				"parameters" => "<module config full namespace>"
+			),
+		),
+		
+		"config" => array(
+			"BASE" => array(
+				"description" => "Lists all config values",
+				"parameters" => false
+			),
+			"set" => array(
+				"description" => "Sets a config key to the desired value",
+				"parameters" => "<key> <value>"
+			),
+			"get" => array(
+				"description" => "Gets a config value and messages it to you",
+				"parameters" => "<key>"
 			),
 		),
 		
