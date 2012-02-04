@@ -32,6 +32,7 @@ class ErrorLog {
 			echo "[*] " . $message . "\n";
 		
 		if ($type == ErrorCategories::FATAL) {
+			echo "DYING " . $message;
 			echo "\n";
 			die();
 			exit();

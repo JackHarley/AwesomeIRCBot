@@ -20,9 +20,17 @@ class Config {
 	 * Sets a config value
 	 * @param mixed the key for the config value
 	 * @param mixed the data to store
+	 * @param int optionally, spoof the unix timestamp this key was
+	 * updated at
 	 */
-	public function setValue($key, $data) {
-		self::$config[$key] = $data;
+	public function setValue($key, $data, $lastUpdatedTime=false) {
+		self::$config[$key] = array();
+		self::$config[$key]["data"] = $data;
+		
+		if (!$lastUpdatedTime)
+			$lastUpdatedTime = time();
+		
+		self::$config[$key]["lastUpdated"] = $lastUpdatedTime;
 	}
 	
 	/**
@@ -31,8 +39,8 @@ class Config {
 	 * @return mixed either the data, or false if the key does not exist
 	 */
 	public function getValue($key) {
-		if (self::$config[$key])
-			return self::$config[$key];
+		if (self::$config[$key]["data"])
+			return self::$config[$key]["data"];
 		else
 			return false;
 	}
@@ -43,8 +51,8 @@ class Config {
 	 * @return mixed the data
 	 */
 	public function getRequiredValue($key) {
-		if (self::$config[$key])
-			return self::$config[$key];
+		if ($value = self::getValue($key))
+			return $value;
 		else {
 			ErrorLog::log(ErrorCategories::FATAL, "Required config value '" . $key . "' is not set!");
 		}
@@ -86,9 +94,10 @@ class Config {
 		else {
 			if ($default)
 				self::setValue($key, $default);
-			else if (!$required) {
+			
+			if ($required === false)
 				return;
-			}
+			
 			else {
 				while (true) {
 					echo "\nInvalid input, please try again\n";
@@ -193,8 +202,44 @@ class Config {
 		self::promptForValueIfNotSet("commandCharacter", "Please enter the character to prefix commands with (e.g. !)");
 		self::promptForValueIfNotSet("notificationType", "Please enter the type of notification to use, 'notice' or 'pm' (e.g. notice)");
 		
-		echo "\nFinished configurating!\n\n";
-		
 		self::setValue("verboseOutput", 30);
+	}
+	
+	/**
+	 * Checks if there is a config value newer than the supplied time
+	 *
+	 * @param string the key under which the value was stored
+	 * @param int the unix timestamp to check against
+	 * @return boolean true if key exists newer than the given timestamp,
+	 * otherwise, false
+	 */
+	public function checkIfValueExistsAndIsNewerThan($key, $time) {
+		if (self::$config[$key]["lastUpdated"] > $time)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Gets the last updated time for the specified config key
+	 *
+	 * @param string the key under which the value was stored
+	 * @return int unix timestamp of last update to value or boolean false
+	 * if key does not exist
+	 */
+	public function getLastUpdatedTime($key) {
+		if (self::$config[$key]["lastUpdated"])
+		 	return self::$config[$key]["lastUpdated"];
+		 else
+		 	return false;
+	}
+	
+	/**
+	 * Gets all the values and returns it as an associative array
+	 *
+	 * @return array associative array of values
+	 */
+	public function getAllValues() {
+		return self::$config;
 	}
 }

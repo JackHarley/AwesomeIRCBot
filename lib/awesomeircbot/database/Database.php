@@ -77,6 +77,15 @@ class Database {
 				last_updated_time INTEGER 
 			);"
 		);
+		
+		$this->pdo->query("
+			CREATE TABLE IF NOT EXISTS config (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				key TEXT,
+				data TEXT,
+				last_updated_time INTEGER 
+			);"
+		);
     }
 	
 	/**
@@ -122,7 +131,18 @@ class Database {
 				DataManager::store($row->title, $data, $row->module, $row->last_updated_time);
 			}
 		}
-			
+		
+		// Config
+		$stmt = $this->pdo->prepare("SELECT * FROM config");
+		$stmt->execute();
+		
+		while($row = $stmt->fetchObject()) {
+			if (!Config::checkIfValueExistsAndIsNewerThan($row->key, $row->last_updated_time)) {
+				
+				$data = unserialize($row->data);
+				Config::setValue($row->key, $data, $row->last_updated_time);
+			}
+		}
 	}
 		
 	/**
@@ -170,7 +190,7 @@ class Database {
 				
 				$data = DataManager::retrieve($row->title, $row->module);
 				$dbData = serialize($data);
-				$time = DataManager::getLastUpdatedTime($row->title, $row->data);
+				$time = DataManager::getLastUpdatedTime($row->title, $row->module);
 				
 				$stmt = $this->pdo->prepare("DELETE FROM module_data WHERE title=?;");
 				$stmt->execute(array($row->title));
@@ -195,6 +215,43 @@ class Database {
 				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
 				$stmt->execute(array($title, $dbData, $module, $types["lastUpdated"]));
 			}
+		}
+		
+		// Config
+		
+		// check if we need to update anything currently in the db
+		$stmt = $this->pdo->prepare("SELECT * FROM config");
+		$stmt->execute();
+		
+		$doneKeys = array();
+		while($row = $stmt->fetchObject()) {
+			if (Config::checkIfValueExistsAndIsNewerThan($row->key, $row->last_updated_time)) {
+				
+				$data = Config::getValue($row->key);
+				$dbData = serialize($data);
+				$time = Config::getLastUpdatedTime($row->key);
+				
+				$stmt = $this->pdo->prepare("DELETE FROM config WHERE key=?;");
+				$stmt->execute(array($row->key));
+				
+				$stmt = $this->pdo->prepare("INSERT INTO config(key, data, last_updated_time) VALUES(?,?,?);");
+				$stmt->execute(array($row->key, $dbData, $time));
+			}
+			$doneKeys[$row->key] = true;
+		}
+		
+		// do everything else
+		$allKeys = Config::getAllValues();
+		
+		foreach($allKeys as $key => $types) {
+			
+			if ($doneKeys[$key])
+				continue;
+			
+			$dbData = serialize($types["data"]);
+			
+			$stmt = $this->pdo->prepare("INSERT INTO config(key, data, last_updated_time) VALUES(?,?,?);");
+			$stmt->execute(array($key, $dbData, $types["lastUpdated"]));
 		}
 	}
 }
