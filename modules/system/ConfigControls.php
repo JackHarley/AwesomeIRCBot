@@ -29,7 +29,7 @@ class ConfigControls extends Module {
 			case "set":
 				Config::setValue($this->parameters(2), $this->parameters(3, true));
 				
-				$server->notify($this->senderNick, "Config key '" . $this->parameters(2) . "' set to '" . $this->parameters(3, true));
+				$server->notify($this->senderNick, "Config key '" . $this->parameters(2) . "' set to '" . $this->parameters(3, true) . "'");
 			break;
 			
 			case "get":
