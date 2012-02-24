@@ -34,8 +34,8 @@ class LogNicknameChange extends Module {
 		$db = Database::getInstance();
 		
 		foreach($channels as $channel) {
-			$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, host, ident, channel_name, target_nick, time) VALUES (?,?,?,?,?,?,?)");
-			$stmt->execute(array(ReceivedLineTypes::NICK, $this->senderNick, $user->host, $user->ident, $channel, $this->targetNick, time()));
+			$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, host, ident, channel_name, target_nick, time, message) VALUES (?,?,?,?,?,?,?,?)");
+			$stmt->execute(array(ReceivedLineTypes::NICK, $this->senderNick, $user->host, $user->ident, $channel, $this->targetNick, time(), "changed nick to " . $this->target_nick));
 		}
 	}
 }

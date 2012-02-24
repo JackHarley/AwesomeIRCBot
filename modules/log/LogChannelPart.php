@@ -28,8 +28,8 @@ class LogChannelPart extends Module {
 		$user = UserManager::get($this->senderNick);
 		$db = Database::getInstance();
 		
-		$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, host, ident, channel_name, time) VALUES (?,?,?,?,?,?)");
-		$stmt->execute(array(ReceivedLineTypes::PART, $this->senderNick, $user->host, $user->ident, $this->channel, time()));
+		$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, host, ident, channel_name, time, message) VALUES (?,?,?,?,?,?,?)");
+		$stmt->execute(array(ReceivedLineTypes::PART, $this->senderNick, $user->host, $user->ident, $this->channel, time(), "parted the channel"));
 	}
 }
 ?>
