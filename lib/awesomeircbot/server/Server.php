@@ -13,6 +13,8 @@ use awesomeircbot\config\Config;
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\log\ErrorCategories;
 use awesomeircbot\log\ErrorLog;
+use awesomeircbot\database\Database;
+use awesomeircbot\line\ReceivedLineTypes;
 
 class Server {
 	
@@ -163,6 +165,13 @@ class Server {
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
+		
+		// Log it (if chan)
+		if (strpos($target, "#") !== false) {
+			$db = Database::getInstance();
+			$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, ident, channel_name, message, time) VALUES (?,?,?,?,?,?)");
+			$stmt->execute(array(ReceivedLineTypes::CHANMSG, Config::getRequiredValue("nickname"), Config::getRequiredValue("username"), $target, $message, time()));
+		}
 	 }
 	 
 	 /**
@@ -174,6 +183,13 @@ class Server {
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Noticing '" . $target . "' with message '" . $message . "'");
 	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\0\n");
+		
+		// Log it (if chan)
+		if (strpos($target, "#") !== false) {
+			$db = Database::getInstance();
+			$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, ident, channel_name, message, time) VALUES (?,?,?,?,?,?)");
+			$stmt->execute(array(ReceivedLineTypes::CHANMSG, Config::getRequiredValue("nickname"), Config::getRequiredValue("username"), $target, $message, time()));
+		}
 	 }
 	 
 	 /**
@@ -199,6 +215,13 @@ class Server {
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "' formatted as an ACTION (/me)");
 	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\0\n");
+		
+		// Log it (if chan)
+		if (strpos($target, "#") !== false) {
+			$db = Database::getInstance();
+			$stmt = $db->prepare("INSERT INTO channel_actions (type, nickname, ident, channel_name, message, time) VALUES (?,?,?,?,?,?)");
+			$stmt->execute(array(ReceivedLineTypes::CHANMSG, Config::getRequiredValue("nickname"), Config::getRequiredValue("username"), $target, "ACTION " . $message, time()));
+		}
 	 }
 	 	
 	 
