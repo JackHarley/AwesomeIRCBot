@@ -64,7 +64,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -95,7 +95,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -124,7 +124,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -161,7 +161,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -188,7 +188,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -215,7 +215,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -236,7 +236,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
@@ -257,7 +257,7 @@ class ReceivedLine {
 
 				// Ident
 				$workingLine = explode("@", $workingLine[1]);
-				$this->senderIdent = $workingLine[0];
+				$this->senderIdent = str_replace("~", "", $workingLine[0]);
 
 				// Host
 				$this->senderHost = $workingLine[1];
