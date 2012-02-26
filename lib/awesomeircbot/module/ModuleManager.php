@@ -62,28 +62,44 @@ class ModuleManager {
 		if (!$module)
 			return 1;
 		
-		if ($module::$requiredUserLevel) {
-			$user = UserManager::get($nick);
-			
-			if (!$user->isIdentified) {
-				return 2;
-			}
-			else {
-				$configUsers = Config::getRequiredValue("users");
-				if ($module::$requiredUserLevel > $configUsers[$nick])
+		if (isset($module::$requiredUserLevel)) {
+			if ($module::$requiredUserLevel) {
+				$user = UserManager::get($nick);
+				
+				if (!$user->isIdentified) {
 					return 2;
+				}
+				else {
+					$configUsers = Config::getRequiredValue("users");
+					
+					if ($module::$requiredUserLevel > $configUsers[$nick])
+						return 2;
+					
+				}
 			}
 		}
 		
-		if (strpos("#", $channel) !== false) {
-			if ($module::$requiredChannelPrivilege) {
-				$channel = ChannelManager::get($channel);
-				
-				if (!$channel->hasPrivilegeOrHigher($nick))
-					return 2;
+		if (strpos($channel, "#") !== false) {
+			if (isset($module::$requiredChannelPrivilege)) {
+				if ($module::$requiredChannelPrivilege) {
+					$channel = ChannelManager::get($channel);
+					
+					if (!$channel->hasPrivilegeOrHigher($nick))
+						return 2;
+				}
 			}
 		}
+		
+		if (isset($module::$requireIdentification)) {
+			if ($module::$requireIdentification === true) {
+				$user = UserManager::get($nick);
 				
+				if (!$user->isIdentified) {
+					return 2;
+				}
+			}
+		}
+		
 		$moduleInstance = new $module($message, $nick, $channel);
 		
 		$moduleInstance->run();
