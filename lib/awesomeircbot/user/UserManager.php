@@ -85,7 +85,7 @@ class UserManager {
 		$user->ident = $newIdent;
 		$user->host = $newHost;
 
-		static::store($newNick, $user);
+		UserManager::store($newNick, $user);
 	}
 }
 ?>
