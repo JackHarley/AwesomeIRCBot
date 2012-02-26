@@ -1,6 +1,6 @@
 <?php
 /**
- * UpdateTopic Module
+ * FlushTopicCache Module
  * loops through all connected channels and updates the topic for
  * them
  *
@@ -17,7 +17,7 @@ use awesomeircbot\server\Server;
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\line\ReceivedLineTypes;
 
-class UpdateTopic extends Module {
+class FlushTopicCache extends Module {
 	
 	public static $requiredUserLevel = 10;
 	

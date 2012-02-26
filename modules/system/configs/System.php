@@ -18,10 +18,12 @@ class System implements ModuleConfig {
 		"help" => "modules\system\Help",
 		"module" => "modules\system\ModuleControls",
 		"user" => "modules\system\PrivilegedUserControls",
-		"topic" => "modules\system\UpdateTopic",
+		"flushtopiccache" => "modules\system\FlushTopicCache",
 		"config" => "modules\system\ConfigControls",
 		"reconnect" => "modules\system\Reconnect",
 		"forceupdatedatabase" => "modules\system\ForceUpdateDatabase",
+		"setpass" => "modules\system\SetWebPassword",
+		"generatepass" => "modules\system\GenerateWebPassword"
 	);
 	
 	public static $mappedEvents = array(
@@ -61,10 +63,24 @@ class System implements ModuleConfig {
 			)
 		),
 		
-		"topic" => array(
+		"flushtopiccache" => array(
 			"BASE" => array(
-				"description" => "Updates the topic in the database for the given channel",
-				"parameters" => "<#channel>"
+				"description" => "Flushes the topic cache for all the channels the bot is connected to",
+				"parameters" => false
+			)
+		),
+		
+		"setpass" => array(
+			"BASE" => array(
+				"description" => "Sets a password for this nick on the bot web GUI (if web GUI is installed)",
+				"parameters" => "<password>"
+			)
+		),
+		
+		"generatepass" => array(
+			"BASE" => array(
+				"description" => "Generates a password for this nick on the bot web GUI (if web GUI is installed)",
+				"parameters" => false
 			)
 		),
 		
