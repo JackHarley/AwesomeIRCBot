@@ -24,7 +24,7 @@ class LogNicknameChange extends Module {
 	
 	public function run() {
 		$user = UserManager::get($this->senderNick);
-		if (!$user)
+		if (!$user->nickname)
 			$user = UserManager::get($this->targetNick);
 		
 		$channels = ChannelManager::getCommonChannels($this->senderNick);
