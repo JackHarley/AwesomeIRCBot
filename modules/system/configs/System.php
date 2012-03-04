@@ -11,7 +11,7 @@ use awesomeircbot\module\ModuleConfig;
 use awesomeircbot\line\ReceivedLineTypes;
 
 class System implements ModuleConfig {
-	
+
 	public static $mappedCommands = array(
 		"quit" => "modules\system\QuitFromServer",
 		"identify" => "modules\system\Identify",
@@ -25,65 +25,65 @@ class System implements ModuleConfig {
 		"setpass" => "modules\system\SetWebPassword",
 		"generatepass" => "modules\system\GenerateWebPassword"
 	);
-	
+
 	public static $mappedEvents = array(
 		ReceivedLineTypes::PING => "modules\system\PongServer",
-		ReceivedLineTypes::PING => "modules\system\UpdateTopic",
+		ReceivedLineTypes::PING => "modules\system\FlushTopicCache",
 	);
-	
+
 	public static $mappedTriggers = array(
 	);
 
 	public static $help = array(
 		"quit" => array(
 			"BASE" => array(
-				"description" => "Quits the bot from the server", 
+				"description" => "Quits the bot from the server",
 				"parameters" => false
 			)
 		),
-		
+
 		"reconnect" => array(
 			"BASE" => array(
-				"description" => "Disconnects from the server, reloads the config and then connects", 
+				"description" => "Disconnects from the server, reloads the config and then connects",
 				"parameters" => false
 			)
 		),
-		
+
 		"forceupdatedatabase" => array(
 			"BASE" => array(
-				"description" => "Forces database to reload module data and config from RAM", 
+				"description" => "Forces database to reload module data and config from RAM",
 				"parameters" => false
 			)
 		),
-		
+
 		"identify" => array(
 			"BASE" => array(
 				"description" => "Attempts to identify you with the bot using MickServ and the permission level specified in the config",
 				"parameters" => false
 			)
 		),
-		
+
 		"flushtopiccache" => array(
 			"BASE" => array(
 				"description" => "Flushes the topic cache for all the channels the bot is connected to",
 				"parameters" => false
 			)
 		),
-		
+
 		"setpass" => array(
 			"BASE" => array(
 				"description" => "Sets a password for this nick on the bot web GUI (if web GUI is installed)",
 				"parameters" => "<password>"
 			)
 		),
-		
+
 		"generatepass" => array(
 			"BASE" => array(
 				"description" => "Generates a password for this nick on the bot web GUI (if web GUI is installed)",
 				"parameters" => false
 			)
 		),
-		
+
 		"module" => array(
 			"BASE" => array(
 				"description" => "Lists the loaded module sets",
@@ -98,7 +98,7 @@ class System implements ModuleConfig {
 				"parameters" => "<module config full namespace>"
 			),
 		),
-		
+
 		"config" => array(
 			"BASE" => array(
 				"description" => "Lists all config values",
@@ -113,7 +113,7 @@ class System implements ModuleConfig {
 				"parameters" => "<key>"
 			),
 		),
-		
+
 		"user" => array(
 			"BASE" => array(
 				"description" => "Lists the privileged users",
@@ -129,6 +129,6 @@ class System implements ModuleConfig {
 			)
 		),
 	);
-			
+
 }
 ?>
