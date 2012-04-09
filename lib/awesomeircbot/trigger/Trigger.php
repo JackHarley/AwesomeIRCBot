@@ -43,13 +43,6 @@ class Trigger {
 	 */
 	public function execute() {
 		$return = ModuleManager::runTrigger($this->fullMessage, $this->senderNick, $this->channel);
-		if ($return !== true) {
-			if ($return == 2) {
-				$server = Server::getInstance();
-				$server->notify($this->senderNick, "You do not have permission to use this command. Please identify via NickServ if you have privileges, then type " . Config::getRequiredValue("commandCharacter") . "identify");
-			}
-		}
-
 	}
 }
 ?>
