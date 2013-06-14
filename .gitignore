@@ -4,4 +4,4 @@ config/config.php
 /nbproject/private/*
 /nbproject/*
 *.sublime*
-
+.idea

@@ -1,19 +1,12 @@
 # Awesome IRC Bot Framework
 #### Powerful, User Friendly PHP IRC Bot Framework
-#### Created by AwesomezGuy
-#### Follow me on [Twitter](http://twitter.com/AwesomezGuy)
+#### Created by Jack Harley
 #### v0.4.0
 
 Introduction
 -------------
 Awesome IRC Bot is a powerful framework which I have created for running a stable PHP IRC Bot. 
 With easily customizable features such as modules, it's simple to use, yet has the capabilities for developers to hook advanced plugins into.
-
-Beta Notice
--------------
-The bot is stable, however it is lacking a few features and there will be a fair bit more work done before v1.0.
-You can consider any version after v0.3.0 to be safe for use in a production environment.
-I recommend only using tagged versions, and upgrading with each new tag.
 
 Prerequisites
 -------------
