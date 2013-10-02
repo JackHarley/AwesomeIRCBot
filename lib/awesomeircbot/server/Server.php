@@ -21,6 +21,8 @@ class Server {
 	protected static $instance;
 	
 	public static $serverHandle;
+
+	public static $quit;
 	
 	protected function __construct() {
 	}
@@ -66,6 +68,11 @@ class Server {
 	 * @return boolean depending on connection status
 	 */
 	public function connected() {
+		if (static::$quit === true) {
+			static::$quit = false;
+			return false;
+		}
+
 		if (!feof(static::$serverHandle))
 			return true;
 		else
@@ -101,7 +108,7 @@ class Server {
 	public function join($channel) {
 		
 		// Send to the server
-		ErrorLog::log(ErrorCategories::NOTICE, "Joining IRC channel '" . $channel);
+		ErrorLog::log(ErrorCategories::NOTICE, "Joining IRC channel '" . $channel . "'");
 		fwrite(static::$serverHandle, "JOIN " . $channel . "\n");
 	}
 	
@@ -114,7 +121,7 @@ class Server {
 		
 		// Send to the server
 		fwrite(static::$serverHandle, "PART " . $channel . "\n");
-		ErrorLog::log(ErrorCategories::NOTICE, "Parting IRC channel '" . $channel);
+		ErrorLog::log(ErrorCategories::NOTICE, "Parting IRC channel '" . $channel . "'");
 		
 		// Remove the channel from the ChannelManager
 		ChannelManager::remove($channel);
@@ -144,15 +151,15 @@ class Server {
 	}
 	
 	/**
-	  * Sends the QUIT message to the server, closes
-	  * the connection
-	  */
-
+	 * Sends the QUIT message to the server, closes
+	 * the connection
+	 */
 	public function quit() {
 		
 		// Quit and disconnect
 		fwrite(static::$serverHandle, "QUIT :Bye Bye!\n");
 		fclose(static::$serverHandle);
+		static::$quit = true;
 		ErrorLog::log(ErrorCategories::NOTICE, "Server quit sent and socket closed");
 	}
 	
@@ -375,6 +382,16 @@ class Server {
 	 */
 	public function deHalfOp($channel, $nick) {
 		$this->channelMode($channel, "h " . $nick, false);
+	}
+
+	/**
+	 * Logs in to an oper account ("opers up")
+	 */
+	public function oper($user, $pass) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::NOTICE, "Opering up with username " . $user . " and password " . $pass);
+		fwrite(static::$serverHandle, "OPER " . $user . " " . $pass . "\n");
 	}
 }
 	 

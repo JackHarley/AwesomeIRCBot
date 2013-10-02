@@ -23,7 +23,6 @@ class Reconnect extends Module {
 		$server->notify($this->senderNick, "Disconnecting and reconnecting as according to config values...");
 		$server->quit();
 		sleep(3);
-		$server->connect();
 	}
 }
 ?>

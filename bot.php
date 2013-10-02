@@ -62,6 +62,9 @@ while (true) {
 	// NickServ
 	if (Config::getValue("nickservPassword")) 
 		$server->identifyWithNickServ();
+
+	// Connect commands
+	ModuleManager::runConnectCommands();
 	
 	// Loop through the channels in the config and join them
 	$channels = Config::getValue("channels");
@@ -95,7 +98,7 @@ while (true) {
 		$db->updateDatabase();
 	}
 	
-	// Disconnected, Give the server 5 seconds before we attempt a reconnect
-	sleep(5);
+	// Disconnected, Give the server 1 second before we attempt a reconnect
+	sleep(1);
 }
 ?>

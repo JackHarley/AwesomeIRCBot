@@ -327,7 +327,19 @@ class ModuleManager {
 				unset(static::$loadedModuleFolders[$id]);
 		}
 	}
-	
+
+	/**
+	 * Runs the onConnect commands defined by the module configs
+	 */
+	public static function runConnectCommands() {
+		foreach(static::$loadedModuleFolders as $moduleName) {
+			$config = "\modules\\" . $moduleName . "\configs\\" . $moduleName;
+
+			if (method_exists($config, "onConnect"))
+				$config::onConnect();
+		}
+	}
+
 	/**
 	 * Checks if a config name is a loaded module config in
 	 * /modules

@@ -128,6 +128,5 @@ class System implements ModuleConfig {
 			)
 		),
 	);
-
 }
 ?>
