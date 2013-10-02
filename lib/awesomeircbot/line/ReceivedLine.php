@@ -333,7 +333,7 @@ class ReceivedLine {
 	 *
 	 * @return boolean depending on whether or not it is a command
 	 */
-	public function isCommand() {
+	public function isMappedCommand() {
 
 		if (!$this->message)
 			$this->parse();
@@ -343,10 +343,10 @@ class ReceivedLine {
 
 		$splitMessage = str_split($this->message);
 		
-		if ($splitMessage[0] != Config::getRequiredValue("commandCharacter"))
+		if (($splitMessage[0] != Config::getRequiredValue("commandCharacter")) && ($this->type == ReceivedLineTypes::CHANMSG))
 			return false;
 
-		return true;
+		return (ModuleManager::$mappedCommands[$this->getCommand()]) ? true : false;
 	}
 
 	/**
@@ -360,11 +360,7 @@ class ReceivedLine {
 		if (!$this->type)
 			$this->parse();
 
-		$module = ModuleManager::$mappedEvents[$this->type];
-		if ($module)
-			return true;
-		else
-			return false;
+		return (ModuleManager::$mappedEvents[$this->type]) ? true : false;
 	}
 
 	/**

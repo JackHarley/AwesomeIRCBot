@@ -15,6 +15,7 @@ use awesomeircbot\log\ErrorCategories;
 use awesomeircbot\log\ErrorLog;
 use awesomeircbot\database\Database;
 use awesomeircbot\line\ReceivedLineTypes;
+use awesomeircbot\user\UserManager;
 
 class Server {
 	
@@ -392,6 +393,52 @@ class Server {
 		// Send it
 		ErrorLog::log(ErrorCategories::NOTICE, "Opering up with username " . $user . " and password " . $pass);
 		fwrite(static::$serverHandle, "OPER " . $user . " " . $pass . "\n");
+	}
+
+	/**
+	 * Forces a nick change on a user (oper only)
+	 */
+	public function saNick($user, $newNick) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Forcing nick change on " . $user . " to " . $newNick);
+		fwrite(static::$serverHandle, "SANICK " . $user . " " . $newNick . "\n");
+
+		// Change user info in storage
+		ChannelManager::rename($user, $newNick);
+		UserManager::rename($user, $newNick);
+	}
+
+	/**
+	 * Force joins a user to a channel (oper only)
+	 */
+	public function saJoin($user, $channel) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Forcing channel join on " . $user . " to " . $channel);
+		fwrite(static::$serverHandle, "SAJOIN " . $user . " " . $channel . "\n");
+	}
+
+	/**
+	 * Force sets a host on a user (oper only)
+	 */
+	public function chgHost($user, $host) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Force changing host of " . $user . " to " . $host);
+		fwrite(static::$serverHandle, "CHGHOST " . $user . " " . $host . "\n");
+
+		UserManager::rename($user, false, false, $host);
+	}
+
+	/**
+	 * Kills a user from the server (oper only)
+	 */
+	public function kill($user, $reason="Killed") {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Killing user " . $user . " from server");
+		fwrite(static::$serverHandle, "KILL " . $user . " " . $reason . "\n");
 	}
 }
 	 

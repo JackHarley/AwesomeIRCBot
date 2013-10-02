@@ -79,7 +79,7 @@ while (true) {
 		$line = new ReceivedLine($line);
 		$line->parse();
 		
-		if ($line->isCommand()) {
+		if ($line->isMappedCommand()) {
 			$command = new Command($line);
 			$command->execute();
 		}
