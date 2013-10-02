@@ -22,7 +22,7 @@ class DataManager {
 	 * @param string optionally, override the module name to access another
 	 * module's data
 	 */
-	public function retrieve($request, $module=false) {
+	public static function retrieve($request, $module=false) {
 		 
 		 $trace = debug_backtrace();
 		 if (!$module)
@@ -47,7 +47,7 @@ class DataManager {
 	 * module's space
 	 * @param int optionally, spoof the time this data was updated
 	 */
-	public function store($id, $data, $module=false, $lastUpdated=false) {
+	public static function store($id, $data, $module=false, $lastUpdated=false) {
 		
 		$trace = debug_backtrace();
 		if (!$module)
@@ -77,7 +77,7 @@ class DataManager {
 	 * @return boolean true if data exists newer than the given timestamp,
 	 * otherwise, false
 	 */
-	public function checkIfDataExistsAndIsNewerThan($id, $module, $time) {
+	public static function checkIfDataExistsAndIsNewerThan($id, $module, $time) {
 		$module = str_replace('\\', '*', $module);
 		
 		if (self::$data[$module][$id]["lastUpdated"] > $time)
@@ -94,7 +94,7 @@ class DataManager {
 	 * @return int unix timestamp of last update to data or boolean false
 	 * if data does not exist
 	 */
-	public function getLastUpdatedTime($id, $module) {
+	public static function getLastUpdatedTime($id, $module) {
 		$module = str_replace('\\', '*', $module);
 		
 		if (self::$data[$module][$id]["lastUpdated"])
@@ -108,14 +108,14 @@ class DataManager {
 	 *
 	 * @return array associative array of data
 	 */
-	public function getAllData() {
+	public static function getAllData() {
 		return self::$data;
 	}
 	
 	/**
 	 * Changes all the data timestamps to now
 	 */
-	public function changeAllTimestampsToNow() {
+	public static function changeAllTimestampsToNow() {
 		$allModules = self::getAllData();
 		
 		foreach($allModules as $module => $titles) {

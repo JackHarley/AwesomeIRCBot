@@ -80,8 +80,8 @@ class Server {
 	
 		// Send the identification messages to the server
 		ErrorLog::log(ErrorCategories::NOTICE, "Authenticating with the server");
-		fwrite(static::$serverHandle, "NICK " . Config::getRequiredValue("nickname") . "\0\n");
-		fwrite(static::$serverHandle, "USER " . Config::getRequiredValue("username") . " 0 * :" . Config::getRequiredValue("realName") . "\0\n");
+		fwrite(static::$serverHandle, "NICK " . Config::getRequiredValue("nickname") . "\n");
+		fwrite(static::$serverHandle, "USER " . Config::getRequiredValue("username") . " 0 * :" . Config::getRequiredValue("realName") . "\n");
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class Server {
 		
 		// Send to the server
 		ErrorLog::log(ErrorCategories::NOTICE, "Joining IRC channel '" . $channel);
-		fwrite(static::$serverHandle, "JOIN " . $channel . "\0\n");
+		fwrite(static::$serverHandle, "JOIN " . $channel . "\n");
 	}
 	
 	/**
@@ -113,7 +113,7 @@ class Server {
 	public function part($channel) {
 		
 		// Send to the server
-		fwrite(static::$serverHandle, "PART " . $channel . "\0\n");
+		fwrite(static::$serverHandle, "PART " . $channel . "\n");
 		ErrorLog::log(ErrorCategories::NOTICE, "Parting IRC channel '" . $channel);
 		
 		// Remove the channel from the ChannelManager
@@ -151,7 +151,7 @@ class Server {
 	public function quit() {
 		
 		// Quit and disconnect
-		fwrite(static::$serverHandle, "QUIT :Bye Bye!\0\n");
+		fwrite(static::$serverHandle, "QUIT :Bye Bye!\n");
 		fclose(static::$serverHandle);
 		ErrorLog::log(ErrorCategories::NOTICE, "Server quit sent and socket closed");
 	}
@@ -164,7 +164,7 @@ class Server {
 	 	
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "'");
-	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\0\n");
+	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . $message . "\n");
 		
 		// Log it (if chan)
 		if (strpos($target, "#") !== false) {
@@ -182,7 +182,7 @@ class Server {
 	 	
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Noticing '" . $target . "' with message '" . $message . "'");
-	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\0\n");
+	 	fwrite(static::$serverHandle, "NOTICE " . $target . " :" . $message . "\n");
 		
 		// Log it (if chan)
 		if (strpos($target, "#") !== false) {
@@ -214,7 +214,7 @@ class Server {
 	 	
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Messaging '" . $target . "' with message '" . $message . "' formatted as an ACTION (/me)");
-	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\0\n");
+	 	fwrite(static::$serverHandle, "PRIVMSG " . $target . " :" . chr(1) . "ACTION " . $message . chr(1) . "\n");
 		
 		// Log it (if chan)
 		if (strpos($target, "#") !== false) {
@@ -231,8 +231,8 @@ class Server {
 	 public function pong($target) {
 	 	
 	 	// Send it
-	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending PONG to server");
-	 	fwrite(static::$serverHandle, "PONG " . $target . "\0\n");
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending PONG to " . $target);
+	 	fwrite(static::$serverHandle, "PONG " . $target . "\n");
 	 }
 	 
 	 /**
@@ -245,7 +245,7 @@ class Server {
 	 	
 	 	// Send it
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending WHOIS request for '" . $nickname . "'");
-	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\0\n");
+	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\n");
 	 }
 	 
 	 /**
@@ -265,12 +265,12 @@ class Server {
 			}
 			else {
 				ErrorLog::log(ErrorCategories::DEBUG, "Changing topic for '" . $channel . "' to '" . $topic . "'");
-				fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\0\n");
+				fwrite(static::$serverHandle, "TOPIC " . $channel . " :" . $topic . "\n");
 			}
 		}
 		else {
 			ErrorLog::log(ErrorCategories::DEBUG, "Sending request to server for the current topic for '" . $channel . "'");
-			fwrite(static::$serverHandle, "TOPIC " . $channel . "\0\n");
+			fwrite(static::$serverHandle, "TOPIC " . $channel . "\n");
 		}
 	 }
 	 
@@ -282,7 +282,7 @@ class Server {
 	  */
 	 public function channelInvite($nick, $channel) {
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
-	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\0\n");
+	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\n");
 	 }
 	 
 	 /**
@@ -296,9 +296,9 @@ class Server {
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Setting mode " . $mode . " on '" . $channel . "' to '" . $value . "'");
 	 	
 		if ($value == true)
-			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . "\0\n");
+			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . "\n");
 		else if ($value == false)
-			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . "\0\n");
+			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . "\n");
 	 }
 	 
 	 /**
@@ -311,7 +311,7 @@ class Server {
 	 public function kick($channel, $nick, $reason="Bye!") {
 		ErrorLog::log(ErrorCategories::DEBUG, "Kicking " . $nick . " from " . $channel . "for " . $reason);
 		
-		fwrite(static::$serverHandle, "KICK " . $channel . " " . $nick . " :" . $reason . "\0\n");
+		fwrite(static::$serverHandle, "KICK " . $channel . " " . $nick . " :" . $reason . "\n");
 	}
 	
 	/**

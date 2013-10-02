@@ -138,7 +138,7 @@ class ModuleManager {
 		
 		if (!static::$mappedEvents[$eventType])
 			return 1;
-		
+
 		foreach(static::$mappedEvents[$eventType] as $mappedEvent) {
 			$module = $mappedEvent;
 			$moduleInstance = new $module($line, $senderNick, $channel, $eventType, $targetNick);
@@ -154,18 +154,8 @@ class ModuleManager {
 	 * @param string event numerical type to activate upon (see awesomeircbot\line\ReceivedLineTypes)
 	 * @param string module full namespace to activate
 	 */
-	public static function mapEvent($event, $module){
-		$exists = false;
-		
-		if (static::$mappedEvents) {
-			foreach(static::$mappedEvents[$event] as $id => $mappedModule) {
-				if ($module == $mappedModules)
-					$exists = true;
-			}
-		}
-		
-		if (!$exists)
-			static::$mappedEvents[$event][] = $module;
+	public static function mapEvent($event, $module) {
+		static::$mappedEvents[$event][] = $module;
 	}
 	
 	/**
@@ -286,9 +276,14 @@ class ModuleManager {
 	public static function loadModuleConfig($moduleConfig) {
 		foreach($moduleConfig::$mappedCommands as $command => $module)
 			static::mapCommand($command, $module);
-			
-		foreach($moduleConfig::$mappedEvents as $event => $module)
-			static::mapEvent($event, $module);
+
+		foreach($moduleConfig::$mappedEvents as $event => $modules) {
+			if (!is_array($modules))
+				$modules = array($modules);
+
+			foreach($modules as $module)
+				static::mapEvent($event, $module);
+		}
 			
 		foreach($moduleConfig::$mappedTriggers as $regexString => $module)
 			static::mapTrigger($regexString, $module);

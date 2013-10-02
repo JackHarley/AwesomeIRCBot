@@ -27,8 +27,7 @@ class System implements ModuleConfig {
 	);
 
 	public static $mappedEvents = array(
-		ReceivedLineTypes::PING => "modules\system\PongServer",
-		ReceivedLineTypes::PING => "modules\system\FlushTopicCache",
+		ReceivedLineTypes::PING => array("modules\system\PongServer", "modules\system\FlushTopicCache"),
 	);
 
 	public static $mappedTriggers = array(

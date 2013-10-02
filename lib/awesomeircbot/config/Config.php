@@ -23,7 +23,7 @@ class Config {
 	 * @param int optionally, spoof the unix timestamp this key was
 	 * updated at
 	 */
-	public function setValue($key, $data, $lastUpdatedTime=false) {
+	public static function setValue($key, $data, $lastUpdatedTime=false) {
 		self::$config[$key] = array();
 		self::$config[$key]["data"] = $data;
 		
@@ -38,7 +38,7 @@ class Config {
 	 * @param mixed the key for the config value
 	 * @return mixed either the data, or false if the key does not exist
 	 */
-	public function getValue($key) {
+	public static function getValue($key) {
 		if (self::$config[$key]["data"])
 			return self::$config[$key]["data"];
 		else
@@ -50,7 +50,7 @@ class Config {
 	 * @param mixed the key for the config value
 	 * @return mixed the data
 	 */
-	public function getRequiredValue($key) {
+	public static function getRequiredValue($key) {
 		if ($value = self::getValue($key))
 			return $value;
 		else {
@@ -67,7 +67,7 @@ class Config {
 	 * provide valid input
 	 * @param boolean set this to false to make the value optional
 	 */
-	public function promptForValueIfNotSet($key, $message, $default=false, $required=true) {
+	public static function promptForValueIfNotSet($key, $message, $default=false, $required=true) {
 		if (self::$config[$key])
 			return;
 		else
@@ -82,7 +82,7 @@ class Config {
 	 * provide valid input
 	 * @param boolean set this to false to make the value optional
 	 */
-	public function promptForValue($key, $message, $default=false, $required=true) {
+	public static function promptForValue($key, $message, $default=false, $required=true) {
 		echo "\n";
 		echo $message;
 		echo "\n";
@@ -115,7 +115,7 @@ class Config {
 	 * Prompts the user via STDIN for the first channel, if it has not been
 	 * set
 	 */
-	public function promptForFirstChannelIfNotSet() {
+	public static function promptForFirstChannelIfNotSet() {
 		if (self::$config["channels"])
 			return;
 		else
@@ -125,7 +125,7 @@ class Config {
 	/**
 	 * Prompts the user via STDIN for the first channel to connect to
 	 */
-	public function promptForFirstChannel() {
+	public static function promptForFirstChannel() {
 		echo "\nPlease enter the first channel to connect to (e.g. #chatulous)\n";
 		$line = trim(fgets(STDIN));
 		
@@ -149,7 +149,7 @@ class Config {
 	 * Prompts the user via STDIN for the first priveleged user,
 	 * if it has not been set
 	 */
-	public function promptForFirstPrivilegedUserIfNotSet() {
+	public static function promptForFirstPrivilegedUserIfNotSet() {
 		if (self::$config["users"])
 			return;
 		else
@@ -159,7 +159,7 @@ class Config {
 	/**
 	 * Prompts the user via STDIN for the first privileged user
 	 */
-	public function promptForFirstPrivilegedUser() {
+	public static function promptForFirstPrivilegedUser() {
 		echo "\nPlease enter the nickname of the main administrator, this user will need to be registered and identified with NickServ before the bot will give them privileges (e.g. Naikcaj)\n";
 		$line = trim(fgets(STDIN));
 		
@@ -182,7 +182,7 @@ class Config {
 	/**
 	 * Initializes the required config values if they have not been set
 	 */
-	public function initializeRequiredValues() {
+	public static function initializeRequiredValues() {
 		
 		// server settings
 		self::promptForValueIfNotSet("serverAddress", "Please enter a server address to connect to (e.g. irc.rizon.net)");
@@ -202,7 +202,7 @@ class Config {
 		self::promptForValueIfNotSet("commandCharacter", "Please enter the character to prefix commands with (e.g. !)");
 		self::promptForValueIfNotSet("notificationType", "Please enter the type of notification to use, 'notice' or 'pm' (e.g. notice)");
 		
-		self::setValue("verboseOutput", 30);
+		self::setValue("verboseOutput", 30); // everything except debug messages
 	}
 	
 	/**
@@ -213,7 +213,7 @@ class Config {
 	 * @return boolean true if key exists newer than the given timestamp,
 	 * otherwise, false
 	 */
-	public function checkIfValueExistsAndIsNewerThan($key, $time) {
+	public static function checkIfValueExistsAndIsNewerThan($key, $time) {
 		if (self::$config[$key]["lastUpdated"] > $time)
 			return true;
 		else
@@ -227,7 +227,7 @@ class Config {
 	 * @return int unix timestamp of last update to value or boolean false
 	 * if key does not exist
 	 */
-	public function getLastUpdatedTime($key) {
+	public static function getLastUpdatedTime($key) {
 		if (self::$config[$key]["lastUpdated"])
 		 	return self::$config[$key]["lastUpdated"];
 		 else
@@ -239,14 +239,14 @@ class Config {
 	 *
 	 * @return array associative array of values
 	 */
-	public function getAllValues() {
+	public static function getAllValues() {
 		return self::$config;
 	}
 	
 	/**
 	 * Changes all the timestamps to now
 	 */
-	public function changeAllTimestampsToNow() {
+	public static function changeAllTimestampsToNow() {
 		$allKeys = self::getAllValues();
 		
 		foreach($allKeys as $key => $types) {
