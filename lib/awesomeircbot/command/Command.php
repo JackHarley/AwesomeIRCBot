@@ -6,7 +6,7 @@
  * to execute the function associated with
  * the command
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

@@ -3,7 +3,7 @@
  * DataManager class
  * Handles data which modules can store and retrieve
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

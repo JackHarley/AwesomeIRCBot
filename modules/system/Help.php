@@ -6,7 +6,7 @@
  * NOTE- THIS IS A SYSTEM MODULE, REMOVING IT MAY
  * 	   REMOVE VITAL FUNCTIONALITY FROM THE BOT
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\system;
@@ -60,8 +60,7 @@ class Help extends Module {
 			
 			$server = Server::getInstance();
 			$server->notify($this->senderNick, "************************************");
-			$server->notify($this->senderNick, "Welcome to AwesomeBot v2 Help");
-			$server->notify($this->senderNick, "Follow @AwesomezGuy on Twitter http://twitter.com/AwesomezGuy");
+			$server->notify($this->senderNick, "Welcome to AwesomeIRCBot Help");
 			$server->notify($this->senderNick, "");
 			$server->notify($this->senderNick, chr(2) . "Commands: " . chr(2) . $commandsString);
 			$server->notify($this->senderNick, chr(2) . "Getting help with commands: " . chr(2) . Config::getRequiredValue("commandCharacter") . "help <command to get help for>");

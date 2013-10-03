@@ -5,7 +5,7 @@
  * a REGEX mapping, we use the trigger class
  * to run the module associated with it
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

@@ -4,7 +4,7 @@
  * Adds nicknames or hosts to the
  * harass list
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\funstuff;

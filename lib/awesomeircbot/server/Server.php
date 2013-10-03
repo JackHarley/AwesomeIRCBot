@@ -4,7 +4,7 @@
  * Includes all the necessary functions to use an IRC server
  * e.g. ->message(), ->join(), ->quit()
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 
@@ -136,13 +136,13 @@ class Server {
 	 */
 	public function getNextLine() {
 		
-		ErrorLog::log(ErrorCategories::DEBUG, "Getting next line from IRC server");
+		//ErrorLog::log(ErrorCategories::DEBUG, "Getting next line from IRC server");
 		
 		// Check we're connected
 		if ($this->connected()) {
 			// Get and return the next line
 			$return = fgets(static::$serverHandle, 1024);
-			ErrorLog::log(ErrorCategories::DEBUG, "Received IRC line from server (" . $return . ")");
+			//ErrorLog::log(ErrorCategories::DEBUG, "Received IRC line from server (" . $return . ")");
 			return $return;
 		}
 		else
@@ -429,6 +429,18 @@ class Server {
 		fwrite(static::$serverHandle, "CHGHOST " . $user . " " . $host . "\n");
 
 		UserManager::rename($user, false, false, $host);
+	}
+
+	/**
+	 * Force sets an ident on a user (oper only)
+	 */
+	public function chgIdent($user, $ident) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Force changing ident of " . $user . " to " . $ident);
+		fwrite(static::$serverHandle, "CHGIDENT " . $user . " " . $ident . "\n");
+
+		UserManager::rename($user, false, $ident);
 	}
 
 	/**

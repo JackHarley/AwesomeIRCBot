@@ -1,9 +1,8 @@
 <?php
 /* Awesome IRC Bot v2
- * Created by AwesomezGuy/Naikcaj/TheAwesomeGuy/Neon/Jackian/Jack Harley
- * Yes, I have a lot of names, but I no longer use any but the first 2 online
+ * Created by Jack Harley
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 
@@ -27,7 +26,7 @@ passthru('clear');
 
 // welcome the user
 echo "Welcome to Awesome IRC Bot v2\n";
-echo "Created by AwesomezGuy, follow @AwesomezGuy on Twitter\n";
+echo "http://github.com/JackHarley/AwesomeIRCBot\n";
 
 // import all modules
 ModuleManager::initialize();

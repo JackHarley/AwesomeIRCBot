@@ -4,7 +4,7 @@
  * Messages the given user/channel with the given
  * message
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\general;

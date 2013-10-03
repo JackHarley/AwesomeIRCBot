@@ -4,7 +4,7 @@
  * Used for a command or subcommand entry
  * into the help system
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

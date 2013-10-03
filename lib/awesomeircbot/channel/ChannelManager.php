@@ -4,7 +4,7 @@
  * Tracks connected channels, their modes, users
  * topic and other things
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

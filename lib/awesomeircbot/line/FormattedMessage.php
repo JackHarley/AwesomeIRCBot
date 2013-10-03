@@ -4,7 +4,7 @@
  * Can be used to format a message with CTCP compliant
  * formatting (colours, bold, etc)
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

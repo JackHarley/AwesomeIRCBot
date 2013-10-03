@@ -2,7 +2,7 @@
 /**
  * System Module Config
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\system\configs;

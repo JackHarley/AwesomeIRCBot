@@ -6,7 +6,7 @@
  * The Module Manager will handle calling the module and
  * outputting the return
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

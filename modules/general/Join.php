@@ -3,7 +3,7 @@
  * Join Module
  * Joins a given channel
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\general;

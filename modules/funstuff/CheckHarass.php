@@ -4,7 +4,7 @@
  * Checks if a user has been added to the
  * harass list and harasses them if they are
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 namespace modules\funstuff;

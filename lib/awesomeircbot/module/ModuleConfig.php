@@ -4,7 +4,7 @@
  * Should be implemented by any module configs
  * which developers use
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 

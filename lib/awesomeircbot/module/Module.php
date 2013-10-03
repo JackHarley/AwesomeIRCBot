@@ -3,7 +3,7 @@
  * Module class
  * Should be extended by any module for the bot
  *
- * Copyright (c) 2011, Jack Harley
+ * Copyright (c) 2013, Jack Harley
  * All Rights Reserved
  */
 
