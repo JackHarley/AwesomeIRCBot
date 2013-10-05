@@ -28,8 +28,13 @@ class Database {
     protected function __construct() {
 	    global $host, $port, $databaseName, $username, $password;
 
-        $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
-		
+	    try {
+            $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
+	    }
+	    catch (\PDOException $e) {
+		    die("\nFailed to connect to your MySQL database, check your config.php and ensure the values are correct then try again\n");
+	    }
+
 		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS `channels` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

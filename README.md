@@ -1,21 +1,23 @@
 # Awesome IRC Bot Framework
 #### Powerful, User Friendly PHP IRC Bot Framework
 #### Created by Jack Harley
-#### v0.4.0
+#### UNSTABLE REVISION - USE A TAGGED VERSION
 
 Introduction
 -------------
 Awesome IRC Bot is a powerful framework which I have created for running a stable PHP IRC Bot. 
-With easily customizable features such as modules, it's simple to use, yet has the capabilities for developers to hook advanced plugins into.
+With easily customizable features such as modules, it's simple to use, yet has the capabilities for developers to write advanced plugins which can be dynamically loaded and unloaded at runtime.
 
 Prerequisites
 -------------
 * PHP 5.3+ CLI (apt-get install php5-cli)
-* SQLite PDO Extension (apt-get install php5-sqlite)
+* MySQL PDO Extension (apt-get install php5-mysql)
+* MySQL Server to host the bot's database
 
 Installation
 -------------
 1. Copy all the files to a directory of your choice
+2. Rename config.php.example to config.php and edit it to match your MySQL database details
 
 Startup
 -------------

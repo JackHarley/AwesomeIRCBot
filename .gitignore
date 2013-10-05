@@ -1,4 +1,4 @@
-config/config.php
+config.php
 *.komodoproject
 .komodotools/*
 /nbproject/private/*

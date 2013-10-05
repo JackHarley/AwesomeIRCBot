@@ -35,6 +35,9 @@ ModuleManager::initialize();
 $server = Server::getInstance();
 
 // setup database
+if (!is_file(__DIR__ . "/config.php"))
+	die("\nYou need to rename config.php.example to config.php and edit the settings to match your MySQL database\n");
+
 include_once(__DIR__ . "/config.php");
 $db = Database::getInstance();
 $db->updateScriptArrays();
