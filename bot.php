@@ -50,6 +50,8 @@ $db->updateDatabase();
 
 echo "\n";
 
+$lastUpdate = time();
+
 while (true) {
 	
 	// Connect
@@ -78,10 +80,10 @@ while (true) {
 	// Loop-edy-loop
 	while($server->connected()) {
 		$line = $server->getNextLine();
-		
+
 		$line = new ReceivedLine($line);
 		$line->parse();
-		
+
 		if ($line->isMappedCommand()) {
 			$command = new Command($line);
 			$command->execute();
@@ -96,9 +98,12 @@ while (true) {
 			$trigger = new Trigger($line);
 			$trigger->execute();
 		}
-		
-		$db->updateScriptArrays();
-		$db->updateDatabase();
+
+		if (time() - 2 >= $lastUpdate) {
+			$db->updateScriptArrays();
+			$db->updateDatabase();
+			$lastUpdate = time();
+		}
 	}
 	
 	// Disconnected, Give the server 1 second before we attempt a reconnect
