@@ -107,7 +107,11 @@ class Server {
 	 * @param string channel name
 	 */
 	public function join($channel) {
-		
+
+		// Request an invite from ChanServ (in case we need one, it doesn't hurt to try), then sleep for 1
+		$this->message("ChanServ", "INVITE" . " " . $channel);
+		sleep(1);
+
 		// Send to the server
 		ErrorLog::log(ErrorCategories::NOTICE, "Joining IRC channel '" . $channel . "'");
 		fwrite(static::$serverHandle, "JOIN " . $channel . "\n");
@@ -136,13 +140,13 @@ class Server {
 	 */
 	public function getNextLine() {
 		
-		//ErrorLog::log(ErrorCategories::DEBUG, "Getting next line from IRC server");
+		ErrorLog::log(ErrorCategories::DEBUG, "Getting next line from IRC server");
 		
 		// Check we're connected
 		if ($this->connected()) {
 			// Get and return the next line
 			$return = fgets(static::$serverHandle, 1024);
-			//ErrorLog::log(ErrorCategories::DEBUG, "Received IRC line from server (" . $return . ")");
+			ErrorLog::log(ErrorCategories::DEBUG, "Received IRC line from server (" . $return . ")");
 			return $return;
 		}
 		else
@@ -292,21 +296,27 @@ class Server {
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending channel invite for '" . $channel . "' to '" . $nick . "'");
 	 	fwrite(static::$serverHandle, "INVITE " . $nick . " " . $channel . "\n");
 	 }
-	 
+
 	 /**
 	  * Sets or unsets the given mode on the given channel
 	  *
 	  * @param string channel name
 	  * @param string mode letter (e.g. i)
+	  * @param string parameter to put after the mode, for example in the case of a ban (+b) it will be a full hostname
 	  * @param boolean value, true will + the mode, false will - it
 	  */
-	 public function channelMode($channel, $mode, $value) {
-	 	ErrorLog::log(ErrorCategories::DEBUG, "Setting mode " . $mode . " on '" . $channel . "' to '" . $value . "'");
-	 	
+	 public function channelMode($channel, $mode, $value, $parameter="") {
+		if ($parameter != "")
+			 $parameter = " " . $parameter;
+
+	 	ErrorLog::log(ErrorCategories::DEBUG, "Setting mode " . $mode . $parameter . " on '" . $channel . "' to '" . $value . "'");
+
 		if ($value == true)
-			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . "\n");
+			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . $parameter . "\n");
 		else if ($value == false)
-			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . "\n");
+			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . $parameter . "\n");
+
+		echo "MODE " . $channel . " +" . $mode . $parameter . "\n";
 	 }
 	 
 	 /**

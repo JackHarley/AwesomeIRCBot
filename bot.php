@@ -35,6 +35,7 @@ ModuleManager::initialize();
 $server = Server::getInstance();
 
 // setup database
+include_once(__DIR__ . "/config.php");
 $db = Database::getInstance();
 $db->updateScriptArrays();
 

@@ -26,58 +26,65 @@ class Database {
 	 * the tables if they have not been created
 	 */
     protected function __construct() {
-        $this->pdo = new \PDO("sqlite:" . __DIR__ . "/../../../database/database.sqlite");
+	    global $host, $port, $databaseName, $username, $password;
+
+        $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
 		
 		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS channels (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				name TEXT,
-				topic TEXT,
-				modes TEXT
-			);"
+			CREATE TABLE IF NOT EXISTS `channels` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`name` varchar(48) NOT NULL,
+				`topic` text NOT NULL,
+				`modes` text NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
 		
 		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS channel_users (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				nickname TEXT,
-				channel_name TEXT,
-				privilege TEXT
-			);"
+			CREATE TABLE IF NOT EXISTS `channel_users` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`nickname` varchar(48) NOT NULL,
+				`channel_name` varchar(48) NOT NULL,
+				`privilege` varchar(255) NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
 		
 		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS channel_actions (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				type INTEGER,
-				nickname TEXT,
-				host TEXT,
-				ident TEXT,
-				channel_name TEXT,
-				message TEXT,
-				target_nick TEXT,
-				time INTEGER
-			);"
+			CREATE TABLE IF NOT EXISTS `channel_actions` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`type` smallint unsigned NOT NULL,
+				`nickname` varchar(48) NOT NULL,
+				`host` varchar(128) NOT NULL,
+				`ident` varchar(24) NOT NULL,
+				`message` text NOT NULL,
+				`target_nick` varchar(48) NOT NULL,
+				`channel_name` varchar(48) NOT NULL,
+				`time` bigint(20) unsigned NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
-		
-		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS module_data (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				module TEXT,
-				title TEXT,
-				data TEXT,
-				last_updated_time INTEGER 
-			);"
-		);
-		
-		$this->pdo->query("
-			CREATE TABLE IF NOT EXISTS config (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				key TEXT,
-				data TEXT,
-				last_updated_time INTEGER 
-			);"
-		);
+
+	    $this->pdo->query("
+			CREATE TABLE IF NOT EXISTS `module_data` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`module` varchar(128) NOT NULL,
+				`title` varchar(32) NOT NULL,
+				`data` mediumtext NOT NULL,
+				`last_updated_time` bigint(20) unsigned NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
+	    );
+
+	    $this->pdo->query("
+			CREATE TABLE IF NOT EXISTS `config` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`name` varchar(48) NOT NULL,
+				`data` mediumtext NOT NULL,
+				`last_updated_time` bigint(20) unsigned NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
+	    );
     }
 	
 	/**
@@ -121,10 +128,10 @@ class Database {
 		$stmt->execute();
 		
 		while($row = $stmt->fetchObject()) {
-			if (!Config::checkIfValueExistsAndIsNewerThan($row->key, $row->last_updated_time)) {
+			if (!Config::checkIfValueExistsAndIsNewerThan($row->name, $row->last_updated_time)) {
 				
 				$data = unserialize($row->data);
-				Config::setValue($row->key, $data, $row->last_updated_time);
+				Config::setValue($row->name, $data, $row->last_updated_time);
 			}
 		}
 	}
@@ -202,36 +209,36 @@ class Database {
 		
 		$doneKeys = array();
 		while($row = $stmt->fetchObject()) {
-			if (Config::checkIfValueExistsAndIsNewerThan($row->key, $row->last_updated_time)) {
+			if (Config::checkIfValueExistsAndIsNewerThan($row->name, $row->last_updated_time)) {
 				
-				$data = Config::getValue($row->key);
+				$data = Config::getValue($row->name);
 				$dbData = serialize($data);
-				$time = Config::getLastUpdatedTime($row->key);
+				$time = Config::getLastUpdatedTime($row->name);
 				
-				$stmt = $this->pdo->prepare("DELETE FROM config WHERE key=?;");
-				$stmt->execute(array($row->key));
+				$stmt = $this->pdo->prepare("DELETE FROM config WHERE name=?;");
+				$stmt->execute(array($row->name));
 				
-				$stmt = $this->pdo->prepare("INSERT INTO config(key, data, last_updated_time) VALUES(?,?,?);");
-				$stmt->execute(array($row->key, $dbData, $time));
+				$stmt = $this->pdo->prepare("INSERT INTO config(name, data, last_updated_time) VALUES(?,?,?);");
+				$stmt->execute(array($row->name, $dbData, $time));
 			}
-			$doneKeys[$row->key] = true;
+			$doneKeys[$row->name] = true;
 		}
 		
 		// do everything else
 		$allKeys = Config::getAllValues();
 		
-		foreach($allKeys as $key => $types) {
+		foreach($allKeys as $name => $types) {
 			
-			if ($doneKeys[$key])
+			if ($doneKeys[$name])
 				continue;
 			
 			$dbData = serialize($types["data"]);
 			
-			$stmt = $this->pdo->prepare("DELETE FROM config WHERE key=?;");
-			$stmt->execute(array($key));
+			$stmt = $this->pdo->prepare("DELETE FROM config WHERE name=?;");
+			$stmt->execute(array($name));
 				
-			$stmt = $this->pdo->prepare("INSERT INTO config(key, data, last_updated_time) VALUES(?,?,?);");
-			$stmt->execute(array($key, $dbData, $types["lastUpdated"]));
+			$stmt = $this->pdo->prepare("INSERT INTO config (name, data, last_updated_time) VALUES (?,?,?);");
+			$stmt->execute(array($name, $dbData, $types["lastUpdated"]));
 		}
 	}
 }
