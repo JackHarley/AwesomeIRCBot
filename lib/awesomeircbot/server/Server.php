@@ -315,8 +315,6 @@ class Server {
 			fwrite(static::$serverHandle, "MODE " . $channel . " +" . $mode . $parameter . "\n");
 		else if ($value == false)
 			fwrite(static::$serverHandle, "MODE " . $channel . " -" . $mode . $parameter . "\n");
-
-		echo "MODE " . $channel . " +" . $mode . $parameter . "\n";
 	 }
 	 
 	 /**
