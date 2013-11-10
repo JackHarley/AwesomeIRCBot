@@ -464,6 +464,18 @@ class Server {
 	}
 
 	/**
+	 * Force sets a real name (GECOS) on a user (oper only)
+	 */
+	public function chgName($user, $name) {
+
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Force changing real name (GECOS) of " . $user . " to " . $name);
+		fwrite(static::$serverHandle, "CHGNAME " . $user . " " . $name . "\n");
+
+		UserManager::rename($user, false, false, false, $name);
+	}
+
+	/**
 	 * Kills a user from the server (oper only)
 	 */
 	public function kill($user, $reason="Killed") {

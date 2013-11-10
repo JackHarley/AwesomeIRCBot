@@ -78,8 +78,9 @@ class UserManager {
 	 * @param string new nick
 	 * @param string new ident
 	 * @param string new host
+	 * @param string new name
 	 */
-	public static function rename($oldNick, $newNick=false, $newIdent=false, $newHost=false) {
+	public static function rename($oldNick, $newNick=false, $newIdent=false, $newHost=false, $newName=false) {
 		unset(static::$trackedUsers[$oldNick]);
 		
 		$user = new User;
@@ -89,6 +90,8 @@ class UserManager {
 			$user->ident = $newIdent;
 		if ($newHost)
 			$user->host = $newHost;
+		if ($newName)
+			$user->realName = $newName;
 
 		UserManager::store($newNick, $user);
 	}
