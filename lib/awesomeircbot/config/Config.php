@@ -9,8 +9,8 @@
 
 namespace awesomeircbot\config;
 
-use awesomeircbot\error\ErrorLog;
-use awesomeircbot\error\ErrorCategories;
+use awesomeircbot\log\ErrorLog;
+use awesomeircbot\log\ErrorCategories;
 
 class Config {
 	

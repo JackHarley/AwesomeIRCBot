@@ -13,6 +13,7 @@ use awesomeircbot\config\Config;
 
 use awesomeircbot\channel\ChannelManager;
 use awesomeircbot\data\DataManager;
+use awesomeircbot\user\UserManager;
 
 class Database {
 	
@@ -54,6 +55,17 @@ class Database {
 				PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
+
+	    $this->pdo->query("
+			CREATE TABLE IF NOT EXISTS `users` (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`nickname` varchar(32) NOT NULL,
+				`ident` varchar(32) NOT NULL,
+				`host` varchar(255) NOT NULL,
+				`real_name` varchar(255) NOT NULL,
+				PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
+	    );
 		
 		$this->pdo->query("
 			CREATE TABLE IF NOT EXISTS `channel_actions` (
@@ -148,11 +160,8 @@ class Database {
 	public function updateDatabase() {
 		
 		// Channels
-		$stmt = $this->pdo->prepare("DELETE FROM channel_users");
-		$stmt->execute();
-		
-		$stmt = $this->pdo->prepare("DELETE FROM channels");
-		$stmt->execute();
+		$this->pdo->query("DELETE FROM channel_users");
+		$this->pdo->query("DELETE FROM channels");
 		
 		foreach(ChannelManager::$connectedChannels as $channel) {
 			$stmt = $this->pdo->prepare("INSERT INTO channels(name, topic) VALUES(?,?);");
@@ -163,7 +172,15 @@ class Database {
 				$stmt->execute(array($connectedNick, $channel->channelName, $channel->privilegedNicks[$connectedNick]));
 			}
 		}
-		
+
+		// Users
+		$this->pdo->query("DELETE FROM users");
+
+		foreach(UserManager::$trackedUsers as $user) {
+			$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host, real_name) VALUES(?,?,?,?);");
+			$stmt->execute(array($user->nickname, $user->ident, $user->host, $user->realName));
+		}
+
 		// Module data
 		
 		// check if we need to update anything currently in the db

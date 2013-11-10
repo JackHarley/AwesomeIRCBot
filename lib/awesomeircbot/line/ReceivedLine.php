@@ -306,6 +306,14 @@ class ReceivedLine {
 					$this->message = $workingLine[3];
 				break;
 
+				// Who reply info line
+				case 352:
+					$this->type = ReceivedLineTypes::SERVERREPLYTHREEFIVETWO;
+
+					$workingLine = explode(" ", $this->line, 4);
+					$this->message = $workingLine[3];
+				break;
+
 				// Names reply
 				case 353:
 					$this->type = ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE;

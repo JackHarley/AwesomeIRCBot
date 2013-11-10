@@ -259,8 +259,20 @@ class Server {
 	 	ErrorLog::log(ErrorCategories::DEBUG, "Sending WHOIS request for '" . $nickname . "'");
 	 	fwrite(static::$serverHandle, "WHOIS " . $nickname . "\n");
 	 }
-	 
-	 /**
+
+	/**
+	 * Sends a WHO query to the server for the specified
+	 * mask
+	 *
+	 * @param string who query mask
+	 */
+	public function who($mask) {
+		// Send it
+		ErrorLog::log(ErrorCategories::DEBUG, "Sending WHOIS request for '" . $nickname . "'");
+		fwrite(static::$serverHandle, "WHO " . $mask . "\n");
+	}
+
+	/**
 	  * Updates a channel topic
 	  *
 	  * @param string channel

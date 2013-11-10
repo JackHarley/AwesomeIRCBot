@@ -26,6 +26,7 @@ class Parsers implements ModuleConfig {
 		ReceivedLineTypes::SERVERREPLYTHREEONEONE => "modules\parsers\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREETHREEZERO => "modules\parsers\WhoisResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEZEROSEVEN => "modules\parsers\WhoisResponseParser",
+		ReceivedLineTypes::SERVERREPLYTHREEFIVETWO => "modules\parsers\WhoResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREEFIVETHREE => "modules\parsers\NamesResponseParser",
 		ReceivedLineTypes::SERVERREPLYTHREETHREETWO => "modules\parsers\TopicResponseParser",
 	);

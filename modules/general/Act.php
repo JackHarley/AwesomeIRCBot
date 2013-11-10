@@ -19,7 +19,7 @@ class Act extends Module {
 	public function run() {
 		$server = Server::getInstance();
 		$server->act($this->parameters(1), $this->parameters(2, true));
-		$server->notify($this->senderNick, '"' . $this->parameters(2, true) . '" sent to ' . $this->parameters(1) . "successfully");
+		$server->notify($this->senderNick, '"' . $this->parameters(2, true) . '" sent to ' . $this->parameters(1) . " successfully");
 	}
 }
 ?>

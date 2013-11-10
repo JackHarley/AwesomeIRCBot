@@ -76,6 +76,8 @@ class UserManager {
 	 *
 	 * @param string original nick
 	 * @param string new nick
+	 * @param string new ident
+	 * @param string new host
 	 */
 	public static function rename($oldNick, $newNick=false, $newIdent=false, $newHost=false) {
 		unset(static::$trackedUsers[$oldNick]);
