@@ -5,3 +5,9 @@ config.php
 /nbproject/*
 *.sublime*
 .idea
+modules/**/*
+!modules/funstuff/
+!modules/general/
+!modules/log/
+!modules/parsers/
+!modules/system/
