@@ -177,8 +177,18 @@ class Database {
 		$this->pdo->query("DELETE FROM users");
 
 		foreach(UserManager::$trackedUsers as $user) {
-			$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host, real_name) VALUES(?,?,?,?);");
-			$stmt->execute(array($user->nickname, $user->ident, $user->host, $user->realName));
+			if (($user->nickname) && ($user->ident) && ($user->host) && ($user->realName)) {
+				$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host, real_name) VALUES(?,?,?,?);");
+				$stmt->execute(array($user->nickname, $user->ident, $user->host, $user->realName));
+			}
+			else if (($user->nickname) && ($user->ident) && ($user->host)) {
+				$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host) VALUES(?,?,?);");
+				$stmt->execute(array($user->nickname, $user->ident, $user->host));
+			}
+			else if ($user->nickname) {
+				$stmt = $this->pdo->prepare("INSERT INTO users(nickname) VALUES(?,?,?);");
+				$stmt->execute(array($user->nickname));
+			}
 		}
 
 		// Module data

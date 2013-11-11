@@ -21,12 +21,9 @@ class Invite extends Module {
 			$channel = $this->parameters(2);
 		else
 			$channel = $this->channel;
-		
-		$channelObject = ChannelManager::get($channel);
-		if ($channelObject->hasPrivilegeOrHigher($this->senderNick, "@")) {
-			$server = Server::getInstance();
-			$server->channelInvite($this->parameters(1), $channel);
-		}
+
+		$server = Server::getInstance();
+		$server->channelInvite($this->parameters(1), $channel);
 	}
 }
 ?>
