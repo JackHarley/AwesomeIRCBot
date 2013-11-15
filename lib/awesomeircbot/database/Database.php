@@ -168,8 +168,14 @@ class Database {
 			$stmt->execute(array($channel->channelName, $channel->topic));
 			
 			foreach($channel->connectedNicks as $connectedNick) {
-				$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name, privilege) VALUES(?,?,?);");
-				$stmt->execute(array($connectedNick, $channel->channelName, $channel->privilegedNicks[$connectedNick]));
+				if ($channel->privilegedNicks[$connectedNick]) {
+					$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name, privilege) VALUES(?,?,?);");
+					$stmt->execute(array($connectedNick, $channel->channelName, $channel->privilegedNicks[$connectedNick]));
+				}
+				else {
+					$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name) VALUES(?,?);");
+					$stmt->execute(array($connectedNick, $channel->channelName));
+				}
 			}
 		}
 
