@@ -81,6 +81,9 @@ class UserManager {
 	 * @param string new name
 	 */
 	public static function rename($oldNick, $newNick=false, $newIdent=false, $newHost=false, $newName=false) {
+		if (!isset(static::$trackedUsers[$oldNick]))
+			return;
+
 		unset(static::$trackedUsers[$oldNick]);
 		
 		$user = new User;

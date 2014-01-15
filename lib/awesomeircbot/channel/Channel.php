@@ -134,6 +134,9 @@ class Channel {
 	 * @param string new nick
 	 */
 	public function renameConnectedNick($oldNick, $newNick) {
+		if (!$this->connectedNicks[$oldNick])
+			return;
+
 		$this->connectedNicks[] = $newNick;
 		
 		if ($this->privilegedNicks[$oldNick]) {
