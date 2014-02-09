@@ -118,11 +118,9 @@ class Channel {
 	 * @param string nickname to remove
 	 */
 	public function removeConnectedNick($nick) {
-		foreach($this->connectedNicks as $id => $connectedNick) {
-			if ($connectedNick == $nick) {
-				unset($this->connectedNicks[$id]);
-			}
-		}
+		$key = array_search($nick, $this->connectedNicks);
+		if ($key)
+			unset($this->connectedNicks[$key]);
 		
 		unset($this->privilegedNicks[$nick]);
 	}
@@ -134,7 +132,7 @@ class Channel {
 	 * @param string new nick
 	 */
 	public function renameConnectedNick($oldNick, $newNick) {
-		if (!$this->connectedNicks[$oldNick])
+		if (!in_array($oldNick, $this->connectedNicks))
 			return;
 
 		$this->connectedNicks[] = $newNick;
@@ -155,10 +153,7 @@ class Channel {
 	 * @return boolean depending on whether or not user is connected
 	 */
 	public function isConnected($nick) {
-		if (in_array($nick, $this->connectedNicks))
-			return true;
-		else
-			return false;
+		return in_array($nick, $this->connectedNicks);
 	}
 	
 	/**

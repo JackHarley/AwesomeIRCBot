@@ -15,6 +15,7 @@ use awesomeircbot\config\Config;
 class ErrorLog {
 
 	public static $log = array();
+	public static $fileHandle;
 	
 	private function __construct() {}
 	
@@ -26,13 +27,16 @@ class ErrorLog {
 	 */
 	public static function log($type, $message) {
 		$error = new Error($type, $message);
-		$log[] = $error;
 		
-		if ((Config::getRequiredValue("verboseOutput") & $type) === $type)
-			echo "[*] " . $message . "\n";
+		if ((Config::getRequiredValue("verboseOutput") & $error->type) === $error->type) {
+			echo "[" . date("d/m/y H:i:s", $error->epoch) . "] " . $error->message . "\n";
+			if (!static::$fileHandle)
+				static::$fileHandle = fopen(__DIR__ . "/../../../logs/run-" . date("d-m-y") .  ".log", "a");
+			fwrite(static::$fileHandle, "[" . date("d/m/y H:i:s", $error->epoch) . "] " . $error->message . "\n");
+		}
 		
-		if ($type == ErrorCategories::FATAL) {
-			echo "DYING " . $message;
+		if ($error->type == ErrorCategories::FATAL) {
+			echo "DYING " . $error->message;
 			echo "\n";
 			die();
 			exit();

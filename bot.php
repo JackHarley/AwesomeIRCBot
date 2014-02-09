@@ -21,7 +21,7 @@ use awesomeircbot\database\Database;
 use awesomeircbot\config\Config;
 
 // set up environment
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+error_reporting(E_ALL & ~E_NOTICE);
 passthru('clear');
 
 // welcome the user
@@ -104,6 +104,8 @@ while (true) {
 			$db->updateDatabase();
 			$lastUpdate = time();
 		}
+
+		unset($command, $event, $trigger);
 	}
 	
 	// Disconnected, Give the server 1 second before we attempt a reconnect

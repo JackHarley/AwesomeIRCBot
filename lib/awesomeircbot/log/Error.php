@@ -13,14 +13,12 @@ class Error {
 
 	public $type;
 	public $message;
-	
+	public $epoch;
+
 	public function __construct($type, $message) {
-		if (($type > 0) && ($type < 5))
-			$this->type = $type;
-		else
-			return false;
-		
-		$this->message = $message;
+		$this->type = $type;
+		$this->message = trim(preg_replace('/\s+/', ' ', $message));
+		$this->epoch = time();
 	}
 }
 ?>

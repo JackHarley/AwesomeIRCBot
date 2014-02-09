@@ -368,7 +368,7 @@ class ReceivedLine {
 		if (!$this->type)
 			$this->parse();
 
-		return (ModuleManager::$mappedEvents[$this->type]) ? true : false;
+		return (isset(ModuleManager::$mappedEvents[$this->type])) ? true : false;
 	}
 
 	/**

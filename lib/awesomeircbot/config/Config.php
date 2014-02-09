@@ -201,8 +201,9 @@ class Config {
 		// miscellaneous
 		self::promptForValueIfNotSet("commandCharacter", "Please enter the character to prefix commands with (e.g. !)");
 		self::promptForValueIfNotSet("notificationType", "Please enter the type of notification to use, 'notice' or 'pm' (e.g. notice)");
-		
-		self::setValue("verboseOutput", 30); // everything except debug messages
+
+		if (!self::getValue("verboseOutput"))
+			self::setValue("verboseOutput", 30); // everything except debug messages
 	}
 	
 	/**

@@ -32,7 +32,7 @@ class Database {
 	    try {
             $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
 	    }
-	    catch (\PDOException $e) {
+	    catch (\Exception $e) {
 		    die("\nFailed to connect to your MySQL database, check your config.php and ensure the values are correct then try again\n");
 	    }
 
@@ -146,9 +146,7 @@ class Database {
 		
 		while($row = $stmt->fetchObject()) {
 			if (!Config::checkIfValueExistsAndIsNewerThan($row->name, $row->last_updated_time)) {
-				
-				$data = unserialize($row->data);
-				Config::setValue($row->name, $data, $row->last_updated_time);
+				Config::setValue($row->name, unserialize($row->data), $row->last_updated_time);
 			}
 		}
 	}
@@ -168,7 +166,7 @@ class Database {
 			$stmt->execute(array($channel->channelName, $channel->topic));
 			
 			foreach($channel->connectedNicks as $connectedNick) {
-				if ($channel->privilegedNicks[$connectedNick]) {
+				if (isset($channel->privilegedNicks[$connectedNick])) {
 					$stmt = $this->pdo->prepare("INSERT INTO channel_users(nickname, channel_name, privilege) VALUES(?,?,?);");
 					$stmt->execute(array($connectedNick, $channel->channelName, $channel->privilegedNicks[$connectedNick]));
 				}
@@ -192,7 +190,7 @@ class Database {
 				$stmt->execute(array($user->nickname, $user->ident, $user->host));
 			}
 			else if ($user->nickname) {
-				$stmt = $this->pdo->prepare("INSERT INTO users(nickname) VALUES(?,?,?);");
+				$stmt = $this->pdo->prepare("INSERT INTO users(nickname) VALUES(?);");
 				$stmt->execute(array($user->nickname));
 			}
 		}
