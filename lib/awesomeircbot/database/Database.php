@@ -36,7 +36,7 @@ class Database {
 		    die("\nFailed to connect to your MySQL database, check your config.php and ensure the values are correct then try again\n");
 	    }
 
-		$this->pdo->query("
+		$this->query("
 			CREATE TABLE IF NOT EXISTS `channels` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`name` varchar(48) NOT NULL,
@@ -46,7 +46,7 @@ class Database {
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
 		
-		$this->pdo->query("
+		$this->query("
 			CREATE TABLE IF NOT EXISTS `channel_users` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`nickname` varchar(48) NOT NULL,
@@ -56,7 +56,7 @@ class Database {
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
 
-	    $this->pdo->query("
+	    $this->query("
 			CREATE TABLE IF NOT EXISTS `users` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`nickname` varchar(32) NOT NULL,
@@ -67,7 +67,7 @@ class Database {
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 	    );
 		
-		$this->pdo->query("
+		$this->query("
 			CREATE TABLE IF NOT EXISTS `channel_actions` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`type` smallint unsigned NOT NULL,
@@ -82,7 +82,7 @@ class Database {
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 		);
 
-	    $this->pdo->query("
+	    $this->query("
 			CREATE TABLE IF NOT EXISTS `module_data` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`module` varchar(128) NOT NULL,
@@ -93,7 +93,7 @@ class Database {
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;"
 	    );
 
-	    $this->pdo->query("
+	    $this->query("
 			CREATE TABLE IF NOT EXISTS `config` (
 				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 				`name` varchar(48) NOT NULL,
@@ -119,6 +119,16 @@ class Database {
 	 * Redirects calls to the object to the PDO object
 	 */
     public function __call($method, $args) {
+	    global $host, $port, $databaseName, $username, $password;
+	    $this->pdo = null;
+
+	    try {
+		    $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
+	    }
+	    catch (\Exception $e) {
+		    die("\nFailed to connect to your MySQL database, check your config.php and ensure the values are correct then try again\n");
+	    }
+
         return call_user_func_array(array($this->pdo, $method), $args);
     }
 	
@@ -129,7 +139,7 @@ class Database {
 	public function updateScriptArrays() {
 			
 		// Module data
-		$stmt = $this->pdo->prepare("SELECT * FROM module_data");
+		$stmt = $this->prepare("SELECT * FROM module_data");
 		$stmt->execute();
 		
 		while($row = $stmt->fetchObject()) {
@@ -141,7 +151,7 @@ class Database {
 		}
 		
 		// Config
-		$stmt = $this->pdo->prepare("SELECT * FROM config");
+		$stmt = $this->prepare("SELECT * FROM config");
 		$stmt->execute();
 		
 		while($row = $stmt->fetchObject()) {
@@ -158,8 +168,8 @@ class Database {
 	public function updateDatabase() {
 		
 		// Channels
-		$this->pdo->query("DELETE FROM channel_users");
-		$this->pdo->query("DELETE FROM channels");
+		$this->query("DELETE FROM channel_users");
+		$this->query("DELETE FROM channels");
 		
 		foreach(ChannelManager::$connectedChannels as $channel) {
 			$stmt = $this->pdo->prepare("INSERT INTO channels(name, topic) VALUES(?,?);");
@@ -178,19 +188,19 @@ class Database {
 		}
 
 		// Users
-		$this->pdo->query("DELETE FROM users");
+		$this->query("DELETE FROM users");
 
 		foreach(UserManager::$trackedUsers as $user) {
 			if (($user->nickname) && ($user->ident) && ($user->host) && ($user->realName)) {
-				$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host, real_name) VALUES(?,?,?,?);");
+				$stmt = $this->prepare("INSERT INTO users(nickname, ident, host, real_name) VALUES(?,?,?,?);");
 				$stmt->execute(array($user->nickname, $user->ident, $user->host, $user->realName));
 			}
 			else if (($user->nickname) && ($user->ident) && ($user->host)) {
-				$stmt = $this->pdo->prepare("INSERT INTO users(nickname, ident, host) VALUES(?,?,?);");
+				$stmt = $this->prepare("INSERT INTO users(nickname, ident, host) VALUES(?,?,?);");
 				$stmt->execute(array($user->nickname, $user->ident, $user->host));
 			}
 			else if ($user->nickname) {
-				$stmt = $this->pdo->prepare("INSERT INTO users(nickname) VALUES(?);");
+				$stmt = $this->prepare("INSERT INTO users(nickname) VALUES(?);");
 				$stmt->execute(array($user->nickname));
 			}
 		}
@@ -198,7 +208,7 @@ class Database {
 		// Module data
 		
 		// check if we need to update anything currently in the db
-		$stmt = $this->pdo->prepare("SELECT * FROM module_data");
+		$stmt = $this->prepare("SELECT * FROM module_data");
 		$stmt->execute();
 		
 		$doneTitles = array();
@@ -209,10 +219,10 @@ class Database {
 				$dbData = serialize($data);
 				$time = DataManager::getLastUpdatedTime($row->title, $row->module);
 				
-				$stmt = $this->pdo->prepare("DELETE FROM module_data WHERE title=?;");
+				$stmt = $this->prepare("DELETE FROM module_data WHERE title=?;");
 				$stmt->execute(array($row->title));
 				
-				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
+				$stmt = $this->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
 				$stmt->execute(array($row->title, $dbData, $row->module, $time));
 			}
 			$doneTitles[$row->title] = true;
@@ -229,10 +239,10 @@ class Database {
 				
 				$dbData = serialize($types["data"]);
 				
-				$stmt = $this->pdo->prepare("DELETE FROM module_data WHERE title=?;");
+				$stmt = $this->prepare("DELETE FROM module_data WHERE title=?;");
 				$stmt->execute(array($title));
 				
-				$stmt = $this->pdo->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
+				$stmt = $this->prepare("INSERT INTO module_data(title, data, module, last_updated_time) VALUES(?,?,?,?);");
 				$stmt->execute(array($title, $dbData, $module, $types["lastUpdated"]));
 			}
 		}
@@ -240,7 +250,7 @@ class Database {
 		// Config
 		
 		// check if we need to update anything currently in the db
-		$stmt = $this->pdo->prepare("SELECT * FROM config");
+		$stmt = $this->prepare("SELECT * FROM config");
 		$stmt->execute();
 		
 		$doneKeys = array();
@@ -251,10 +261,10 @@ class Database {
 				$dbData = serialize($data);
 				$time = Config::getLastUpdatedTime($row->name);
 				
-				$stmt = $this->pdo->prepare("DELETE FROM config WHERE name=?;");
+				$stmt = $this->prepare("DELETE FROM config WHERE name=?;");
 				$stmt->execute(array($row->name));
 				
-				$stmt = $this->pdo->prepare("INSERT INTO config(name, data, last_updated_time) VALUES(?,?,?);");
+				$stmt = $this->prepare("INSERT INTO config(name, data, last_updated_time) VALUES(?,?,?);");
 				$stmt->execute(array($row->name, $dbData, $time));
 			}
 			$doneKeys[$row->name] = true;
@@ -270,10 +280,10 @@ class Database {
 			
 			$dbData = serialize($types["data"]);
 			
-			$stmt = $this->pdo->prepare("DELETE FROM config WHERE name=?;");
+			$stmt = $this->prepare("DELETE FROM config WHERE name=?;");
 			$stmt->execute(array($name));
 				
-			$stmt = $this->pdo->prepare("INSERT INTO config (name, data, last_updated_time) VALUES (?,?,?);");
+			$stmt = $this->prepare("INSERT INTO config (name, data, last_updated_time) VALUES (?,?,?);");
 			$stmt->execute(array($name, $dbData, $types["lastUpdated"]));
 		}
 	}
