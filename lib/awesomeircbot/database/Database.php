@@ -119,16 +119,6 @@ class Database {
 	 * Redirects calls to the object to the PDO object
 	 */
     public function __call($method, $args) {
-	    global $host, $port, $databaseName, $username, $password;
-	    $this->pdo = null;
-
-	    try {
-		    $this->pdo = new \PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $databaseName, $username, $password);
-	    }
-	    catch (\Exception $e) {
-		    die("\nFailed to connect to your MySQL database, check your config.php and ensure the values are correct then try again\n");
-	    }
-
         return call_user_func_array(array($this->pdo, $method), $args);
     }
 	
