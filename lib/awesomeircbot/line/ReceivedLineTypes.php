@@ -4,7 +4,7 @@
  * Contains constants for each different
  * type of IRC line which can be received
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

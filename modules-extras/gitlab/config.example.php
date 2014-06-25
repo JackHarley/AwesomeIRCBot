@@ -2,7 +2,7 @@
 /**
  * GitLab configuration
  *
- * Copyright (c) 2014, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 const GITLAB_API_URL = "http://git.jackpharley.com/api";

@@ -5,7 +5,7 @@
  * allows module configs to register help
  * articles
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

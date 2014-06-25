@@ -2,7 +2,7 @@
 /**
  * Shortens a URL using the is.gd service
  *
- * Copyright (c) 2014, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  *
  * @param string $url url to shorten

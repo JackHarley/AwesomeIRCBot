@@ -3,7 +3,7 @@
  * Slap Module
  * Slaps the user given
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 namespace modules\funstuff;

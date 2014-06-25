@@ -1,5 +1,5 @@
 # Awesome IRC Bot v2 License
-#### Copyright (c) 2013, Jack Harley
+#### Copyright © 2014, Jack P. Harley, jackpharley.com.
 #### All rights reserved.
 
 INTRODUCTION

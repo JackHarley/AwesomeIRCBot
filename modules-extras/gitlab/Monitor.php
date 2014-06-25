@@ -3,7 +3,7 @@
  * Monitor Module
  * Checks for new events in any projects part of the configured group
  *
- * Copyright (c) 2014, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 namespace modules\gitlab;

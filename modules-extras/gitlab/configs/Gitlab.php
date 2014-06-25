@@ -2,7 +2,7 @@
 /**
  * Gitlab Module Config
  *
- * Copyright (c) 2014, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 namespace modules\gitlab\configs;

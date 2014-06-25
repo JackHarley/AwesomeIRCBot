@@ -3,7 +3,7 @@
  * Error Log Class
  * Should be used to log any actions the bot takes
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

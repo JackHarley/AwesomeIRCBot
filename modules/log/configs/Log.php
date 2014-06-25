@@ -2,7 +2,7 @@
 /**
  * Log Module Config
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 namespace modules\log\configs;

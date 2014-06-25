@@ -2,7 +2,7 @@
 /* Awesome IRC Bot v2
  * Created by Jack Harley
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

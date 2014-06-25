@@ -3,7 +3,7 @@
  * User Class
  * Class for an online IRC user
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

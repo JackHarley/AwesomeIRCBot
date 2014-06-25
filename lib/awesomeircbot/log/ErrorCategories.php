@@ -4,7 +4,7 @@
  * Constants for the various categories of action the bot
  * takes
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 

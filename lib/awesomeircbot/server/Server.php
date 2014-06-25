@@ -4,7 +4,7 @@
  * Includes all the necessary functions to use an IRC server
  * e.g. ->message(), ->join(), ->quit()
  *
- * Copyright (c) 2013, Jack Harley
+ * Copyright © 2014, Jack P. Harley, jackpharley.com.
  * All Rights Reserved
  */
 
