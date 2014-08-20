@@ -83,7 +83,7 @@ class UserManager {
 		if (!isset(static::$trackedUsers[$oldNick]))
 			return;
 
-		$user = UserManager::get($oldNick);
+		$user = static::get($oldNick);
 
 		if ($newNick)
 			$user->nickname = $newNick;
@@ -94,7 +94,7 @@ class UserManager {
 		if ($newName)
 			$user->realName = $newName;
 
-		UserManager::store($newNick, $user);
+		static::store($user->nickname, $user);
 	}
 }
 ?>
