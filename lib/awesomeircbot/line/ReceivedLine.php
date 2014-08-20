@@ -43,8 +43,9 @@ class ReceivedLine {
 	 * the properties at the top of this class
 	 */
 	public function parse() {
+		$explodedLine = explode(" ", $this->line);
 
-		if (strpos($this->line, "PRIVMSG #") !== false) {
+		if ((strpos($explodedLine[1], "PRIVMSG") !== false) && (strpos($explodedLine[2], "#") === 0)) {
 
 			// Type
 			$this->type = ReceivedLineTypes::CHANMSG;
@@ -74,7 +75,7 @@ class ReceivedLine {
 			$this->message = trim($workingLine[1]);
 		}
 
-		else if (strpos($this->line, "PRIVMSG") !== false) {
+		else if (strpos($explodedLine[1], "PRIVMSG") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::PRIVMSG;
@@ -105,7 +106,7 @@ class ReceivedLine {
 			$this->message = trim($workingLine[1]);
 		}
 
-		else if (strpos($this->line, "NICK") !== false) {
+		else if (strpos($explodedLine[1], "NICK") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::NICK;
@@ -130,7 +131,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($this->line, "PING") !== false) {
+		else if (strpos($explodedLine[1], "PING") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::PING;
@@ -141,7 +142,7 @@ class ReceivedLine {
 			$this->senderNick = trim($this->senderNick);
 		}
 
-		else if (strpos($this->line, "JOIN") !== false) {
+		else if (strpos($explodedLine[1], "JOIN") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::JOIN;
@@ -167,7 +168,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($this->line, "PART") !== false) {
+		else if (strpos($explodedLine[1], "PART") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::PART;
@@ -194,7 +195,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($this->line, "KICK") !== false) {
+		else if (strpos($explodedLine[1], "KICK") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::KICK;
@@ -221,7 +222,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($this->line, "QUIT") !== false) {
+		else if (strpos($explodedLine[1], "QUIT") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::QUIT;
@@ -242,7 +243,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($this->line, "MODE") !== false) {
+		else if (strpos($explodedLine[1], "MODE") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::MODE;
@@ -274,7 +275,7 @@ class ReceivedLine {
 			$this->targetNick = $workingLine[4];
 		}
 
-		else if ((preg_match('/[2-5][0-9][0-9]/', $this->line)) !== false) {
+		else if ((preg_match('/[2-5][0-9][0-9]/', $explodedLine[1])) !== false) {
 
 			// This is a server reply
 			// Get the numeric
