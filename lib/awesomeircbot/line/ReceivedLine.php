@@ -131,7 +131,7 @@ class ReceivedLine {
 				$this->senderHost = $workingLine[1];
 		}
 
-		else if (strpos($explodedLine[1], "PING") !== false) {
+		else if (strpos($explodedLine[0], "PING") !== false) {
 
 			// Type
 			$this->type = ReceivedLineTypes::PING;
