@@ -423,10 +423,6 @@ class Server {
 		// Send it
 		ErrorLog::log(ErrorCategories::DEBUG, "Forcing nick change on " . $user . " to " . $newNick);
 		fwrite(static::$serverHandle, "SANICK " . $user . " " . $newNick . "\n");
-
-		// Change user info in storage
-		ChannelManager::rename($user, $newNick);
-		UserManager::rename($user, $newNick);
 	}
 
 	/**

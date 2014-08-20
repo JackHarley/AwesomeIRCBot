@@ -11,7 +11,6 @@
 
 namespace awesomeircbot\user;
 
-use awesomeircbot\user\User;
 use awesomeircbot\server\Server;
 use awesomeircbot\config\Config;
 
@@ -84,9 +83,8 @@ class UserManager {
 		if (!isset(static::$trackedUsers[$oldNick]))
 			return;
 
-		unset(static::$trackedUsers[$oldNick]);
-		
-		$user = new User;
+		$user = UserManager::get($oldNick);
+
 		if ($newNick)
 			$user->nickname = $newNick;
 		if ($newIdent)
