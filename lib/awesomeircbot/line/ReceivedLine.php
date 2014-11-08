@@ -272,7 +272,7 @@ class ReceivedLine {
 			$this->message = $workingLine[3];
 
 			// Target nick
-			$this->targetNick = $workingLine[4];
+			$this->targetNick = array_slice($workingLine, 4);
 		}
 
 		else if ((preg_match('/[2-5][0-9][0-9]/', $explodedLine[1])) !== false) {
