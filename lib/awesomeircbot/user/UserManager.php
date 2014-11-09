@@ -64,7 +64,7 @@ class UserManager {
 	/**
 	 * Clears any data for the nick supplied
 	 *
-	 * @param string nicknamr
+	 * @param string nickname
 	 */
 	public static function remove($nick) {
 		unset(static::$trackedUsers[$nick]);
@@ -93,6 +93,8 @@ class UserManager {
 			$user->host = $newHost;
 		if ($newName)
 			$user->realName = $newName;
+
+		static::remove($oldNick);
 
 		static::store($user->nickname, $user);
 	}
